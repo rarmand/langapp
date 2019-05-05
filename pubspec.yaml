@@ -19,6 +19,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_svg: ^0.12.4
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -40,9 +41,23 @@ flutter:
   # the material Icons class.
   uses-material-design: true
 
+  assets:
+    - assets/
+
+
+  fonts:
+    - family: MerriweatherSans
+      fonts:
+        - asset: fonts/MerriweatherSans-Regular.ttf
+        - asset: fonts/MerriweatherSans-Light.ttf
+        - asset: fonts/MerriweatherSans-Italic.ttf
+          style: italic
+        - asset: fonts/MerriweatherSans-Bold.ttf
+          weight: 700
+
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #  - images/a_dot_burr.jpeg
+  #  assets:
+  #  - images/a_dot_burr.jpegz
   #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
