@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../components/main_btn/main_btn.dart';
+import 'package:langapp/components/Dot/index.dart';
 
 class IntroPage extends StatelessWidget {
   final Widget logo = Column(
@@ -10,8 +10,6 @@ class IntroPage extends StatelessWidget {
     ],
   );
 
-  final Widget dots = SvgPicture.asset('assets/dots.svg');
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,11 +17,11 @@ class IntroPage extends StatelessWidget {
         child: Center(
           child: Column(
             children: <Widget>[
-              Padding(
+              Container(
                 padding: EdgeInsets.fromLTRB(0, 100, 0, 0),
                 child: logo,
               ),
-              Padding(
+              Container(
                 padding: EdgeInsets.fromLTRB(0, 84, 0, 0),
                 child: SizedBox(
                   width: 196,
@@ -33,15 +31,23 @@ class IntroPage extends StatelessWidget {
                     maxLines: 3,
                     style: TextStyle(
                       fontSize: 16.0,
-                      //fontFamily: "MerriweatherSans",
                       color: Color.fromRGBO(109, 76, 65, 1),
                     ),
                   ),
                 ),
               ),
-              Padding(
+              Container(
                 padding: EdgeInsets.fromLTRB(0, 100, 0, 0),
-                child: dots,
+                width: 64.0,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Dot(true),
+                    Dot(false),
+                    Dot(false),
+                  ],
+                ),
               ),
             ],
           ),
