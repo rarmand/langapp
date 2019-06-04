@@ -19,4 +19,4 @@ Date deadlines:
 https://docs.google.com/document/d/1Oivf-FnRtTr9O0lCaswgk2mB8Y3HEQpUX0x77y9eSTM/edit
 
 UI:
-https://docs.google.com/document/d/1Oivf-FnRtTr9O0lCaswgk2mB8Y3HEQpUX0x77y9eSTM/edit
+https://www.figma.com/file/fbBwvaoTxSNUoc5hLlYdRI90/language-app?node-id=0%3A1
