@@ -1,83 +1,36 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:langapp/components/Dot/index.dart';
+import 'package:langapp/components/Dots/main.dart';
+import 'package:langapp/components/IntroText/main.dart';
+import 'package:langapp/components/Logo/main.dart';
 
 class IntroPage extends StatelessWidget {
-  final Widget logo = Column(
-    children: <Widget>[
-      SvgPicture.asset('assets/logo.svg'),
-      SvgPicture.asset('assets/logo_text.svg'),
-    ],
-  );
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        child: SingleChildScrollView(
-          child: Center(
-            child: Column(
-              children: <Widget>[
-                Container(
-                  padding: EdgeInsets.fromLTRB(0, 100, 0, 0),
-                  child: logo,
+        child: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            children: <Widget>[
+              LogoBig(),
+              const SizedBox(height: 30),
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    // TODO: czy tyle tekstu na pewno?
+                    IntroText(text: "Our application will help you\nto diagnose your skills:"),
+                    IntroText(text: "listening, reading,\nspeaking and writing."),
+                    IntroText(text: "This will give you the best recipe for\nfuture learning process."),
+                  ],
                 ),
-                Container(
-                    padding: EdgeInsets.fromLTRB(0, 50, 0, 0),
-                    width: 196,
-                    child: Column(
-                      children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.fromLTRB(0, 10.0, 0, 15.0),
-                          child: Text(
-                            "Our application will help you\nto diagnose your skills:",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 16.0,
-                              color: Color.fromRGBO(109, 76, 65, 1),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.fromLTRB(0, 10.0, 0, 15.0),
-                          child: Text(
-                            "listening, reading\nspeaking and writing.",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 16.0,
-                              fontWeight: FontWeight.bold,
-                              color: Color.fromRGBO(109, 76, 65, 1),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.fromLTRB(0, 10.0, 0, 15.0),
-                          child: Text(
-                            "This will give you the best recipe for\nfuture learning process.",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 16.0,
-                              color: Color.fromRGBO(109, 76, 65, 1),
-                            ),
-                          ),
-                        ),
-                      ],
-                    )),
-                Container(
-                  padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  width: 64.0,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Dot(false),
-                      Dot(true),
-                      Dot(false),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+              ),
+              Container(
+                padding: EdgeInsets.only(top: 15),
+                child: Dots(1),
+              ),
+              const SizedBox(height: 30),
+            ],
           ),
         ),
       ),

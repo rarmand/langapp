@@ -1,54 +1,32 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:langapp/components/Dot/index.dart';
+import 'package:langapp/components/Dots/main.dart';
+import 'package:langapp/components/IntroText/main.dart';
+import 'package:langapp/components/Logo/main.dart';
 
 class IntroPage extends StatelessWidget {
-  final Widget logo = Column(
-    children: <Widget>[
-      SvgPicture.asset('assets/logo.svg'),
-      SvgPicture.asset('assets/logo_text.svg'),
-    ],
-  );
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
         child: Center(
           child: Column(
+            mainAxisSize: MainAxisSize.max,
             children: <Widget>[
-              Container(
-                padding: EdgeInsets.fromLTRB(0, 100, 0, 0),
-                child: logo,
-              ),
-              Container(
-                padding: EdgeInsets.fromLTRB(0, 84, 0, 0),
-                child: SizedBox(
-                  width: 196,
-                  child: Text(
-                    "Test your abilities\nand\nlearn foreign languages!",
-                    textAlign: TextAlign.center,
-                    maxLines: 3,
-                    style: TextStyle(
-                      fontSize: 16.0,
-                      color: Color.fromRGBO(109, 76, 65, 1),
-                    ),
-                  ),
+              LogoBig(),
+              const SizedBox(height: 30),
+              Expanded(
+                child: Container(
+                  // TODO: czy można inaczej tworzyć padding ??
+                  padding: EdgeInsets.only(top: 50),
+                  child: IntroText(text: "Test your abilities\nand\nlearn foreign languages!"),
                 ),
               ),
               Container(
-                padding: EdgeInsets.fromLTRB(0, 100, 0, 0),
-                width: 64.0,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Dot(true),
-                    Dot(false),
-                    Dot(false),
-                  ],
-                ),
+                padding: EdgeInsets.only(top: 15),
+                child: Dots(0),
               ),
+              const SizedBox(height: 30),
             ],
           ),
         ),
