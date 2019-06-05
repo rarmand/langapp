@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:langapp/pages/Intro/secintro.dart';
+import 'package:langapp/pages/Intro/main.dart';
 // import 'package:flutter/rendering.dart';
 
 void main() {
@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Langgarden',
       theme: ThemeData(fontFamily: 'MerriweatherSans'),
-      home: IntroPage(),
+      home: IntroPagesView(),
     );
   }
 }

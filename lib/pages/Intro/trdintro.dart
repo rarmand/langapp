@@ -3,7 +3,7 @@ import 'package:langapp/components/Dots/main.dart';
 import 'package:langapp/components/IntroText/main.dart';
 import 'package:langapp/components/Logo/main.dart';
 
-class SecIntroPage extends StatelessWidget {
+class TrdIntroPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,15 +19,13 @@ class SecIntroPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     // TODO: czy tyle tekstu na pewno?
-                    IntroText(text: "Our application will help you\nto diagnose your skills:"),
-                    IntroText(text: "listening, reading,\nspeaking and writing."),
-                    IntroText(text: "This will give you the best recipe for\nfuture learning process."),
+                    IntroText(text: "In progress...."),
                   ],
                 ),
               ),
               Container(
                 padding: EdgeInsets.only(top: 15),
-                child: Dots(chosen: 1),
+                child: Dots(chosen: 2),
               ),
               const SizedBox(height: 30),
             ],

@@ -24,7 +24,7 @@ class IntroPage extends StatelessWidget {
               ),
               Container(
                 padding: EdgeInsets.only(top: 15),
-                child: Dots(0),
+                child: Dots(chosen: 0),
               ),
               const SizedBox(height: 30),
             ],

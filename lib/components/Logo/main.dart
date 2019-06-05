@@ -9,8 +9,6 @@ class LogoBig extends StatelessWidget {
     ],
   );
 
-  Logo() {}
-
   @override
   Widget build(BuildContext context) {
     return Container(

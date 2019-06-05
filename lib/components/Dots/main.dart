@@ -4,7 +4,7 @@ class Dots extends StatelessWidget {
   final int chosen;
   final List<Dot> dotsRow = new List<Dot>();
 
-  Dots(this.chosen) {
+  Dots({@required this.chosen}) {
     for (var i = 0; i < 3; i++) {
       if (chosen == i)
         dotsRow.add(new Dot(chosen: true));
