@@ -13,7 +13,7 @@ class IntroText extends StatelessWidget {
         this.text,
         textAlign: TextAlign.center,
         style: TextStyle(
-          fontSize: 16.0,
+          fontSize: 15.0,
           color: Color.fromRGBO(109, 76, 65, 1),
         ),
       ),
