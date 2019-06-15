@@ -1,30 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:langapp/styles/colors.dart';
 
 class ButtonOutlined extends StatelessWidget {
   final String btnText;
 
-  ButtonOutlined({@required this.btnText});
+  ButtonOutlined({
+    @required this.btnText,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.all(5.0),
-      width: 250,
-      height: 50,
+      width: btnWidth,
+      height: btnHeight,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(16.0)),
+        borderRadius: BorderRadius.all(Radius.circular(btnRadius)),
         border: Border.all(
-          color: Color(0xFF6D4C41),
+          color: Color(BROWN_DARK),
         ),
       ),
       child: RaisedButton(
         elevation: 0.0,
         color: Colors.transparent,
-        textColor: Color(0xFF6D4C41),
+        textColor: Color(BROWN_DARK),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(btnRadius),
+        ),
         child: Text(
           this.btnText,
           style: TextStyle(
-            fontSize: 15,
             fontWeight: FontWeight.bold,
           ),
         ),

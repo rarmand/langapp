@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:langapp/pages/Intro/fourth.dart';
 import 'package:langapp/pages/Intro/intro.dart';
 import 'package:langapp/pages/Intro/secintro.dart';
 import 'package:langapp/pages/Intro/trdintro.dart';
@@ -14,13 +13,13 @@ class _IntroPagesView extends State<IntroPagesView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: FourthPage(),
-      // body: PageView(
-      //   children: <Widget>[
-      //     IntroPage(),
-      //     SecIntroPage(),
-      //     TrdIntroPage(),
-      //   ],
+      body: PageView(
+        children: <Widget>[
+          IntroPage(),
+          SecIntroPage(),
+          TrdIntroPage(),
+        ],
+      ),
     );
   }
 }
