@@ -12,10 +12,6 @@ class IntroText extends StatelessWidget {
       child: Text(
         this.text,
         textAlign: TextAlign.center,
-        style: TextStyle(
-          fontSize: 15.0,
-          color: Color.fromRGBO(109, 76, 65, 1),
-        ),
       ),
     );
   }
