@@ -25,12 +25,6 @@ class MyApp extends StatelessWidget {
         primaryColor: Color(WHITE),
 
         textTheme: TextTheme(
-          display1: TextStyle(
-            fontSize: 10,
-          ),
-          overline: TextStyle(
-            fontSize: 22,
-          ),
           title: TextStyle(
             color: Color(BROWN_DARK),
             fontSize: 20.0,
@@ -42,12 +36,6 @@ class MyApp extends StatelessWidget {
           body1: TextStyle(
             fontSize: 15,
             color: Color(BROWN_DARK),
-          ),
-          caption: TextStyle(
-            fontSize: 15,
-          ),
-          subtitle: TextStyle(
-            fontSize: 22,
           ),
         ),
       ),
