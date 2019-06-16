@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:langapp/styles/colors.dart';
 
+// idea of Flutter's raised button with transparent background
 class ButtonOutlined extends StatelessWidget {
   final String btnText;
 

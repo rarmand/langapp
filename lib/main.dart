@@ -23,8 +23,6 @@ class MyApp extends StatelessWidget {
 
         // backgroundColor for appbar
         primaryColor: Color(WHITE),
-        // dziala onTap
-        // splashColor: Color(WHITE),
 
         textTheme: TextTheme(
           display1: TextStyle(
@@ -34,7 +32,7 @@ class MyApp extends StatelessWidget {
             fontSize: 22,
           ),
           title: TextStyle(
-            color: Color(0xFF6D4C41),
+            color: Color(BROWN_DARK),
             fontSize: 20.0,
             fontWeight: FontWeight.w500,
           ),
@@ -43,6 +41,7 @@ class MyApp extends StatelessWidget {
           ),
           body1: TextStyle(
             fontSize: 15,
+            color: Color(BROWN_DARK),
           ),
           caption: TextStyle(
             fontSize: 15,
