@@ -1,11 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter/material.dart';
 import 'package:langapp/components/ButtonFilled/main.dart';
 import 'package:langapp/components/InputField/main.dart';
+import 'package:langapp/components/Logo/arrow.dart';
 import 'package:langapp/components/Logo/logoMid.dart';
-import 'package:langapp/components/Logo/main.dart';
 import 'package:langapp/styles/colors.dart';
 
 class ResetPasswordPage extends StatelessWidget {
@@ -20,8 +19,7 @@ class ResetPasswordPage extends StatelessWidget {
             children: <Widget>[
               // TODO
               // poprawnie skalibrować rozmieszczenie logo ze strzałką
-              LogoMid(),
-              const SizedBox(height: 30),
+              Arrow(child: LogoMid()),
               Container(
                 child: Column(
                   children: <Widget>[

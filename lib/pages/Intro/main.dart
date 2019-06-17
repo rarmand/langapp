@@ -19,13 +19,13 @@ class _IntroPagesView extends State<IntroPagesView> {
     return Scaffold(
       body: PageView(
         children: <Widget>[
-          IntroPage(),
-          SecIntroPage(),
-          TrdIntroPage(),
+          WelcomePage(),
           LoginPage(),
           RegisterPage(),
           ResetPasswordPage(),
-          WelcomePage()
+          IntroPage(),
+          SecIntroPage(),
+          TrdIntroPage(),
         ],
       ),
     );

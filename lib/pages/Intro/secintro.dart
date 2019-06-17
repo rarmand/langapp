@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:langapp/components/Dots/main.dart';
 import 'package:langapp/components/IntroText/main.dart';
-import 'package:langapp/components/Logo/main.dart';
+import 'package:langapp/components/Logo/logoBig.dart';
 
 class SecIntroPage extends StatelessWidget {
   @override
@@ -13,7 +13,6 @@ class SecIntroPage extends StatelessWidget {
             mainAxisSize: MainAxisSize.max,
             children: <Widget>[
               LogoBig(),
-              const SizedBox(height: 30),
               Expanded(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,

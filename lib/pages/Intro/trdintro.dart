@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:langapp/components/ButtonFilled/main.dart';
 import 'package:langapp/components/ButtonOutlined/main.dart';
 import 'package:langapp/components/Dots/main.dart';
-import 'package:langapp/components/Logo/main.dart';
+import 'package:langapp/components/Logo/logoBig.dart';
 
 class TrdIntroPage extends StatelessWidget {
   @override
@@ -14,7 +14,6 @@ class TrdIntroPage extends StatelessWidget {
             mainAxisSize: MainAxisSize.max,
             children: <Widget>[
               LogoBig(),
-              const SizedBox(height: 30),
               Expanded(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,

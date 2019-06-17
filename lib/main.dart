@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:langapp/pages/Intro/main.dart';
+import 'package:flutter/services.dart';
 import 'package:langapp/styles/colors.dart';
 // import 'package:flutter/rendering.dart';
 
@@ -12,6 +13,9 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    // TODO
+    // hide clock and battery info
+
     return MaterialApp(
       title: 'Langgarden',
       home: IntroPagesView(),

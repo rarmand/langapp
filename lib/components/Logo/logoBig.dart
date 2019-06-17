@@ -15,7 +15,7 @@ class LogoBig extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(top: this.topPadding),
+      padding: EdgeInsets.fromLTRB(0, this.topPadding, 0, 30),
       child: logo,
     );
   }

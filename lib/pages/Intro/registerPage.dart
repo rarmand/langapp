@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:langapp/components/ButtonFilled/main.dart';
 import 'package:langapp/components/InputField/main.dart';
-import 'package:langapp/components/Logo/main.dart';
+import 'package:langapp/components/Logo/arrow.dart';
+import 'package:langapp/components/Logo/logoMid.dart';
 import 'package:langapp/styles/colors.dart';
 
 class RegisterPage extends StatelessWidget {
@@ -16,28 +17,7 @@ class RegisterPage extends StatelessWidget {
             children: <Widget>[
               // TODO
               // poprawnie skalibrować rozmieszczenie logo ze strzałką
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Container(
-                    margin: EdgeInsets.fromLTRB(10, 50, 0, 0),
-                    child: Icon(
-                      Icons.arrow_back_ios,
-                      color: Color(BROWN_DARK),
-                    ),
-                  ),
-                  Expanded(
-                    child: Container(
-                      padding: EdgeInsets.only(right: 30),
-                      child: Transform.scale(
-                        scale: 0.8,
-                        child: LogoBig(topPadding: 30.0),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 30),
+              Arrow(child: LogoMid()),
               Container(
                 child: Column(
                   children: <Widget>[
@@ -48,7 +28,7 @@ class RegisterPage extends StatelessWidget {
                       isPassword: true,
                     ),
                     Container(
-                      width: btnWidth,
+                      width: btnWidth - 10,
                       child: Text(
                         "Password has to contain 10 characters: small letters, capital lettes, numbers",
                         textAlign: TextAlign.center,

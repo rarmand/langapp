@@ -4,8 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:langapp/components/ButtonFilled/main.dart';
 import 'package:langapp/components/ButtonOutlined/main.dart';
 import 'package:langapp/components/InputField/main.dart';
-import 'package:langapp/components/Logo/main.dart';
-import 'package:langapp/styles/colors.dart';
+import 'package:langapp/components/Logo/logoMid.dart';
 
 class LoginPage extends StatelessWidget {
   @override
@@ -17,11 +16,7 @@ class LoginPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              Transform.scale(
-                scale: 0.8,
-                child: LogoBig(topPadding: 30.0),
-              ),
-              const SizedBox(height: 30),
+              LogoMid(),
               Container(
                 child: Column(
                   children: <Widget>[

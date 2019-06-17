@@ -15,7 +15,7 @@ class InputField extends StatelessWidget {
       child: TextField(
         obscureText: (isPassword ? true : false),
         style: TextStyle(
-          color: Color(BROWN_DARK),
+          color: Color(BLACK),
         ),
         decoration: InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(0, 10, 0, 5),
@@ -31,7 +31,7 @@ class InputField extends StatelessWidget {
           ),
           hintText: this.title,
           hintStyle: TextStyle(
-            color: Color(BROWN_DARK),
+            color: Color(BLACK),
           ),
         ),
       ),

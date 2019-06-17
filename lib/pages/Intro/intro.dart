@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:langapp/components/Dots/main.dart';
 import 'package:langapp/components/IntroText/main.dart';
-import 'package:langapp/components/Logo/main.dart';
+import 'package:langapp/components/Logo/logoBig.dart';
 
 class IntroPage extends StatelessWidget {
   @override
@@ -14,7 +14,6 @@ class IntroPage extends StatelessWidget {
             mainAxisSize: MainAxisSize.max,
             children: <Widget>[
               LogoBig(),
-              const SizedBox(height: 30),
               Expanded(
                 child: Container(
                   // TODO: czy można inaczej tworzyć padding ??
