@@ -27,7 +27,7 @@ class TrdIntroPage extends StatelessWidget {
                     Container(
                       margin: EdgeInsets.fromLTRB(0, 25, 0, 30),
                       child: Text(
-                        "Don't want to sign up just yet? Try free!",
+                        "Try the app for free!",
                         style: TextStyle(
                           color: Color(0xFF6D4C41),
                           fontSize: 12,

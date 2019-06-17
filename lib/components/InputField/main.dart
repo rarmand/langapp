@@ -14,6 +14,9 @@ class InputField extends StatelessWidget {
       height: btnHeight,
       child: TextField(
         obscureText: (isPassword ? true : false),
+        style: TextStyle(
+          color: Color(BROWN_DARK),
+        ),
         decoration: InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(0, 10, 0, 5),
           focusedBorder: UnderlineInputBorder(

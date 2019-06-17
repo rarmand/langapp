@@ -31,10 +31,10 @@ class MyApp extends StatelessWidget {
             fontWeight: FontWeight.w500,
           ),
           button: TextStyle(
-            fontSize: 15,
+            fontSize: 14,
           ),
           body1: TextStyle(
-            fontSize: 15,
+            fontSize: 14,
             color: Color(BROWN_DARK),
           ),
         ),

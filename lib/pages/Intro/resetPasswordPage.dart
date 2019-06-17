@@ -1,13 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:langapp/components/ButtonFilled/main.dart';
-import 'package:langapp/components/ButtonOutlined/main.dart';
 import 'package:langapp/components/InputField/main.dart';
+import 'package:langapp/components/Logo/logoMid.dart';
 import 'package:langapp/components/Logo/main.dart';
 import 'package:langapp/styles/colors.dart';
 
-class LoginPage extends StatelessWidget {
+class ResetPasswordPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,37 +18,39 @@ class LoginPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              Transform.scale(
-                scale: 0.8,
-                child: LogoBig(topPadding: 30.0),
-              ),
+              // TODO
+              // poprawnie skalibrować rozmieszczenie logo ze strzałką
+              LogoMid(),
               const SizedBox(height: 30),
               Container(
                 child: Column(
                   children: <Widget>[
-                    InputField(title: "Email"),
-                    InputField(
-                      title: "Password",
-                      isPassword: true,
-                    ),
-                    Text(
-                      "Forgot password?",
-                      style: TextStyle(
-                        fontSize: 11,
-                        decoration: TextDecoration.underline,
+                    Container(
+                      padding: EdgeInsets.only(bottom: 30.0),
+                      width: btnWidth,
+                      child: Text(
+                        "Please enter your email where we will send further instructions.",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 11,
+                        ),
                       ),
                     ),
+                    InputField(title: "Email"),
                   ],
                 ),
               ),
               Column(
                 children: <Widget>[
-                  const SizedBox(height: 60),
+                  const SizedBox(height: 90),
+
+                  // TODO
+                  // Navigation
+                  // dialog information about sent message
+                  // properly working swap
+
                   ButtonFilled(
-                    btnText: "Sign in",
-                  ),
-                  ButtonOutlined(
-                    btnText: "Sign up",
+                    btnText: "Send",
                   ),
                   const SizedBox(height: 30),
                 ],
