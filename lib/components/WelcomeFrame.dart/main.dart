@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:langapp/components/ButtonOutlined/main.dart';
+import 'package:langapp/components/Logo/arrow.dart';
 import 'package:langapp/components/Logo/logoSmall.dart';
 
 class WelcomeFrame extends StatelessWidget {
   final Widget child;
-  final String title;
+  final Widget title;
+  final double bottomHeight;
+  final bool logoWithArrow;
 
-  WelcomeFrame({@required Widget this.child, @required String this.title});
+  WelcomeFrame({@required this.child, @required this.title, this.bottomHeight = 45, this.logoWithArrow = true});
 
   @override
   Widget build(BuildContext context) {
@@ -16,15 +19,10 @@ class WelcomeFrame extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.max,
             children: <Widget>[
-              LogoSmall(),
-              Text(
-                this.title,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 22,
-                ),
-              ),
+              (logoWithArrow ? Arrow(child: LogoSmall()) : LogoSmall()),
+              title,
               this.child,
+              SizedBox(height: this.bottomHeight),
               ButtonOutlined(btnText: "Next"),
             ],
           ),
