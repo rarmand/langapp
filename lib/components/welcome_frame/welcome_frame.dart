@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:langapp/components/ButtonOutlined/main.dart';
-import 'package:langapp/components/Logo/arrow.dart';
-import 'package:langapp/components/Logo/logoSmall.dart';
+import 'package:langapp/components/button_outlined/button_outlined.dart';
+import 'package:langapp/components/logo/arrow.dart';
+import 'package:langapp/components/logo/logo_small.dart';
 
 class WelcomeFrame extends StatelessWidget {
   final Widget child;

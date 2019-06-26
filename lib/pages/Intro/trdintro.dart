@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:langapp/components/ButtonFilled/main.dart';
-import 'package:langapp/components/ButtonOutlined/main.dart';
-import 'package:langapp/components/Dots/main.dart';
-import 'package:langapp/components/Logo/logoBig.dart';
+import 'package:langapp/components/button_filled/button_filled.dart';
+import 'package:langapp/components/button_outlined/button_outlined.dart';
+import 'package:langapp/components/dots/dots.dart';
+import 'package:langapp/components/logo/logo_big.dart';
 
 class TrdIntroPage extends StatelessWidget {
   @override

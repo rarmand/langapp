@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:langapp/components/Dots/main.dart';
-import 'package:langapp/components/IntroText/main.dart';
-import 'package:langapp/components/Logo/logoBig.dart';
-import 'package:langapp/styles/colors.dart';
+import 'package:langapp/components/dots/dots.dart';
+import 'package:langapp/components/intro_text/intro_text.dart';
+import 'package:langapp/components/logo/logo_big.dart';
 
 class SecIntroPage extends StatelessWidget {
   @override

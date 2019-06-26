@@ -5,7 +5,7 @@ class WelcomeCard extends StatelessWidget {
   final String title;
   final Widget img;
 
-  WelcomeCard({@required this.title, @required Widget this.img});
+  WelcomeCard({@required this.title, @required this.img});
 
   @override
   Widget build(BuildContext context) {
@@ -15,11 +15,11 @@ class WelcomeCard extends StatelessWidget {
     return Card(
       elevation: 6,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(btnRadius),
+        borderRadius: BorderRadius.circular(BTN_RADIUS),
       ),
       child: Container(
-        height: btnWidth,
-        width: btnWidth - 50,
+        height: BTN_WIDTH,
+        width: BTN_WIDTH - 50,
         child: Column(
           children: <Widget>[
             const SizedBox(height: 40),
@@ -34,11 +34,11 @@ class WelcomeCard extends StatelessWidget {
           ],
         ),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(btnRadius)),
+          borderRadius: BorderRadius.all(Radius.circular(BTN_RADIUS)),
           gradient: LinearGradient(
             colors: <Color>[
-              Color(GREEN_DARK),
-              Color(GREEN_LIGHT),
+              GREEN_DARK,
+              GREEN_LIGHT,
             ],
           ),
         ),

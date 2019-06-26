@@ -1,32 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:langapp/styles/colors.dart';
 
-// idea of Flutter's raised button with transparent background
-class ButtonOutlined extends StatelessWidget {
+// idea of Flutter's raised button with gradient background
+class ButtonFilled extends StatelessWidget {
   final String btnText;
 
-  ButtonOutlined({
+  ButtonFilled({
     @required this.btnText,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(5.0),
-      width: btnWidth,
-      height: btnHeight,
+      width: BTN_WIDTH,
+      height: BTN_HEIGHT,
+      margin: EdgeInsets.all(BTN_MARGIN),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(btnRadius)),
-        border: Border.all(
-          color: Color(BROWN_DARK),
+        borderRadius: BorderRadius.all(Radius.circular(BTN_RADIUS)),
+        gradient: LinearGradient(
+          colors: <Color>[
+            GREEN_DARK,
+            GREEN_LIGHT,
+          ],
         ),
       ),
       child: RaisedButton(
         elevation: 0.0,
         color: Colors.transparent,
-        textColor: Color(BROWN_DARK),
+        textColor: WHITE,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(btnRadius),
+          borderRadius: BorderRadius.circular(BTN_RADIUS),
         ),
         child: Text(
           this.btnText,

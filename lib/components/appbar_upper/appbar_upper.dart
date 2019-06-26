@@ -14,6 +14,7 @@ class AppBarUpper extends StatelessWidget {
       centerTitle: true,
       title: Text(this.title),
       // TODO! nie wiadomo jak przesunąć
+      // ikonke logo
       leading: InkWell(
           child: Container(
             child: logo,

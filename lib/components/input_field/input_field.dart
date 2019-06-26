@@ -10,28 +10,28 @@ class InputField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: btnWidth,
-      height: btnHeight,
+      width: BTN_WIDTH,
+      height: BTN_HEIGHT,
       child: TextField(
         obscureText: (isPassword ? true : false),
         style: TextStyle(
-          color: Color(BLACK),
+          color: BLACK,
         ),
         decoration: InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(0, 10, 0, 5),
           focusedBorder: UnderlineInputBorder(
             borderSide: BorderSide(
-              color: Color(BROWN_DARK),
+              color: BROWN_DARK,
             ),
           ),
           enabledBorder: UnderlineInputBorder(
             borderSide: BorderSide(
-              color: Color(GREEN_DARK),
+              color: GREEN_DARK,
             ),
           ),
           hintText: this.title,
           hintStyle: TextStyle(
-            color: Color(BLACK),
+            color: BLACK,
           ),
         ),
       ),

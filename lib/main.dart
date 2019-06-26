@@ -13,8 +13,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    // TODO
-    // hide clock and battery info
+    // TODO: hide clock and battery info
 
     return MaterialApp(
       title: 'Langgarden',
@@ -23,14 +22,14 @@ class MyApp extends StatelessWidget {
       // sets theme for the entire app
       theme: ThemeData(
         fontFamily: 'MerriweatherSans',
-        scaffoldBackgroundColor: Color(WHITE),
+        scaffoldBackgroundColor: WHITE,
 
         // backgroundColor for appbar
-        primaryColor: Color(WHITE),
+        primaryColor: WHITE,
 
         textTheme: TextTheme(
           title: TextStyle(
-            color: Color(BROWN_DARK),
+            color: BROWN_DARK,
             fontSize: 20.0,
             fontWeight: FontWeight.w500,
           ),
@@ -39,7 +38,7 @@ class MyApp extends StatelessWidget {
           ),
           body1: TextStyle(
             fontSize: 14,
-            color: Color(BROWN_DARK),
+            color: BROWN_DARK,
           ),
         ),
       ),

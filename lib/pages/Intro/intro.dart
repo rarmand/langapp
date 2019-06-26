@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:langapp/components/Dots/main.dart';
-import 'package:langapp/components/IntroText/main.dart';
-import 'package:langapp/components/Logo/logoBig.dart';
+import 'package:langapp/components/dots/dots.dart';
+import 'package:langapp/components/intro_text/intro_text.dart';
+import 'package:langapp/components/logo/logo_big.dart';
 
 class IntroPage extends StatelessWidget {
   @override
@@ -16,7 +16,6 @@ class IntroPage extends StatelessWidget {
               LogoBig(),
               Expanded(
                 child: Container(
-                  // TODO: czy można inaczej tworzyć padding ??
                   padding: EdgeInsets.only(top: 50),
                   child: IntroText(text: "Test your abilities\nand\nlearn foreign languages!"),
                 ),

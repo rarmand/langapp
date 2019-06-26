@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:langapp/components/ButtonFilled/main.dart';
-import 'package:langapp/components/InputField/main.dart';
-import 'package:langapp/components/Logo/arrow.dart';
-import 'package:langapp/components/Logo/logoMid.dart';
+import 'package:langapp/components/button_filled/button_filled.dart';
+import 'package:langapp/components/input_field/input_field.dart';
+import 'package:langapp/components/logo/arrow.dart';
+import 'package:langapp/components/logo/logo_mid.dart';
 import 'package:langapp/styles/colors.dart';
 
 class ResetPasswordPage extends StatelessWidget {
@@ -17,15 +17,14 @@ class ResetPasswordPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              // TODO
-              // poprawnie skalibrować rozmieszczenie logo ze strzałką
+              // TODO: poprawnie skalibrować rozmieszczenie logo ze strzałką
               Arrow(child: LogoMid()),
               Container(
                 child: Column(
                   children: <Widget>[
                     Container(
                       padding: EdgeInsets.only(bottom: 30.0),
-                      width: btnWidth,
+                      width: BTN_WIDTH,
                       child: Text(
                         "Please enter your email where we will send further instructions.",
                         textAlign: TextAlign.center,
@@ -42,8 +41,7 @@ class ResetPasswordPage extends StatelessWidget {
                 children: <Widget>[
                   const SizedBox(height: 90),
 
-                  // TODO
-                  // Navigation
+                  // TODO: Navigation
                   // dialog information about sent message
                   // properly working swap
 

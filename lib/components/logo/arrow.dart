@@ -15,7 +15,7 @@ class Arrow extends StatelessWidget {
           margin: EdgeInsets.fromLTRB(10, 50, 0, 0),
           child: Icon(
             Icons.arrow_back_ios,
-            color: Color(BROWN_DARK),
+            color: BROWN_DARK,
           ),
         ),
         Expanded(

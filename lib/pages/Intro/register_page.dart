@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:langapp/components/ButtonFilled/main.dart';
-import 'package:langapp/components/InputField/main.dart';
-import 'package:langapp/components/Logo/arrow.dart';
-import 'package:langapp/components/Logo/logoMid.dart';
+import 'package:langapp/components/button_filled/button_filled.dart';
+import 'package:langapp/components/input_field/input_field.dart';
+import 'package:langapp/components/logo/arrow.dart';
+import 'package:langapp/components/logo/logo_mid.dart';
 import 'package:langapp/styles/colors.dart';
 
 class RegisterPage extends StatelessWidget {
@@ -28,7 +28,7 @@ class RegisterPage extends StatelessWidget {
                       isPassword: true,
                     ),
                     Container(
-                      width: btnWidth - 10,
+                      width: BTN_WIDTH - 10,
                       child: Text(
                         "Password has to contain 10 characters: small letters, capital lettes, numbers",
                         textAlign: TextAlign.center,
@@ -47,7 +47,7 @@ class RegisterPage extends StatelessWidget {
                     btnText: "Sign up",
                   ),
                   Container(
-                    width: btnWidth,
+                    width: BTN_WIDTH,
                     child: Text(
                       "You agree to Langgarden’s Terms of Service and Privacy Policy.",
                       textAlign: TextAlign.center,

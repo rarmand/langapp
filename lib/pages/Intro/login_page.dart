@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:langapp/components/ButtonFilled/main.dart';
-import 'package:langapp/components/ButtonOutlined/main.dart';
-import 'package:langapp/components/InputField/main.dart';
-import 'package:langapp/components/Logo/logoMid.dart';
+import 'package:langapp/components/button_filled/button_filled.dart';
+import 'package:langapp/components/button_outlined/button_outlined.dart';
+import 'package:langapp/components/input_field/input_field.dart';
+import 'package:langapp/components/logo/logo_mid.dart';
 
 class LoginPage extends StatelessWidget {
   @override
