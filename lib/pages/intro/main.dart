@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:langapp/pages/Intro/intro.dart';
-import 'package:langapp/pages/Intro/register_page.dart';
-import 'package:langapp/pages/Intro/reset_password_page.dart';
-import 'package:langapp/pages/Intro/secintro.dart';
-import 'package:langapp/pages/Intro/trdintro.dart';
-import 'package:langapp/pages/Intro/welcome_page.dart';
+import 'package:langapp/pages/daily_goal_page/daily_goal_page.dart';
+import 'package:langapp/pages/intro/secintro.dart';
+import 'package:langapp/pages/intro/trdintro.dart';
+import 'package:langapp/pages/language_page/language_page.dart';
+import 'package:langapp/pages/login_page/login_page.dart';
+import 'package:langapp/pages/register_page/register_page.dart';
+import 'package:langapp/pages/reset_password_page/reset_password_page.dart';
+import 'package:langapp/pages/welcome_page/welcome_page.dart';
 
-import 'daily_goal_page.dart';
-import 'language_page.dart';
-import 'login_page.dart';
+import 'intro.dart';
 
 class IntroPagesView extends StatefulWidget {
   _IntroPagesView createState() {
