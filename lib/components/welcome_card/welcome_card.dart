@@ -13,7 +13,7 @@ class WelcomeCard extends StatelessWidget {
     // do wycięcia jako osobny Component
     // jako duży MAIN i małe BACKGROUND
     return Card(
-      elevation: 6,
+      elevation: 2,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(BTN_RADIUS),
       ),
