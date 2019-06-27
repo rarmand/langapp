@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:langapp/components/welcome_card/daily_goal_img.dart';
 import 'package:langapp/components/welcome_card/welcome_card.dart';
 import 'package:langapp/components/welcome_frame/welcome_frame.dart';
 import 'package:langapp/styles/colors.dart';
@@ -42,10 +43,8 @@ class DailyGoalPage extends StatelessWidget {
             return Builder(
               builder: (BuildContext context) {
                 return WelcomeCard(
-                  title: "words\nper day",
-                  img: SizedBox(
-                    height: 100,
-                  ),
+                  title: "words per day",
+                  img: DailyGoalImg(),
                 );
               },
             );

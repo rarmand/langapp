@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:langapp/components/welcome_card/language_img.dart';
 import 'package:langapp/components/welcome_card/welcome_card.dart';
 import 'package:langapp/components/welcome_frame/welcome_frame.dart';
 import 'package:langapp/styles/colors.dart';
@@ -50,10 +51,9 @@ class LanguagePage extends StatelessWidget {
             return Builder(
               builder: (BuildContext context) {
                 return WelcomeCard(
-                  title: "Language",
-                  img: SizedBox(
-                    height: 100,
-                  ),
+                  // TODO: kilka jezyków do wyboru z bazy danych
+                  title: "German",
+                  img: LanguageImg(),
                 );
               },
             );

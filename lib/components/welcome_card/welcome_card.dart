@@ -13,7 +13,7 @@ class WelcomeCard extends StatelessWidget {
     // do wycięcia jako osobny Component
     // jako duży MAIN i małe BACKGROUND
     return Card(
-      elevation: 6,
+      elevation: 2,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(BTN_RADIUS),
       ),
@@ -22,12 +22,12 @@ class WelcomeCard extends StatelessWidget {
         width: BTN_WIDTH - 50,
         child: Column(
           children: <Widget>[
-            const SizedBox(height: 40),
+            this.img,
             Text(
               this.title,
               textAlign: TextAlign.center,
               style: TextStyle(
-                color: Colors.white,
+                color: WHITE,
                 fontSize: 20.0,
               ),
             ),
