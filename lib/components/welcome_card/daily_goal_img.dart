@@ -16,11 +16,8 @@ class DailyGoalImg extends StatelessWidget {
         Stack(
           alignment: Alignment.center,
           children: <Widget>[
-            Transform.scale(
-              scale: 0.9,
-              child: this.roundup,
-            ),
             Container(
+              height: 130,
               alignment: Alignment.center,
               child: Text(
                 this.timestamp,
@@ -29,6 +26,19 @@ class DailyGoalImg extends StatelessWidget {
                   fontSize: 48,
                 ),
               ),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                boxShadow: [
+                  BoxShadow(
+                    blurRadius: 50.0,
+                    color: GREEN_DARK,
+                  ),
+                ],
+              ),
+            ),
+            Transform.scale(
+              scale: 0.9,
+              child: this.roundup,
             ),
           ],
         ),

@@ -4,7 +4,7 @@ import 'package:langapp/styles/colors.dart';
 
 class LanguageImg extends StatelessWidget {
   final Widget flag = SvgPicture.asset('assets/flag_germany.svg');
-  
+
   // TODO: flaga i nazwa jezyka do pobrania w konstruktorze
 
   @override
@@ -21,6 +21,12 @@ class LanguageImg extends StatelessWidget {
               decoration: BoxDecoration(
                 color: WHITE,
                 shape: BoxShape.circle,
+                boxShadow: [
+                  BoxShadow(
+                    blurRadius: 16.0,
+                    color: WHITE,
+                  ),
+                ],
               ),
             ),
             Transform.scale(

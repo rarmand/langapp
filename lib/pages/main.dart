@@ -7,8 +7,8 @@ import 'package:langapp/pages/login_page/login_page.dart';
 import 'package:langapp/pages/register_page/register_page.dart';
 import 'package:langapp/pages/reset_password_page/reset_password_page.dart';
 import 'package:langapp/pages/welcome_page/welcome_page.dart';
-
-import 'intro.dart';
+import 'package:langapp/pages/intro/intro.dart';
+import 'package:langapp/pages/home_page/home_page.dart';
 
 class IntroPagesView extends StatefulWidget {
   _IntroPagesView createState() {
@@ -23,6 +23,7 @@ class _IntroPagesView extends State<IntroPagesView> {
     return Scaffold(
       body: PageView(
         children: <Widget>[
+          HomePage(),
           DailyGoalPage(),
           LanguagePage(),
           WelcomePage(),
