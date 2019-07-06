@@ -3,9 +3,10 @@ import 'package:flutter_svg/svg.dart';
 import 'package:langapp/styles/colors.dart';
 
 class LanguageImg extends StatelessWidget {
-  final Widget flag = SvgPicture.asset('assets/flag_germany.svg');
+  final Widget flag = SvgPicture.asset('assets/flags/germany.svg');
 
   // TODO: flaga i nazwa jezyka do pobrania w konstruktorze
+  // TODO: flagi zmienić do jednakich rozmiarów, żeby nie wywalało się
 
   @override
   Widget build(BuildContext context) {
