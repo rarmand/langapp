@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:langapp/styles/colors.dart';
 
 import 'menu_button.dart';
 
 class MenuBottom extends StatelessWidget {
-  final Widget home = SvgPicture.asset('assets/menu/home.svg');
-  final Widget challenge = SvgPicture.asset('assets/menu/challenge.svg');
-  final Widget profile = SvgPicture.asset('assets/menu/profile.svg');
-  final Widget settings = SvgPicture.asset('assets/menu/settings.svg');
+  final String homePath = 'assets/menu/home.svg';
+  final String challengePath = 'assets/menu/challenge.svg';
+  final String profilePath = 'assets/menu/profile.svg';
+  final String settingsPath = 'assets/menu/settings.svg';
 
   @override
   Widget build(BuildContext context) {
@@ -25,12 +24,13 @@ class MenuBottom extends StatelessWidget {
           ],
         ),
         // TODO: czy sens trzymać to w gridzie?
+        // TODO: obmyślić jak podswietlić button w menu zależnie od TAP, który jest wewn widgetu
         child: Row(
           children: <Widget>[
-            MenuButton(icon: this.home, title: "Home"),
-            MenuButton(icon: this.challenge, title: "Challenge"),
-            MenuButton(icon: this.profile, title: "Profile"),
-            MenuButton(icon: this.settings, title: "Settings"),
+            MenuButton(iconPath: this.homePath, title: "Home", chosen: true),
+            MenuButton(iconPath: this.challengePath, title: "Challenge"),
+            MenuButton(iconPath: this.profilePath, title: "Profile"),
+            MenuButton(iconPath: this.settingsPath, title: "Settings"),
           ],
         ));
   }

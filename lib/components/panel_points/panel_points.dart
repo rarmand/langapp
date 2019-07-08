@@ -5,7 +5,7 @@ import 'block_points.dart';
 import 'buttons_course.dart';
 
 class PanelPoints extends StatelessWidget {
-  bool expandedPanel = true;
+  bool expandedPanel = false;
 
   @override
   Widget build(BuildContext context) {

@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:langapp/styles/colors.dart';
 
 class MenuButton extends StatelessWidget {
-  final Widget icon;
+  final String iconPath;
   final String title;
+  Widget icon;
+  final bool chosen;
 
-  MenuButton({@required Widget this.icon, @required String this.title});
+  MenuButton({@required this.iconPath, @required this.title, this.chosen = false}) {
+    icon = (chosen
+        ? SvgPicture.asset(iconPath, color: YELLOW)
+        : SvgPicture.asset(
+            iconPath,
+          ));
+  }
 
-  // TODO: zmiana koloru dla buttona, w którym własnie jesteśmy
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -27,6 +35,7 @@ class MenuButton extends StatelessWidget {
                 }),
             Text(
               this.title,
+              style: (chosen ? TextStyle(color: YELLOW) : TextStyle()),
             )
           ],
         ));
