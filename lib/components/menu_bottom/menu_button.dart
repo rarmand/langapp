@@ -15,6 +15,7 @@ class MenuButton extends StatelessWidget {
             iconPath,
           ));
   }
+  //TODO: zmniejszyć ikonki
 
   @override
   Widget build(BuildContext context) {

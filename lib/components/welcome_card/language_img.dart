@@ -13,6 +13,7 @@ class LanguageImg extends StatelessWidget {
     return Column(
       children: <Widget>[
         const SizedBox(height: 45),
+        // TODO: img do wycięcia jako uniwersalny komponent
         Stack(
           alignment: Alignment.center,
           children: <Widget>[

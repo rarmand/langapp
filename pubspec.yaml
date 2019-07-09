@@ -44,6 +44,8 @@ flutter:
     - assets/
     - assets/flags/
     - assets/menu/
+    - assets/intro/
+    - assets/course/
 
   fonts:
     - family: MerriweatherSans

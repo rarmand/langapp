@@ -3,7 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:langapp/styles/colors.dart';
 
 class DailyGoalImg extends StatelessWidget {
-  final Widget roundup = SvgPicture.asset('assets/round_up.svg');
+  final Widget roundup = SvgPicture.asset('assets/intro/round_up.svg');
   // TODO: timestamp do pobrania w konstruktorze
   // każdy inny zależnie od ilości możliwości
   final String timestamp = '10';
@@ -24,6 +24,7 @@ class DailyGoalImg extends StatelessWidget {
                 style: TextStyle(
                   color: WHITE,
                   fontSize: 48,
+                  fontFamily: "Roboto",
                 ),
               ),
               decoration: BoxDecoration(
