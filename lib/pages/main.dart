@@ -4,6 +4,7 @@ import 'package:langapp/pages/intro/secintro.dart';
 import 'package:langapp/pages/intro/trdintro.dart';
 import 'package:langapp/pages/language_page/language_page.dart';
 import 'package:langapp/pages/login_page/login_page.dart';
+import 'package:langapp/pages/profile_page/profile_page.dart';
 import 'package:langapp/pages/register_page/register_page.dart';
 import 'package:langapp/pages/reset_password_page/reset_password_page.dart';
 import 'package:langapp/pages/welcome_page/welcome_page.dart';
@@ -23,6 +24,7 @@ class _IntroPagesView extends State<IntroPagesView> {
     return Scaffold(
       body: PageView(
         children: <Widget>[
+          ProfilePage(),
           HomePage(),
           DailyGoalPage(),
           LanguagePage(),

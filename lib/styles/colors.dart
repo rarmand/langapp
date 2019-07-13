@@ -9,6 +9,7 @@ const Color BROWN_DARK = const Color(0xFF6D4C41);
 const Color BROWN_SHADOW_25 = const Color(0x3F6D4C41);
 const Color BLACK = const Color(0xFF3E2723);
 const Color YELLOW = const Color(0xFFFFDA2D);
+const Color GRAY = const Color.fromRGBO(109, 76, 65, 0.25);
 
 const double SHADOW_RADIUS = 8.0;
 const double SHADOW_OFFSET = 4.0;
@@ -17,5 +18,4 @@ const double BTN_HEIGHT = 50.0;
 const double BTN_MARGIN = 5.0;
 const double BTN_RADIUS = 16.0;
 
-const double MENU_HEIGHT = 68.0;
-// const double MENU_BTN_WIDTH = MediaQuery.of(context).size.width / 4;
+const double MENU_HEIGHT = 64.0;

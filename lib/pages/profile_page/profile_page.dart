@@ -1,23 +1,20 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:langapp/components/appbar_upper/appbar_upper.dart';
-import 'package:langapp/components/courses_list/courses_list.dart';
 import 'package:langapp/components/menu_bottom/menu_bottom.dart';
-import 'package:langapp/components/panel_points/panel_points.dart';
+import 'package:langapp/pages/profile_page/profile_content.dart';
 
-class HomePage extends StatelessWidget {
+class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarUpper(title: "Home"),
+      appBar: AppBarUpper(title: "Profile"),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          PanelPoints(),
-          Expanded(
-            child: CoursesList(),
-          ),
-          MenuBottom(chosen: 0),
+          // TODO: można dookreślić typ przyjmowanych danych
+          Expanded(child: ProfileContent()),
+          MenuBottom(chosen: 2),
         ],
       ),
     );

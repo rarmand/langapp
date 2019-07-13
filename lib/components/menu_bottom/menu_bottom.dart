@@ -4,10 +4,14 @@ import 'package:langapp/styles/colors.dart';
 import 'menu_button.dart';
 
 class MenuBottom extends StatelessWidget {
+  int chosen;
   final String homePath = 'assets/menu/home.svg';
   final String challengePath = 'assets/menu/challenge.svg';
   final String profilePath = 'assets/menu/profile.svg';
   final String settingsPath = 'assets/menu/settings.svg';
+
+  // TODO: nie mam pojęcia jak zrobić wybieranie elementu z menu
+  MenuBottom({@required this.chosen});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +27,7 @@ class MenuBottom extends StatelessWidget {
             ),
           ],
         ),
-        // TODO: czy sens trzymać to w gridzie?
+
         // TODO: obmyślić jak podswietlić button w menu zależnie od TAP, który jest wewn widgetu
         child: Row(
           children: <Widget>[

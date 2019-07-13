@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:langapp/styles/colors.dart';
 
 class Dots extends StatelessWidget {
   final int chosen;
@@ -16,7 +17,6 @@ class Dots extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
       width: 72.0,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -38,7 +38,7 @@ class Dot extends StatelessWidget {
       width: 8.0,
       height: 8.0,
       decoration: new BoxDecoration(
-        color: (this.chosen ? Color(0xff1bb000) : Color.fromRGBO(109, 76, 65, 0.25)),
+        color: (this.chosen ? GREEN_DARK : GRAY),
         shape: BoxShape.circle,
       ),
     );

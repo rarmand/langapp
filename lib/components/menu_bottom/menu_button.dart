@@ -15,7 +15,6 @@ class MenuButton extends StatelessWidget {
             iconPath,
           ));
   }
-  //TODO: zmniejszyć ikonki
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +27,7 @@ class MenuButton extends StatelessWidget {
                 child: Container(
                   child: Transform.scale(
                     child: icon,
-                    scale: 0.75,
+                    scale: 0.64,
                   ),
                 ),
                 onTap: () {
