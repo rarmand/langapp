@@ -21,6 +21,7 @@ class DiagnosedSkillsBlocks extends StatelessWidget {
     ])
   ];
 
+  // TODO: ustalenie żeby był rozdział matrix 2 x 2 przy szerszym oknie
   @override
   Widget build(BuildContext context) {
     return Container(

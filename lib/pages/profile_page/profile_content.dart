@@ -7,17 +7,17 @@ import 'package:langapp/pages/profile_page/profile_info_line.dart';
 class ProfileContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
+    return Container(
       padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
       child: Column(
         children: <Widget>[
           ProfileInfoLine(name: "Username", data: "User123456789"),
           ProfileInfoLine(name: "Points", data: "12456789"),
           ProfileInfoLine(name: "Longest strike", data: "12"),
-          ElementContent(title: "Daily goals", element: DailyGoalMarks()),
           ProfileInfoLine(name: "Tutor", data: "no"),
           ProfileInfoLine(name: "Contests", data: "10"),
           ProfileInfoLine(name: "Challenges", data: "2"),
+          ElementContent(title: "Daily goals", element: DailyGoalMarks()),
           ElementContent(
             title: "Diagnosed skills",
             element: DiagnosedSkillsBlocks(),

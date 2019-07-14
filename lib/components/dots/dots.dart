@@ -17,9 +17,9 @@ class Dots extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 72.0,
+      width: MediaQuery.of(context).size.width / 5,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: dotsRow,
       ),
@@ -44,13 +44,12 @@ class Dot extends StatelessWidget {
     );
 
     return Container(
-        child: Padding(
       padding: EdgeInsets.all(6.0),
       child: Center(
         child: Stack(
           children: <Widget>[circle],
         ),
       ),
-    ));
+    );
   }
 }

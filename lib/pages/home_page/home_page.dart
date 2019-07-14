@@ -1,25 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:langapp/components/appbar_upper/appbar_upper.dart';
 import 'package:langapp/components/courses_list/courses_list.dart';
-import 'package:langapp/components/menu_bottom/menu_bottom.dart';
-import 'package:langapp/components/panel_points/panel_points.dart';
+import 'package:langapp/components/frame/frame.dart';
 
+// TODO: scrollowanie na marginesach w landscape nie działa
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBarUpper(title: "Home"),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          PanelPoints(),
-          Expanded(
-            child: CoursesList(),
-          ),
-          MenuBottom(chosen: 0),
-        ],
-      ),
-    );
+    return Frame(title: "Home", chosen: 0, child: CoursesList());
   }
 }

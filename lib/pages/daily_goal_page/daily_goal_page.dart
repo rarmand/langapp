@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:langapp/components/frame/welcome_frame.dart';
 import 'package:langapp/components/welcome_card/daily_goal_img.dart';
 import 'package:langapp/components/welcome_card/welcome_card.dart';
-import 'package:langapp/components/welcome_frame/welcome_frame.dart';
 import 'package:langapp/styles/colors.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 

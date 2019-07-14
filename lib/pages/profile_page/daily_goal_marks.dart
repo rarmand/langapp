@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:langapp/styles/colors.dart';
 
 class DailyGoalMarks extends StatelessWidget {
+  // TODO: czy dodawać cień do kulek?
   List<Mark> goals = [
     Mark(isMarked: true),
     Mark(isMarked: false),
@@ -35,15 +36,8 @@ class Mark extends StatelessWidget {
       height: 30.0,
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: (this.isMarked ? [GREEN_LIGHT, GREEN_LIGHT] : [GRAY, GRAY.withAlpha(200)]),
+          colors: (this.isMarked ? [GREEN_DARK, GREEN_LIGHT] : [GRAY.withAlpha(120), GRAY]),
         ),
-        boxShadow: [
-          BoxShadow(
-            color: BROWN_SHADOW_25,
-            offset: Offset(0, 4),
-            blurRadius: 12.0,
-          ),
-        ],
         shape: BoxShape.circle,
       ),
     );
