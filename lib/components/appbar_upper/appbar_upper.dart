@@ -29,8 +29,6 @@ class AppBarUpper extends StatelessWidget implements PreferredSizeWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-        // TODO! nie wiadomo jak przesunąć
-        // ikonke logo
         leading: InkWell(
             child: Container(
               child: logo,

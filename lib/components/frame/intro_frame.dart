@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:langapp/components/dots/dots.dart';
+import 'package:langapp/components/frame/single_scroll_view.dart';
 import 'package:langapp/components/logo/logo_big.dart';
 
 class IntroFrame extends StatelessWidget {
@@ -13,17 +14,19 @@ class IntroFrame extends StatelessWidget {
     return Scaffold(
       body: Container(
         alignment: Alignment.center,
-        child: Column(
-          children: <Widget>[
-            LogoBig(),
-            Expanded(
-              child: this.child,
-            ),
-            Container(
-              padding: EdgeInsets.only(top: 15, bottom: 30),
-              child: Dots(chosen: 1),
-            ),
-          ],
+        child: SingleScrollView(
+          child: Column(
+            children: <Widget>[
+              LogoBig(),
+              Expanded(
+                child: this.child,
+              ),
+              Container(
+                padding: EdgeInsets.only(top: 15, bottom: 30),
+                child: Dots(chosen: 1),
+              ),
+            ],
+          ),
         ),
       ),
     );

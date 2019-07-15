@@ -3,15 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:langapp/components/appbar_upper/appbar_upper.dart';
 import 'package:langapp/components/menu_bottom/menu_bottom.dart';
 
-// TODO: do naprawy INtro
-class Frame extends StatelessWidget {
+class MenuFrame extends StatelessWidget {
   final String title;
   final int chosen;
   Widget child;
   bool isAppBar = true;
   bool isMenuBottom = true;
 
-  Frame({this.title = "", this.chosen = -1, this.child}) {
+  MenuFrame({this.title = "", this.chosen = -1, @required this.child}) {
+    // TODO: czy wywalić check czy istnieje menu i title
     if (this.title.length == 0) isAppBar = false;
     if (this.chosen == -1) isMenuBottom = false;
   }

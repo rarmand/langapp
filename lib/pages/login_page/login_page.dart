@@ -3,54 +3,47 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:langapp/components/button_filled/button_filled.dart';
 import 'package:langapp/components/button_outlined/button_outlined.dart';
+import 'package:langapp/components/frame/login_frame.dart';
 import 'package:langapp/components/input_field/input_field.dart';
 import 'package:langapp/components/logo/logo_mid.dart';
 
 class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        child: SingleChildScrollView(
+    return LoginFrame(
+      children: <Widget>[
+        LogoMid(),
+        Container(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              LogoMid(),
-              Container(
-                child: Column(
-                  children: <Widget>[
-                    InputField(title: "Email"),
-                    InputField(
-                      title: "Password",
-                      isPassword: true,
-                    ),
-                    Text(
-                      "Forgot password?",
-                      style: TextStyle(
-                        fontSize: 11,
-                        decoration: TextDecoration.underline,
-                      ),
-                    ),
-                  ],
+              InputField(title: "Email"),
+              InputField(
+                title: "Password",
+                isPassword: true,
+              ),
+              Text(
+                "Forgot password?",
+                style: TextStyle(
+                  fontSize: 11,
+                  decoration: TextDecoration.underline,
                 ),
               ),
-              Column(
-                children: <Widget>[
-                  const SizedBox(height: 60),
-                  ButtonFilled(
-                    btnText: "Sign in",
-                  ),
-                  ButtonOutlined(
-                    btnText: "Sign up",
-                  ),
-                  const SizedBox(height: 30),
-                ],
-              )
             ],
           ),
         ),
-      ),
+        Column(
+          children: <Widget>[
+            const SizedBox(height: 60),
+            ButtonFilled(
+              btnText: "Sign in",
+            ),
+            ButtonOutlined(
+              btnText: "Sign up",
+            ),
+            const SizedBox(height: 30),
+          ],
+        )
+      ],
     );
   }
 }

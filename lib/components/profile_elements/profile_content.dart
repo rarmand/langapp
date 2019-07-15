@@ -1,8 +1,8 @@
 import 'package:flutter/widgets.dart';
 import 'package:langapp/components/element_content/element_content.dart';
-import 'package:langapp/pages/profile_page/daily_goal_marks.dart';
-import 'package:langapp/pages/profile_page/diagnosed_skills_blocks.dart';
-import 'package:langapp/pages/profile_page/profile_info_line.dart';
+import 'package:langapp/components/profile_elements/daily_goal_marks.dart';
+import 'package:langapp/components/profile_elements/diagnosed_skills_blocks.dart';
+import 'package:langapp/components/profile_elements/profile_info_line.dart';
 
 class ProfileContent extends StatelessWidget {
   @override

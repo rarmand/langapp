@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:langapp/components/frame/intro_frame.dart';
 import 'package:langapp/components/intro_text/intro_text.dart';
-import 'package:langapp/pages/intro/intro_frame.dart';
 
 class SecIntroPage extends StatelessWidget {
   @override

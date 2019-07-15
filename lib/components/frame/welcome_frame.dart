@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:langapp/components/button_outlined/button_outlined.dart';
-import 'package:langapp/components/frame/frame.dart';
 import 'package:langapp/components/logo/arrow.dart';
 import 'package:langapp/components/logo/logo_small.dart';
+
+import 'menu_frame.dart';
 
 class WelcomeFrame extends StatelessWidget {
   final Widget child;
@@ -14,7 +15,7 @@ class WelcomeFrame extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Frame(
+    return MenuFrame(
       child: Center(
         child: Column(
           children: <Widget>[

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:langapp/styles/colors.dart';
 
 class DailyGoalMarks extends StatelessWidget {
-  // TODO: czy dodawać cień do kulek?
+  // TODO: czy dodawać cień do kulek? NIEEE albo coś innego do odznaczania
   List<Mark> goals = [
     Mark(isMarked: true),
     Mark(isMarked: false),

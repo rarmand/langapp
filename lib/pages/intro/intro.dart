@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:langapp/components/frame/intro_frame.dart';
 import 'package:langapp/components/intro_text/intro_text.dart';
-import 'intro_frame.dart';
 
+// TODO: intro ze swapowaniem 3x z różnym contentem
 class IntroPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
