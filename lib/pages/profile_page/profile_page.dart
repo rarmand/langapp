@@ -6,6 +6,10 @@ import 'package:langapp/components/profile_elements/profile_content.dart';
 class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MenuFrame(title: "Profile", chosen: 2, child: ProfileContent());
+    return MenuFrame(
+      title: "Profile",
+      chosen: 2,
+      child: ProfileContent(),
+    );
   }
 }

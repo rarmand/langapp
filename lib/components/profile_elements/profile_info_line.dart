@@ -17,7 +17,7 @@ class ProfileInfoLine extends StatelessWidget {
           Container(
             width: MediaQuery.of(context).size.width / 3,
             child: Text(
-              this.name + ":",
+              this.name,
               style: TextStyle(),
             ),
           ),

@@ -25,7 +25,7 @@ class _IntroPagesView extends State<IntroPagesView> {
     return Scaffold(
       body: PageView(
         children: <Widget>[
-          SettingsPage(),
+          SettingsPage(diagnosedMethod: true),
           ProfilePage(),
           HomePage(),
           DailyGoalPage(),

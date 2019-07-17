@@ -10,7 +10,6 @@ class AppBarUpper extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: AppBar wymienić na osobny kontener, dodać cieniowanie na dole
     return Container(
       decoration: BoxDecoration(boxShadow: [
         BoxShadow(
