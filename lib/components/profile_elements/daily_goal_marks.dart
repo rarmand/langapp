@@ -3,6 +3,7 @@ import 'package:langapp/styles/colors.dart';
 
 class DailyGoalMarks extends StatelessWidget {
   // TODO: czy dodawać cień do kulek? NIEEE albo coś innego do odznaczania
+  // czy nie zmienić całkiem stylu
   List<Mark> goals = [
     Mark(isMarked: true),
     Mark(isMarked: false),

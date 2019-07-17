@@ -8,8 +8,7 @@ class DiagnosedSkillsBlocks extends StatelessWidget {
   DiagnosedSkillsBlocks({this.isChosen = true}) {
     skillsList = [
       SkillBlock(
-        name: "speaking",
-        percentage: 25,
+        subtitle: "speaking",
         isChosen: this.isChosen,
         gradient: [
           GREEN_DARK,
@@ -17,8 +16,8 @@ class DiagnosedSkillsBlocks extends StatelessWidget {
         ],
       ),
       SkillBlock(
-        name: "reading",
-        percentage: 25,
+        title: "25%",
+        subtitle: "reading",
         isChosen: this.isChosen,
         gradient: [
           YELLOW,
@@ -26,8 +25,8 @@ class DiagnosedSkillsBlocks extends StatelessWidget {
         ],
       ),
       SkillBlock(
-        name: "listening",
-        percentage: 25,
+        title: "25%",
+        subtitle: "listening",
         isChosen: this.isChosen,
         gradient: [
           BROWN_DARK,
@@ -35,8 +34,8 @@ class DiagnosedSkillsBlocks extends StatelessWidget {
         ],
       ),
       SkillBlock(
-        name: "writing",
-        percentage: 25,
+        title: "25%",
+        subtitle: "writing",
         isChosen: this.isChosen,
         gradient: [
           BROWN_LIGHT,
@@ -58,14 +57,14 @@ class DiagnosedSkillsBlocks extends StatelessWidget {
 
 class SkillBlock extends StatelessWidget {
   final bool isChosen;
-  final int percentage;
-  final String name;
+  final String title;
+  final String subtitle;
   List<Color> gradient;
 
   SkillBlock({
-    @required this.name,
-    @required this.percentage,
-    @required this.isChosen,
+    this.title = "",
+    this.subtitle = "",
+    this.isChosen = true,
     this.gradient = const [GREEN_DARK, GREEN_LIGHT],
   }) {
     if (this.isChosen == false) this.gradient = const [GRAY, GRAY];
@@ -96,7 +95,8 @@ class SkillBlock extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Text(
-            this.percentage.toString() + "%",
+            this.title.toString(),
+            textAlign: TextAlign.center,
             style: TextStyle(
               color: (this.isChosen ? WHITE : WHITE.withOpacity(0.7)),
               fontSize: 22.0,
@@ -108,7 +108,8 @@ class SkillBlock extends StatelessWidget {
             height: 24.0,
           ),
           Text(
-            this.name,
+            this.subtitle,
+            textAlign: TextAlign.center,
             style: TextStyle(
               color: (this.isChosen ? WHITE : WHITE.withOpacity(0.7)),
               fontSize: 16.0,

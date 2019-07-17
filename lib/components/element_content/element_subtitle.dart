@@ -12,7 +12,6 @@ class ElementSubtitle extends StatelessWidget {
       padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
       child: Text(
         this.subtitle,
-        style: TextStyle(),
       ),
     );
   }

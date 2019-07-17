@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:langapp/pages/challenge_page/challenge_page.dart';
 import 'package:langapp/pages/daily_goal_page/daily_goal_page.dart';
 import 'package:langapp/pages/intro/secintro.dart';
 import 'package:langapp/pages/intro/trdintro.dart';
@@ -25,6 +26,7 @@ class _IntroPagesView extends State<IntroPagesView> {
     return Scaffold(
       body: PageView(
         children: <Widget>[
+          ChallengePage(),
           SettingsPage(diagnosedMethod: true),
           ProfilePage(),
           HomePage(),
