@@ -17,14 +17,20 @@ class ButtonFilled extends StatelessWidget {
       height: BTN_HEIGHT,
       margin: EdgeInsets.all(BTN_MARGIN),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(BTN_RADIUS)),
-        gradient: LinearGradient(
-          colors: <Color>[
-            GREEN_DARK,
-            GREEN_LIGHT,
-          ],
-        ),
-      ),
+          borderRadius: BorderRadius.all(Radius.circular(BTN_RADIUS)),
+          gradient: LinearGradient(
+            colors: <Color>[
+              GREEN_DARK,
+              GREEN_LIGHT,
+            ],
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: BROWN_SHADOW_25,
+              offset: Offset(0, SHADOW_OFFSET / 4),
+              blurRadius: BTN_RADIUS / 2,
+            )
+          ]),
       child: RaisedButton(
         elevation: 0.0,
         color: Colors.transparent,
