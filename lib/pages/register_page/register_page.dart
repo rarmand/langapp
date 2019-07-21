@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:langapp/components/button_filled/button_filled.dart';
-import 'package:langapp/components/frame/login_frame.dart';
+import 'package:langapp/components/frame/frame.dart';
 import 'package:langapp/components/input_field/input_field.dart';
 import 'package:langapp/components/logo/arrow.dart';
 import 'package:langapp/components/logo/logo_mid.dart';
@@ -9,7 +9,7 @@ import 'package:langapp/styles/colors.dart';
 class RegisterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return LoginFrame(
+    return Frame(
       children: <Widget>[
         // TODO
         // poprawnie skalibrować rozmieszczenie logo ze strzałką

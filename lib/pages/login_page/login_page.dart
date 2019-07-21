@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:langapp/components/button_filled/button_filled.dart';
 import 'package:langapp/components/button_outlined/button_outlined.dart';
-import 'package:langapp/components/frame/login_frame.dart';
+import 'package:langapp/components/frame/frame.dart';
 import 'package:langapp/components/input_field/input_field.dart';
 import 'package:langapp/components/logo/logo_mid.dart';
 
 class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return LoginFrame(
+    return Frame(
       children: <Widget>[
         LogoMid(),
         Container(

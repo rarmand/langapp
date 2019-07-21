@@ -15,6 +15,7 @@ class CourseBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      // TODO: jak określić dynamiczny, uniwersalny rozmiar?
       width: 360,
       height: 176,
       margin: EdgeInsets.fromLTRB(32, 12, 32, 12),

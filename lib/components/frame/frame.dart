@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class LoginFrame extends StatelessWidget {
+class Frame extends StatelessWidget {
   List<Widget> children;
 
-  LoginFrame({@required this.children});
+  Frame({@required this.children});
 
 // TODO: dodać logo główne i strzałki jako part of frame
   @override
