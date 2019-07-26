@@ -36,6 +36,7 @@ class SecIntroPage extends StatelessWidget {
             ),
           ),
           IntroText(text: "This will give you the best recipe for\nfuture learning process."),
+          SizedBox(height: 30.0),
         ],
       ),
     );

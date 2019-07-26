@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:langapp/pages/daily_goal_page/daily_goal_page.dart';
 import 'package:langapp/pages/home_menu_page/home_controller.dart';
-import 'package:langapp/pages/intro/intro_controller.dart';
+import 'package:langapp/pages/intro_page/intro_controller.dart';
 import 'package:langapp/pages/language_page/language_page.dart';
 import 'package:langapp/pages/login_page/login_page.dart';
 import 'package:langapp/pages/register_page/register_page.dart';

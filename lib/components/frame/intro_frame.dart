@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:langapp/components/dots/dots.dart';
 import 'package:langapp/components/frame/single_scroll_view.dart';
 import 'package:langapp/components/logo/logo_big.dart';
 
@@ -20,10 +19,6 @@ class IntroFrame extends StatelessWidget {
               LogoBig(),
               Expanded(
                 child: this.child,
-              ),
-              Container(
-                padding: EdgeInsets.only(top: 15, bottom: 30),
-                child: Dots(chosen: 1),
               ),
             ],
           ),
