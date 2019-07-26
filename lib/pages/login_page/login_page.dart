@@ -36,6 +36,7 @@ class LoginPage extends StatelessWidget {
             const SizedBox(height: 60),
             ButtonFilled(
               btnText: "Sign in",
+              
             ),
             ButtonOutlined(
               btnText: "Sign up",

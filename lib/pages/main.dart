@@ -1,19 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:langapp/pages/challenge_page/challenge_page.dart';
 import 'package:langapp/pages/daily_goal_page/daily_goal_page.dart';
-import 'package:langapp/pages/home_page/home_learn_choice.dart';
 import 'package:langapp/pages/intro/secintro.dart';
 import 'package:langapp/pages/intro/trdintro.dart';
 import 'package:langapp/pages/language_page/language_page.dart';
 import 'package:langapp/pages/login_page/login_page.dart';
-import 'package:langapp/pages/profile_page/profile_page.dart';
 import 'package:langapp/pages/register_page/register_page.dart';
 import 'package:langapp/pages/reset_password_page/reset_password_page.dart';
-import 'package:langapp/pages/settings_page/settings_page.dart';
 import 'package:langapp/pages/wait_page/wait_page.dart';
 import 'package:langapp/pages/welcome_page/welcome_page.dart';
 import 'package:langapp/pages/intro/intro.dart';
-import 'package:langapp/pages/home_page/home_page.dart';
 
 class IntroPagesView extends StatefulWidget {
   _IntroPagesView createState() {
@@ -29,11 +24,6 @@ class _IntroPagesView extends State<IntroPagesView> {
       body: PageView(
         children: <Widget>[
           WaitPage(courseChoice: "Repetition", courseName: "Course Name"),
-          HomeLearnChoice(),
-          ChallengePage(),
-          SettingsPage(diagnosedMethod: true),
-          ProfilePage(),
-          HomePage(),
           DailyGoalPage(),
           LanguagePage(),
           WelcomePage(),

@@ -6,9 +6,10 @@ class MenuButton extends StatelessWidget {
   final String iconPath;
   final String title;
   Widget icon;
+  final String route;
   final bool chosen;
 
-  MenuButton({@required this.iconPath, @required this.title, this.chosen = false}) {
+  MenuButton({@required this.iconPath, @required this.title, @required this.route, this.chosen = false}) {
     icon = (chosen
         ? SvgPicture.asset(iconPath, color: YELLOW)
         : SvgPicture.asset(
@@ -31,7 +32,7 @@ class MenuButton extends StatelessWidget {
                   ),
                 ),
                 onTap: () {
-                  print("click icon");
+                  Navigator.pushNamed(context, this.route);
                 }),
             Text(
               this.title,

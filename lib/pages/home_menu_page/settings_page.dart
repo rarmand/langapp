@@ -11,7 +11,8 @@ import 'package:langapp/styles/colors.dart';
 class SettingsPage extends StatelessWidget {
   final bool diagnosedMethod;
 
-  SettingsPage({@required this.diagnosedMethod});
+  // TODO: przypilnować konstrukcję settings page
+  SettingsPage({Key key, this.diagnosedMethod = true}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +40,7 @@ class SettingsPage extends StatelessWidget {
               element: DiagnosedSkillsBlocks(isChosen: this.diagnosedMethod),
             ),
             ElementContent(
-              subtitle: "My method of learning set by the user.\n\nYou can set your way of learning below.",
+              subtitle: "The method of learning set by the user.\n\nYou can set your way of learning below.",
               element: DiagnosedSkillsBlocks(isChosen: !this.diagnosedMethod),
             ),
             ElementCheckbox(name: "Choose your method of learning", isChecked: this.diagnosedMethod),

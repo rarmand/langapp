@@ -5,10 +5,9 @@ import 'package:langapp/styles/colors.dart';
 // idea of Flutter's raised button with gradient background
 class ButtonFilled extends StatelessWidget {
   final String btnText;
+  Function onPressed;
 
-  ButtonFilled({
-    @required this.btnText,
-  });
+  ButtonFilled({@required this.btnText, this.onPressed});
 
   @override
   Widget build(BuildContext context) {

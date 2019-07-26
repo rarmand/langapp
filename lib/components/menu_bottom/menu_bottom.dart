@@ -31,10 +31,10 @@ class MenuBottom extends StatelessWidget {
         // TODO: obmyślić jak podswietlić button w menu zależnie od TAP, który jest wewn widgetu
         child: Row(
           children: <Widget>[
-            MenuButton(iconPath: this.homePath, title: "Home", chosen: true),
-            MenuButton(iconPath: this.challengePath, title: "Challenge"),
-            MenuButton(iconPath: this.profilePath, title: "Profile"),
-            MenuButton(iconPath: this.settingsPath, title: "Settings"),
+            MenuButton(iconPath: this.homePath, title: "Home", route: "/", chosen: true),
+            MenuButton(iconPath: this.challengePath, route: "/challenge", title: "Challenge"),
+            MenuButton(iconPath: this.profilePath, route: "/profile", title: "Profile"),
+            MenuButton(iconPath: this.settingsPath, route: "/settings", title: "Settings"),
           ],
         ));
   }

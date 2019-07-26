@@ -3,6 +3,7 @@ import 'package:langapp/components/frame/frame.dart';
 import 'package:langapp/styles/colors.dart';
 
 // proces ładowania się danych z bazy do nauki
+// TODO: widok do poprawy, więcej space od góry, dostosować do Frame, żeby działało scrollowanie
 class WaitPage extends StatelessWidget {
   final String courseChoice;
   final String courseName;

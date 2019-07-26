@@ -10,6 +10,8 @@ class ChallengePage extends StatelessWidget {
   bool isTutor = false;
   bool isChallenged = true;
 
+  ChallengePage({Key key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     Widget beforeChallengeWidget = ChallengeNotChallenged();

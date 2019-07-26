@@ -5,6 +5,8 @@ import 'package:langapp/components/frame/intro_frame.dart';
 import 'package:langapp/styles/colors.dart';
 
 class TrdIntroPage extends StatelessWidget {
+  TrdIntroPage({Key key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     const double marginValue = 30.0;

@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:langapp/components/appbar_upper/appbar_upper.dart';
-import 'package:langapp/components/menu_bottom/menu_bottom.dart';
 
 class MenuFrame extends StatelessWidget {
   final String title;
@@ -27,7 +26,7 @@ class MenuFrame extends StatelessWidget {
           Expanded(
             child: SingleChildScrollView(child: this.child),
           ),
-          (isMenuBottom ? MenuBottom(chosen: this.chosen) : SizedBox()),
+          // (isMenuBottom ? MenuBottom(chosen: this.chosen) : SizedBox()),
         ],
       ),
     );

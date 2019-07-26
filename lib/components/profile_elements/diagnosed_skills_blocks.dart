@@ -8,6 +8,7 @@ class DiagnosedSkillsBlocks extends StatelessWidget {
   DiagnosedSkillsBlocks({this.isChosen = true}) {
     skillsList = [
       SkillBlock(
+        title: "25%",
         subtitle: "speaking",
         isChosen: this.isChosen,
         gradient: [
