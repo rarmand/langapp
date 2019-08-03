@@ -32,6 +32,7 @@ class ButtonFilled extends StatelessWidget {
           ]),
       child: RaisedButton(
         elevation: 0.0,
+        highlightColor: Colors.transparent,
         color: Colors.transparent,
         textColor: WHITE,
         shape: RoundedRectangleBorder(
@@ -43,7 +44,7 @@ class ButtonFilled extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-        onPressed: () {},
+        onPressed: this.onPressed,
       ),
     );
   }

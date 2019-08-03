@@ -4,26 +4,26 @@ import 'package:langapp/styles/colors.dart';
 class ElementButton extends StatelessWidget {
   final String name;
   final IconData buttonIcon;
+  final Function onPressed;
 
-  ElementButton({@required this.name, @required this.buttonIcon});
+  ElementButton({@required this.name, @required this.buttonIcon, this.onPressed});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(bottom: 20.0, top: 15.0),
-      child: Row(
-        children: <Widget>[
-          Icon(this.buttonIcon, color: GREEN_LIGHT),
-          SizedBox(width: 10.0),
-          Text(
-            this.name,
-            style: TextStyle(
-              color: GREEN_LIGHT,
-              fontSize: 15.0,
-              fontWeight: FontWeight.bold,
-            ),
+      margin: EdgeInsets.only(bottom: 10.0),
+      alignment: Alignment.centerLeft,
+      child: FlatButton.icon(
+        icon: Icon(this.buttonIcon, color: GREEN_LIGHT),
+        label: Text(
+          this.name,
+          style: TextStyle(
+            color: GREEN_LIGHT,
+            fontSize: 15.0,
+            fontWeight: FontWeight.bold,
           ),
-        ],
+        ),
+        onPressed: this.onPressed,
       ),
     );
   }

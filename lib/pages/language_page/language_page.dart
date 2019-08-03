@@ -10,6 +10,11 @@ class LanguagePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return WelcomeFrame(
       // TODO: do wycięcia ?
+      // powinien byc ten NEXT button
+
+      onPressedNext: () => Navigator.pushNamed(context, "/choose_daily_goal"),
+      onPressedBack: () => Navigator.pop(context),
+
       title: RichText(
         textAlign: TextAlign.center,
         text: TextSpan(

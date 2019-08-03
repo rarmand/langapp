@@ -17,8 +17,12 @@ class TrdIntroPage extends StatelessWidget {
           const SizedBox(height: marginValue),
           ButtonFilled(
             btnText: "Sign up",
+            onPressed: () => Navigator.pushNamed(context, '/register'),
           ),
-          ButtonOutlined(btnText: "I have an account"),
+          ButtonOutlined(
+            btnText: "I have an account",
+            onPressed: () => Navigator.pushNamed(context, '/login'),
+          ),
           Container(
             margin: EdgeInsets.fromLTRB(0, marginValue, 0, marginValue),
             child: Text(

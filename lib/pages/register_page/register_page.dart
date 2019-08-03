@@ -13,7 +13,10 @@ class RegisterPage extends StatelessWidget {
       children: <Widget>[
         // TODO
         // poprawnie skalibrować rozmieszczenie logo ze strzałką
-        Arrow(child: LogoMid()),
+        Arrow(
+          child: LogoMid(),
+          onPressed: () => Navigator.pop(context),
+        ),
         Container(
           child: Column(
             children: <Widget>[
@@ -41,6 +44,7 @@ class RegisterPage extends StatelessWidget {
             const SizedBox(height: 40),
             ButtonFilled(
               btnText: "Sign up",
+              onPressed: () => Navigator.pushNamed(context, '/welcome'),
             ),
             Container(
               width: BTN_WIDTH,

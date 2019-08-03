@@ -45,7 +45,11 @@ class SettingsPage extends StatelessWidget {
             ),
             ElementCheckbox(name: "Choose your method of learning", isChecked: this.diagnosedMethod),
             ElementButton(name: "Edit my method", buttonIcon: Icons.edit),
-            ElementButton(name: "Log out", buttonIcon: Icons.exit_to_app),
+            ElementButton(
+              name: "Log out",
+              buttonIcon: Icons.exit_to_app,
+              onPressed: () => Navigator.popAndPushNamed(context, "/login"),
+            ),
           ],
         ),
       ),

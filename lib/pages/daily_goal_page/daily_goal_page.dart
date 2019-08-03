@@ -5,10 +5,13 @@ import 'package:langapp/components/welcome_card/welcome_card.dart';
 import 'package:langapp/styles/colors.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
+// works only after registration
 class DailyGoalPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return WelcomeFrame(
+      onPressedNext: () => Navigator.pushNamed(context, "/"),
+      onPressedBack: () => Navigator.pop(context),
       title: RichText(
         textAlign: TextAlign.center,
         text: TextSpan(

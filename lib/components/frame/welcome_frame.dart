@@ -10,8 +10,17 @@ class WelcomeFrame extends StatelessWidget {
   final Widget title;
   final double bottomHeight;
   final bool logoWithArrow;
+  final Function onPressedNext;
+  final Function onPressedBack;
 
-  WelcomeFrame({@required this.child, @required this.title, this.bottomHeight = 45, this.logoWithArrow = true});
+  WelcomeFrame({
+    @required this.child,
+    @required this.title,
+    this.bottomHeight = 45,
+    this.logoWithArrow = true,
+    this.onPressedNext,
+    this.onPressedBack,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -19,11 +28,14 @@ class WelcomeFrame extends StatelessWidget {
       child: Center(
         child: Column(
           children: <Widget>[
-            (logoWithArrow ? Arrow(child: LogoSmall()) : LogoSmall()),
+            (logoWithArrow ? Arrow(child: LogoSmall(), onPressed: this.onPressedBack) : LogoSmall()),
             title,
             this.child,
             SizedBox(height: this.bottomHeight),
-            ButtonOutlined(btnText: "Next"),
+            ButtonOutlined(
+              btnText: "Next",
+              onPressed: this.onPressedNext,
+            ),
             SizedBox(height: this.bottomHeight / 2),
           ],
         ),

@@ -36,10 +36,11 @@ class LoginPage extends StatelessWidget {
             const SizedBox(height: 60),
             ButtonFilled(
               btnText: "Sign in",
-              
+              onPressed: () => Navigator.pushNamed(context, '/'),
             ),
             ButtonOutlined(
               btnText: "Sign up",
+              onPressed: () => Navigator.pushNamed(context, '/register'),
             ),
             const SizedBox(height: 30),
           ],

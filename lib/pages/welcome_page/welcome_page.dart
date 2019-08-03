@@ -6,9 +6,11 @@ import 'package:langapp/components/logo/welcome_icons.dart';
 class WelcomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    // Stack ?
     return WelcomeFrame(
       bottomHeight: 25.0,
       logoWithArrow: false,
+      onPressedNext: () => Navigator.pushNamed(context, "/choose_language"),
       title: Text(
         "Welcome!",
         style: TextStyle(

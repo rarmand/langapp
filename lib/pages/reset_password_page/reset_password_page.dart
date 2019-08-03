@@ -14,7 +14,10 @@ class ResetPasswordPage extends StatelessWidget {
     return Frame(
       children: [
         // TODO: poprawnie skalibrować rozmieszczenie logo ze strzałką
-        Arrow(child: LogoMid()),
+        Arrow(
+          child: LogoMid(),
+          onPressed: () => Navigator.pop(context),
+        ),
         Container(
           child: Column(
             children: <Widget>[
