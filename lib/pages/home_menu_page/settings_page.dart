@@ -48,6 +48,7 @@ class SettingsPage extends StatelessWidget {
             ElementButton(
               name: "Log out",
               buttonIcon: Icons.exit_to_app,
+              // TODO: how to do it? exit and close everything and clear memory
               onPressed: () => Navigator.popAndPushNamed(context, "/login"),
             ),
           ],

@@ -46,6 +46,7 @@ class ResetPasswordPage extends StatelessWidget {
 
             ButtonFilled(
               btnText: "Send",
+              onPressed: () => Navigator.pop(context),
             ),
             const SizedBox(height: 30),
           ],

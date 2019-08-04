@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:langapp/components/panel_points/button_course.dart';
-import 'package:langapp/styles/colors.dart';
 
+// TODO: onPressed funkcje
 class ButtonsCourse extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -10,8 +10,16 @@ class ButtonsCourse extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          ButtonCourse(name: "Add a course", icon: Icons.add_box),
-          ButtonCourse(name: "Create a course", icon: Icons.create),
+          ButtonCourse(
+            name: "Add a course",
+            icon: Icons.add_box,
+            onPressed: () {},
+          ),
+          ButtonCourse(
+            name: "Create a course",
+            icon: Icons.create,
+            onPressed: () {},
+          ),
         ],
       ),
     );

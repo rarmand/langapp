@@ -21,12 +21,15 @@ class LoginPage extends StatelessWidget {
                 title: "Password",
                 isPassword: true,
               ),
-              Text(
-                "Forgot password?",
-                style: TextStyle(
-                  fontSize: 11,
-                  decoration: TextDecoration.underline,
+              InkWell(
+                child: Text(
+                  "Forgot password?",
+                  style: TextStyle(
+                    fontSize: 11,
+                    decoration: TextDecoration.underline,
+                  ),
                 ),
+                onTap: () => Navigator.of(context).pushNamed('/reset_password'),
               ),
             ],
           ),

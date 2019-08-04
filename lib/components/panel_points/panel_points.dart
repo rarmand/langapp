@@ -4,12 +4,21 @@ import 'package:langapp/styles/colors.dart';
 import 'block_points.dart';
 import 'buttons_course.dart';
 
-class PanelPoints extends StatelessWidget {
-  bool expandedPanel = false;
+class PanelPoints extends StatefulWidget {
+  @override
+  _PanelPointsState createState() => _PanelPointsState();
+}
+
+class _PanelPointsState extends State<PanelPoints> {
+  bool isPanelExpanded = false;
+
+  // TODO: zwijanie animacja
+  void onPressedArrow() {
+    setState(() => this.isPanelExpanded = !this.isPanelExpanded);
+  }
 
   @override
   Widget build(BuildContext context) {
-    // TODO: zwijanie
     return Container(
       decoration: BoxDecoration(
         color: WHITE,
@@ -26,7 +35,7 @@ class PanelPoints extends StatelessWidget {
         ],
       ),
       padding: EdgeInsets.only(bottom: BTN_RADIUS),
-      child: (expandedPanel
+      child: (this.isPanelExpanded
           ? Container(
               margin: EdgeInsets.only(left: 16, right: 16),
               child: Column(
@@ -34,7 +43,10 @@ class PanelPoints extends StatelessWidget {
                   BlockPoints(),
                   Text("Choose a course, repeat material and win more points."),
                   ButtonsCourse(),
-                  Icon(Icons.keyboard_arrow_up, color: BROWN_DARK),
+                  IconButton(
+                    icon: Icon(Icons.keyboard_arrow_up, color: BROWN_DARK),
+                    onPressed: this.onPressedArrow,
+                  ),
                 ],
               ),
             )
@@ -44,7 +56,10 @@ class PanelPoints extends StatelessWidget {
                 children: [
                   Text("Choose a course, repeat material and win more points."),
                   const SizedBox(height: 20.0),
-                  Icon(Icons.keyboard_arrow_down, color: BROWN_DARK),
+                  IconButton(
+                    icon: Icon(Icons.keyboard_arrow_down, color: BROWN_DARK),
+                    onPressed: this.onPressedArrow,
+                  ),
                 ],
               ),
             )),
