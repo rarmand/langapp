@@ -25,7 +25,7 @@ class ButtonOutlined extends StatelessWidget {
       ),
       child: RaisedButton(
         elevation: 0.0,
-        color: Colors.transparent,
+        color: Colors.white,
         textColor: BROWN_DARK,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(BTN_RADIUS),

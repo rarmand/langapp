@@ -26,7 +26,6 @@ class MenuFrame extends StatelessWidget {
           Expanded(
             child: SingleChildScrollView(child: this.child),
           ),
-          // (isMenuBottom ? MenuBottom(chosen: this.chosen) : SizedBox()),
         ],
       ),
     );
