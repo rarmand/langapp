@@ -22,12 +22,12 @@ class WelcomeCard extends StatelessWidget {
         width: BTN_WIDTH - 50,
         child: Column(
           children: <Widget>[
-            const SizedBox(height: 40),
+            this.img,
             Text(
               this.title,
               textAlign: TextAlign.center,
               style: TextStyle(
-                color: Colors.white,
+                color: WHITE,
                 fontSize: 20.0,
               ),
             ),

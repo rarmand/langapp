@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:langapp/components/frame/welcome_frame.dart';
+import 'package:langapp/components/welcome_card/daily_goal_img.dart';
 import 'package:langapp/components/welcome_card/welcome_card.dart';
-import 'package:langapp/components/welcome_frame/welcome_frame.dart';
 import 'package:langapp/styles/colors.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
+// works only after registration
 class DailyGoalPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return WelcomeFrame(
+      onPressedNext: () => Navigator.pushNamed(context, "/"),
+      onPressedBack: () => Navigator.pop(context),
       title: RichText(
         textAlign: TextAlign.center,
         text: TextSpan(
@@ -42,10 +46,8 @@ class DailyGoalPage extends StatelessWidget {
             return Builder(
               builder: (BuildContext context) {
                 return WelcomeCard(
-                  title: "words\nper day",
-                  img: SizedBox(
-                    height: 100,
-                  ),
+                  title: "words per day",
+                  img: DailyGoalImg(),
                 );
               },
             );

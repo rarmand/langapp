@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:langapp/components/frame/welcome_frame.dart';
+import 'package:langapp/components/welcome_card/language_img.dart';
 import 'package:langapp/components/welcome_card/welcome_card.dart';
-import 'package:langapp/components/welcome_frame/welcome_frame.dart';
 import 'package:langapp/styles/colors.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
@@ -9,6 +10,11 @@ class LanguagePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return WelcomeFrame(
       // TODO: do wycięcia ?
+      // powinien byc ten NEXT button
+
+      onPressedNext: () => Navigator.pushNamed(context, "/choose_daily_goal"),
+      onPressedBack: () => Navigator.pop(context),
+
       title: RichText(
         textAlign: TextAlign.center,
         text: TextSpan(
@@ -50,10 +56,9 @@ class LanguagePage extends StatelessWidget {
             return Builder(
               builder: (BuildContext context) {
                 return WelcomeCard(
-                  title: "Language",
-                  img: SizedBox(
-                    height: 100,
-                  ),
+                  // TODO: kilka jezyków do wyboru z bazy danych
+                  title: "German",
+                  img: LanguageImg(),
                 );
               },
             );

@@ -3,8 +3,9 @@ import 'package:langapp/styles/colors.dart';
 
 class Arrow extends StatelessWidget {
   final Widget child;
+  final Function onPressed;
 
-  Arrow({this.child});
+  Arrow({this.child, this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -13,14 +14,18 @@ class Arrow extends StatelessWidget {
       children: <Widget>[
         Container(
           margin: EdgeInsets.fromLTRB(10, 50, 0, 0),
-          child: Icon(
-            Icons.arrow_back_ios,
-            color: BROWN_DARK,
+          child: IconButton(
+            padding: EdgeInsets.zero,
+            icon: Icon(
+              Icons.arrow_back_ios,
+              color: BROWN_DARK,
+            ),
+            onPressed: this.onPressed,
           ),
         ),
         Expanded(
           child: Container(
-            padding: EdgeInsets.only(right: 30),
+            padding: EdgeInsets.only(right: 50),
             child: this.child,
           ),
         ),
