@@ -6,7 +6,7 @@ class LogoBig extends StatelessWidget {
   final Widget logo = Column(
     children: <Widget>[
       SvgPicture.asset('assets/logo.svg'),
-      SvgPicture.asset('assets/logo_text.svg'),
+      SvgPicture.asset('assets/intro/logo_text.svg'),
     ],
   );
 

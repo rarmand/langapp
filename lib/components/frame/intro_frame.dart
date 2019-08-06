@@ -1,0 +1,29 @@
+import 'package:flutter/material.dart';
+import 'package:langapp/components/frame/single_scroll_view.dart';
+import 'package:langapp/components/logo/logo_big.dart';
+
+class IntroFrame extends StatelessWidget {
+  Widget child;
+
+  IntroFrame({@required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: stack dla kropek
+    return Scaffold(
+      body: Container(
+        alignment: Alignment.center,
+        child: SingleScrollView(
+          child: Column(
+            children: <Widget>[
+              LogoBig(),
+              Expanded(
+                child: this.child,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

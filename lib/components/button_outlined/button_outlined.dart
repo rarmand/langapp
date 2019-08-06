@@ -4,9 +4,11 @@ import 'package:langapp/styles/colors.dart';
 // idea of Flutter's raised button with transparent background
 class ButtonOutlined extends StatelessWidget {
   final String btnText;
+  Function onPressed;
 
   ButtonOutlined({
     @required this.btnText,
+    this.onPressed,
   });
 
   @override
@@ -23,7 +25,7 @@ class ButtonOutlined extends StatelessWidget {
       ),
       child: RaisedButton(
         elevation: 0.0,
-        color: Colors.transparent,
+        color: Colors.white,
         textColor: BROWN_DARK,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(BTN_RADIUS),
@@ -34,7 +36,7 @@ class ButtonOutlined extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-        onPressed: () {},
+        onPressed: this.onPressed,
       ),
     );
   }
