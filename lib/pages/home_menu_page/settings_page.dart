@@ -4,9 +4,10 @@ import 'package:langapp/components/element_content/element_button.dart';
 import 'package:langapp/components/element_content/element_checkbox.dart';
 import 'package:langapp/components/element_content/element_content.dart';
 import 'package:langapp/components/frame/menu_frame.dart';
+import 'package:langapp/components/modals/learning_settings_edition_modal.dart';
+import 'package:langapp/components/modals/profile_edition_modal.dart';
 import 'package:langapp/components/profile_elements/diagnosed_skills_blocks.dart';
 import 'package:langapp/components/profile_elements/profile_info_line.dart';
-import 'package:langapp/styles/colors.dart';
 
 class SettingsPage extends StatelessWidget {
   final bool diagnosedMethod;
@@ -18,14 +19,24 @@ class SettingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MenuFrame(
       title: "Settings",
-      chosen: 3,
       child: Container(
         padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
         child: Column(
           children: <Widget>[
+            // profile edition
             ProfileInfoLine(name: "Username", data: "User1234567890"),
             ProfileInfoLine(name: "Email", data: "user@pocztex.se"),
-            ElementButton(name: "Edit profile", buttonIcon: Icons.edit),
+            ElementButton(
+              name: "Edit profile",
+              buttonIcon: Icons.edit,
+              onPressed: () => Navigator.of(context).push(
+                PageRouteBuilder(
+                  opaque: false,
+                  pageBuilder: (BuildContext context, _, __) => ProfileEditionModal(),
+                ),
+              ),
+            ),
+            // daily goal edition
             ElementContent(
               title: "Daily goal",
               subtitle: "Number of words to learn or repeat per day",
@@ -33,6 +44,7 @@ class SettingsPage extends StatelessWidget {
                 isChosen: 0,
               ),
             ),
+            // learning edition
             ElementContent(
               title: "Learning settings",
               subtitle:
@@ -44,13 +56,21 @@ class SettingsPage extends StatelessWidget {
               element: DiagnosedSkillsBlocks(isChosen: !this.diagnosedMethod),
             ),
             ElementCheckbox(name: "Choose your method of learning", isChecked: this.diagnosedMethod),
-            ElementButton(name: "Edit my method", buttonIcon: Icons.edit),
             ElementButton(
-              name: "Log out",
-              buttonIcon: Icons.exit_to_app,
-              // TODO: how to do it? exit and close everything and clear memory
-              onPressed: () => Navigator.popAndPushNamed(context, "/login"),
+              name: "Edit my method",
+              buttonIcon: Icons.edit,
+              onPressed: () => Navigator.of(context).push(
+                PageRouteBuilder(
+                  opaque: false,
+                  pageBuilder: (BuildContext context, _, __) => LearningSettingsEditionModal(),
+                ),
+              ),
             ),
+            // log out
+            ElementButton(
+                name: "Log out",
+                buttonIcon: Icons.exit_to_app,
+                onPressed: () => Navigator.pushNamedAndRemoveUntil(context, '/login', (Route<dynamic> route) => false)),
           ],
         ),
       ),

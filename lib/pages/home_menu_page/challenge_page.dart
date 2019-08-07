@@ -21,7 +21,6 @@ class ChallengePage extends StatelessWidget {
 
     return MenuFrame(
       title: "Challenge",
-      chosen: 1,
       child: Container(
         padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
         child: Column(

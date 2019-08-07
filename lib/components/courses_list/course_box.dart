@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:langapp/components/courses_list/course_menu.dart';
+import 'package:langapp/components/modals/learning_choice_modal.dart';
 import 'package:langapp/styles/colors.dart';
 
 import 'course_header.dart';
@@ -48,7 +48,7 @@ class CourseBox extends StatelessWidget {
       onTap: () => Navigator.of(context).push(
         PageRouteBuilder(
           opaque: false,
-          pageBuilder: (BuildContext context, _, __) => CourseMenu(),
+          pageBuilder: (BuildContext context, _, __) => LearningChoiceModal(),
         ),
       ),
     );

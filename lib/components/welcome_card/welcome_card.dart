@@ -11,6 +11,7 @@ class WelcomeCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      // TODO: jak zablokować powrót gdy już przejdę do DAILY GOAL?
       onTap: () => Navigator.pushNamed(context, this.route),
       child: Container(
         width: MediaQuery.of(context).size.width * 0.64,

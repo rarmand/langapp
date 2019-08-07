@@ -8,10 +8,6 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MenuFrame(
-      title: "Profile",
-      chosen: 2,
-      child: ProfileContent(),
-    );
+    return MenuFrame(title: "Profile", child: ProfileContent());
   }
 }

@@ -4,15 +4,11 @@ import 'package:langapp/components/appbar_upper/appbar_upper.dart';
 
 class MenuFrame extends StatelessWidget {
   final String title;
-  final int chosen;
   Widget child;
   bool isAppBar = true;
-  bool isMenuBottom = true;
 
-  MenuFrame({this.title = "", this.chosen = -1, @required this.child}) {
-    // TODO: czy wywalić check czy istnieje menu i title
+  MenuFrame({this.title = "", @required this.child}) {
     if (this.title.length == 0) isAppBar = false;
-    if (this.chosen == -1) isMenuBottom = false;
   }
 
   @override

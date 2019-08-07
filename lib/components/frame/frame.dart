@@ -5,7 +5,6 @@ class Frame extends StatelessWidget {
 
   Frame({@required this.children});
 
-// TODO: dodać logo główne i strzałki jako part of frame
   @override
   Widget build(BuildContext context) {
     return Scaffold(

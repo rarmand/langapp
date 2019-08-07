@@ -6,6 +6,7 @@ import 'package:langapp/components/frame/frame.dart';
 import 'package:langapp/components/input_field/input_field.dart';
 import 'package:langapp/components/logo/arrow.dart';
 import 'package:langapp/components/logo/logo_mid.dart';
+import 'package:langapp/components/modals/reset_password_modal.dart';
 import 'package:langapp/styles/colors.dart';
 
 class ResetPasswordPage extends StatelessWidget {
@@ -13,7 +14,6 @@ class ResetPasswordPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Frame(
       children: [
-        // TODO: poprawnie skalibrować rozmieszczenie logo ze strzałką
         Arrow(
           child: LogoMid(),
           onPressed: () => Navigator.pop(context),
@@ -39,14 +39,14 @@ class ResetPasswordPage extends StatelessWidget {
         Column(
           children: <Widget>[
             const SizedBox(height: 90),
-
-            // TODO: Navigation
-            // dialog information about sent message
-            // properly working swap
-
             ButtonFilled(
               btnText: "Send",
-              onPressed: () => Navigator.pop(context),
+              onPressed: () => Navigator.of(context).push(
+                PageRouteBuilder(
+                  opaque: false,
+                  pageBuilder: (BuildContext context, _, __) => ResetPasswordModal(email: "thisemail@pocztex.se"),
+                ),
+              ),
             ),
             const SizedBox(height: 30),
           ],

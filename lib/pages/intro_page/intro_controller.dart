@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:langapp/components/dots/dots.dart';
-import 'package:langapp/components/logo/logo_big.dart';
 import 'package:langapp/pages/intro_page/intro.dart';
 import 'package:langapp/pages/intro_page/secintro.dart';
 import 'package:langapp/pages/intro_page/trdintro.dart';

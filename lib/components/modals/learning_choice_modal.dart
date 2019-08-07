@@ -5,11 +5,11 @@ import 'package:langapp/styles/colors.dart';
 
 // TODO: scrollowanie
 // TODO: zablokować background , zeby nic tam nie dzialalo po nacisnięciu
-class CourseMenu extends StatelessWidget {
+class LearningChoiceModal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: WHITE.withOpacity(0.9),
+      backgroundColor: WHITE.withOpacity(0.95),
       body: Container(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
