@@ -1,11 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:langapp/components/carousel/carousel.dart';
 import 'package:langapp/components/frame/welcome_frame.dart';
 import 'package:langapp/components/welcome_card/language_img.dart';
 import 'package:langapp/components/welcome_card/welcome_card.dart';
 import 'package:langapp/styles/colors.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 
 class LanguagePage extends StatelessWidget {
+  final List<WelcomeCard> languageItems = [
+    WelcomeCard(
+      title: "German",
+      img: LanguageImg(flagImgPath: "assets/flags/germany.svg"),
+      route: '/choose_daily_goal',
+    ),
+    WelcomeCard(
+      title: "English",
+      img: LanguageImg(flagImgPath: "assets/flags/united_kingdom.svg"),
+      route: '/choose_daily_goal',
+    ),
+    WelcomeCard(
+      title: "Polish",
+      img: LanguageImg(flagImgPath: "assets/flags/poland.svg"),
+      route: '/choose_daily_goal',
+    ),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return WelcomeFrame(
@@ -15,6 +33,7 @@ class LanguagePage extends StatelessWidget {
       onPressedNext: () => Navigator.pushNamed(context, "/choose_daily_goal"),
       onPressedBack: () => Navigator.pop(context),
 
+      // TODO: problem z czcionką
       title: RichText(
         textAlign: TextAlign.center,
         text: TextSpan(
@@ -47,22 +66,9 @@ class LanguagePage extends StatelessWidget {
         ),
       ),
       child: Container(
-        margin: EdgeInsets.only(top: 30.0),
-        child: CarouselSlider(
-          height: 300.0,
-          viewportFraction: 0.7,
-          enlargeCenterPage: true,
-          items: [1, 2, 3, 4, 5].map((i) {
-            return Builder(
-              builder: (BuildContext context) {
-                return WelcomeCard(
-                  // TODO: kilka jezyków do wyboru z bazy danych
-                  title: "German",
-                  img: LanguageImg(),
-                );
-              },
-            );
-          }).toList(),
+        margin: EdgeInsets.only(top: 60.0),
+        child: Carousel(
+          items: languageItems,
         ),
       ),
     );

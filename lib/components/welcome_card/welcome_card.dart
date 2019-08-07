@@ -4,24 +4,20 @@ import 'package:langapp/styles/colors.dart';
 class WelcomeCard extends StatelessWidget {
   final String title;
   final Widget img;
+  final String route;
 
-  WelcomeCard({@required this.title, @required this.img});
+  WelcomeCard({@required this.title, @required this.img, @required this.route});
 
   @override
   Widget build(BuildContext context) {
-    // TODO: czy jest sens używać CARD
-    // do wycięcia jako osobny Component
-    // jako duży MAIN i małe BACKGROUND
-    return Card(
-      elevation: 2,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(BTN_RADIUS),
-      ),
+    return GestureDetector(
+      onTap: () => Navigator.pushNamed(context, this.route),
       child: Container(
-        height: BTN_WIDTH,
-        width: BTN_WIDTH - 50,
+        width: MediaQuery.of(context).size.width * 0.64,
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
+            SizedBox(height: 15.0),
             this.img,
             Text(
               this.title,
@@ -41,6 +37,13 @@ class WelcomeCard extends StatelessWidget {
               GREEN_LIGHT,
             ],
           ),
+          boxShadow: [
+            BoxShadow(
+              color: BROWN_SHADOW_25,
+              offset: Offset(0, SHADOW_OFFSET / 2),
+              blurRadius: SHADOW_RADIUS,
+            )
+          ],
         ),
       ),
     );

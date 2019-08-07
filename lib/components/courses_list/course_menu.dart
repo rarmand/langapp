@@ -4,10 +4,12 @@ import 'package:langapp/components/courses_list/course_box.dart';
 import 'package:langapp/styles/colors.dart';
 
 // TODO: scrollowanie
+// TODO: zablokować background , zeby nic tam nie dzialalo po nacisnięciu
 class CourseMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: WHITE.withOpacity(0.9),
       body: Container(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

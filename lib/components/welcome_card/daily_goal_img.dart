@@ -4,9 +4,9 @@ import 'package:langapp/styles/colors.dart';
 
 class DailyGoalImg extends StatelessWidget {
   final Widget roundup = SvgPicture.asset('assets/intro/round_up.svg');
-  // TODO: timestamp do pobrania w konstruktorze
-  // każdy inny zależnie od ilości możliwości
-  final String timestamp = '10';
+  final int timestamp;
+
+  DailyGoalImg({@required int this.timestamp});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class DailyGoalImg extends StatelessWidget {
               height: 130,
               alignment: Alignment.center,
               child: Text(
-                this.timestamp,
+                this.timestamp.toString(),
                 style: TextStyle(
                   color: WHITE,
                   fontSize: 48,

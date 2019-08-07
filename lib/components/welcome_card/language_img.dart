@@ -3,17 +3,21 @@ import 'package:flutter_svg/svg.dart';
 import 'package:langapp/styles/colors.dart';
 
 class LanguageImg extends StatelessWidget {
-  final Widget flag = SvgPicture.asset('assets/flags/germany.svg');
+  Widget flag;
 
-  // TODO: flaga i nazwa jezyka do pobrania w konstruktorze
-  // TODO: flagi zmienić do jednakich rozmiarów, żeby nie wywalało się
+  LanguageImg({@required String flagImgPath}) {
+    flag = SvgPicture.asset(
+      flagImgPath,
+      width: 83,
+      height: 83,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
         const SizedBox(height: 45),
-        // TODO: img do wycięcia jako uniwersalny komponent
         Stack(
           alignment: Alignment.center,
           children: <Widget>[
@@ -25,7 +29,7 @@ class LanguageImg extends StatelessWidget {
                 shape: BoxShape.circle,
                 boxShadow: [
                   BoxShadow(
-                    blurRadius: 16.0,
+                    blurRadius: 12.0,
                     color: WHITE,
                   ),
                 ],

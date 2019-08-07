@@ -31,12 +31,13 @@ class WelcomeFrame extends StatelessWidget {
             (logoWithArrow ? Arrow(child: LogoSmall(), onPressed: this.onPressedBack) : LogoSmall()),
             title,
             this.child,
-            SizedBox(height: this.bottomHeight),
-            ButtonOutlined(
-              btnText: "Next",
-              onPressed: this.onPressedNext,
-            ),
             SizedBox(height: this.bottomHeight / 2),
+            // SizedBox(height: this.bottomHeight),
+            // ButtonOutlined(
+            //   btnText: "Next",
+            //   onPressed: this.onPressedNext,
+            // ),
+            // SizedBox(height: this.bottomHeight / 2),
           ],
         ),
       ),

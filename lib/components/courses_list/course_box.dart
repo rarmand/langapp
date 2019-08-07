@@ -44,14 +44,13 @@ class CourseBox extends StatelessWidget {
           ],
         ),
       ),
-      onTap: () => {
-        Navigator.of(context).push(
-          PageRouteBuilder(
-            opaque: false,
-            pageBuilder: (BuildContext context, _, __) => CourseMenu(),
-          ),
-        )
-      },
+      // TODO: zapytać Dawida czy taki modal jest okk
+      onTap: () => Navigator.of(context).push(
+        PageRouteBuilder(
+          opaque: false,
+          pageBuilder: (BuildContext context, _, __) => CourseMenu(),
+        ),
+      ),
     );
   }
 }
