@@ -16,7 +16,11 @@ class CoursesList extends StatelessWidget {
       children: <Widget>[
         PanelPoints(),
         SizedBox(height: 24.0),
-        ...coursesList,
+        // TODO: zapytac jak to dobrze zrobić, żeby inkwell tak brzydko nie wyglądał jak się klika
+        Wrap(
+          runSpacing: 24.0,
+          children: coursesList,
+        ),
         SizedBox(height: 24.0),
       ],
     );

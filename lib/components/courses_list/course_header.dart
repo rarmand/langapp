@@ -5,8 +5,6 @@ import 'package:langapp/components/courses_list/course_type.dart';
 import 'course_title.dart';
 
 class CourseHeader extends StatelessWidget {
-  
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -19,7 +17,7 @@ class CourseHeader extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                CourseTitle(),
+                CourseTitle(title: "Just something"),
                 CourseType(),
               ],
             ),
