@@ -10,6 +10,7 @@ class InputField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: EdgeInsets.symmetric(vertical: 5.0),
       width: BTN_WIDTH,
       height: BTN_HEIGHT,
       child: TextField(
@@ -18,7 +19,9 @@ class InputField extends StatelessWidget {
           color: BLACK,
         ),
         decoration: InputDecoration(
-          contentPadding: EdgeInsets.fromLTRB(0, 10, 0, 5),
+          labelText: this.title,
+          labelStyle: TextStyle(color: GREEN_LIGHT),
+          contentPadding: EdgeInsets.only(bottom: 4),
           focusedBorder: UnderlineInputBorder(
             borderSide: BorderSide(
               color: BROWN_DARK,
@@ -28,10 +31,6 @@ class InputField extends StatelessWidget {
             borderSide: BorderSide(
               color: GREEN_DARK,
             ),
-          ),
-          hintText: this.title,
-          hintStyle: TextStyle(
-            color: BLACK,
           ),
         ),
       ),

@@ -14,7 +14,16 @@ class MenuFrame extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: isAppBar ? AppBarUpper(title: this.title) : null,
+      appBar: isAppBar
+          ? AppBarUpper(
+              title: this.title,
+              onLogoTap: () => Navigator.pushNamedAndRemoveUntil(
+                context,
+                "/",
+                (Route<dynamic> route) => false,
+              ),
+            )
+          : null,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         mainAxisSize: MainAxisSize.max,

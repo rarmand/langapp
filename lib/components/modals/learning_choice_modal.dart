@@ -10,40 +10,45 @@ class LearningChoiceModal extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: WHITE.withOpacity(0.95),
-      body: Container(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      body: GestureDetector(
+        onTap: () => Navigator.pop(context),
+        child: Container(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Block(
-                  title: "Theory",
-                  iconPath: "assets/course/all_vocab.svg",
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    Block(
+                      title: "Theory",
+                      iconPath: "assets/course/all_vocab.svg",
+                    ),
+                    Block(
+                      title: "Session",
+                      iconPath: "assets/course/add.svg",
+                    ),
+                  ],
                 ),
-                Block(
-                  title: "Session",
-                  iconPath: "assets/course/add.svg",
+                SizedBox(height: 20.0),
+                CourseBox(index: 0, type: true),
+                SizedBox(height: 20.0),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    Block(
+                      title: "Repetition",
+                      iconPath: "assets/course/review_vocab.svg",
+                    ),
+                    Block(
+                      title: "Test",
+                      iconPath: "assets/course/test.svg",
+                    ),
+                  ],
                 ),
               ],
             ),
-            SizedBox(height: 20.0),
-            CourseBox(index: 0, type: true),
-            SizedBox(height: 20.0),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                Block(
-                  title: "Repetition",
-                  iconPath: "assets/course/review_vocab.svg",
-                ),
-                Block(
-                  title: "Test",
-                  iconPath: "assets/course/test.svg",
-                ),
-              ],
-            ),
-          ],
+          ),
         ),
       ),
     );

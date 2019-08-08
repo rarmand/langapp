@@ -4,6 +4,7 @@ import 'package:langapp/pages/home_menu_page/home_controller.dart';
 import 'package:langapp/pages/intro_page/intro_controller.dart';
 import 'package:langapp/pages/language_page/language_page.dart';
 import 'package:langapp/pages/login_page/login_page.dart';
+import 'package:langapp/pages/main.dart';
 import 'package:langapp/pages/register_page/register_page.dart';
 import 'package:langapp/pages/reset_password_page/reset_password_page.dart';
 import 'package:langapp/pages/welcome_page/welcome_page.dart';
@@ -23,10 +24,12 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp(
       title: 'Langgarden',
-      initialRoute: "/intro",
+      initialRoute: "/",
+      // initialRoute: "/intro",
       routes: {
         // TODO: nawigacja nie push and pop, raczej replacement, jak to działa?
-        '/': (context) => HomeController(),
+        //'/': (context) => HomeController(),
+        '/': (context) => IntroPagesView(),
         '/intro': (context) => IntroController(),
         '/login': (context) => LoginPage(),
         '/reset_password': (context) => ResetPasswordPage(),
