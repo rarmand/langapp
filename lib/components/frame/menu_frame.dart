@@ -22,6 +22,7 @@ class MenuFrame extends StatelessWidget {
                 "/",
                 (Route<dynamic> route) => false,
               ),
+              onClosePressed: null,
             )
           : null,
       body: Column(

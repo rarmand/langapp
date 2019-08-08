@@ -9,9 +9,10 @@ import 'course_vocabulary_data.dart';
 class CourseBox extends StatelessWidget {
   final int index;
   final bool type; // type: grammar=0 or vocab=1;
+  bool isNewCourse;
 
   // TODO: 2 themes, dla grammar i dla vocab
-  CourseBox({this.index, @required this.type});
+  CourseBox({this.index, @required this.type, this.isNewCourse = false});
 
   @override
   Widget build(BuildContext context) {
@@ -40,11 +41,17 @@ class CourseBox extends StatelessWidget {
         child: Column(
           children: [
             CourseHeader(),
-            CourseVocabularyData(),
+            CourseVocabularyData(
+              vocabularyNumber: 200,
+              learntVocabulary: 40,
+              repetitionVocabulary: 10,
+              isNewCourse: this.isNewCourse,
+            ),
           ],
         ),
       ),
       // TODO: zapytać Dawida czy taki modal jest okk
+      // TODO: modal do włączenia tylko przy odpowiednich okazjach - nie zawsze dostępny
       onTap: () => Navigator.of(context).push(
         PageRouteBuilder(
           opaque: false,
