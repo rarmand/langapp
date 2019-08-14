@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:langapp/styles/colors.dart';
 
 // TODO: czy oddzielić jeszcze kod
+// TODO: dodać zmienny square, dodawanie tekstu lub obrazka,
+// wtedy animacja odjeżdżania ikonki w lewo, i edytowanie, bez żadnych modali
 class ImageBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

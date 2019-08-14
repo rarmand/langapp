@@ -24,7 +24,7 @@ class LearningWord extends StatelessWidget {
                 textAlign: TextAlign.center,
                 overflow: TextOverflow.clip,
                 style: TextStyle(
-                  color: GREEN_DARK,
+                  color: GREEN_LIGHT,
                   fontWeight: FontWeight.bold,
                   fontSize: 18.0,
                 ),
