@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:langapp/components/appbar_upper/appbar_upper.dart';
+import 'package:langapp/components/button_filled/button_square.dart';
+import 'package:langapp/components/learning_process/image_box.dart';
+import 'package:langapp/components/learning_process/learning_label.dart';
+import 'package:langapp/components/learning_process/learning_word.dart';
+import 'package:langapp/components/learning_process/phonetic_word.dart';
+import 'package:langapp/components/learning_process/translation_word.dart';
 import 'package:langapp/styles/colors.dart';
 
 class NewWordPage extends StatelessWidget {
@@ -19,30 +25,29 @@ class NewWordPage extends StatelessWidget {
         onClosePressed: () => Navigator.pushNamedAndRemoveUntil(context, "/", (Route<dynamic> route) => false),
       ),
       body: Container(
-        margin: EdgeInsets.symmetric(horizontal: 24.0, vertical: 24.0),
         child: SingleChildScrollView(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              LearningLabel(point: 4),
               Container(
-                padding: EdgeInsets.only(top: 72.0, bottom: 20.0),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                margin: EdgeInsets.fromLTRB(24, 0, 24, 0),
+                child: Column(
                   children: <Widget>[
-                    this.soundIcon,
-                    Expanded(
-                      child: Container(
-                        padding: EdgeInsets.fromLTRB(8.0, 0, 32.0, 0),
-                        child: Text(
-                          "my mankhiohihio nnfsisid sdifjsiji",
-                          textAlign: TextAlign.center,
-                          overflow: TextOverflow.clip,
-                          style: TextStyle(
-                            color: GREEN_LIGHT,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 22.0,
-                          ),
+                    LearningWord(word: "the word"),
+                    PhoneticWord(word: "/my mankhiohihio/"),
+                    TranslationWord(word: "tłumaczenie tego bardzo długiego słowa"),
+                    ImageBox(),
+                    // button
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        ButtonSquare(positive: false, onPressed: () {}),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width / 4,
                         ),
-                      ),
+                        ButtonSquare(positive: true, onPressed: () {}),
+                      ],
                     ),
                   ],
                 ),
