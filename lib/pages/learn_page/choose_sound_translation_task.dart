@@ -6,6 +6,9 @@ import 'package:langapp/components/learning_process/points_label.dart';
 
 class ChooseSoundTranslationTask extends StatelessWidget {
   final String courseTitle;
+
+  // TODO: if clicked, it needs to change a color
+  // and add some shadow behind, if its not clicked
   final Widget soundIcon = SvgPicture.asset(
     "assets/learning/sound.svg",
     height: 100.0,
