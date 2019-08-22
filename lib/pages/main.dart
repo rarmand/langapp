@@ -5,6 +5,7 @@ import 'package:langapp/pages/learn_page/new_course_start_modal.dart';
 import 'package:langapp/pages/learn_page/new_word_page.dart';
 import 'package:langapp/pages/learn_page/sound_task_choose_word.dart';
 import 'package:langapp/pages/learn_page/sound_task_write_word.dart';
+import 'package:langapp/pages/learn_page/speed_test_menu_page.dart';
 import 'package:langapp/pages/learn_page/stop_learning_process_modal.dart';
 import 'package:langapp/pages/learn_page/text_task_assemble_word.dart';
 import 'package:langapp/pages/learn_page/text_task_choose_sound.dart';
@@ -27,6 +28,7 @@ class _IntroPagesView extends State<IntroPagesView> {
     return Scaffold(
       body: PageView(
         children: <Widget>[
+          SpeedTestMenuTest(),
           TextTaskChooseSound(),
           TextTaskSpeakWord(courseTitle: "Course Title"),
           TextTaskAssembleWord(courseTitle: "Course Title"),
