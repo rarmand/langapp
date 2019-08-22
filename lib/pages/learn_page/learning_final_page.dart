@@ -6,6 +6,9 @@ import 'package:langapp/styles/colors.dart';
 class LearningFinalPage extends StatelessWidget {
   final String courseTitle;
   final int points = 256999;
+  final String iconPath;
+  Widget icon;
+
   List<VocabularyCard> _vocabList = [
     VocabularyCard(vocabulary: "a man", translation: "mężczyzna", isKnown: true),
     VocabularyCard(vocabulary: "a man", translation: "mężczyzna", isKnown: true),
@@ -18,7 +21,7 @@ class LearningFinalPage extends StatelessWidget {
     VocabularyCard(vocabulary: "a man", translation: "mężczyzna", isKnown: true),
   ];
 
-  LearningFinalPage({@required this.courseTitle});
+  LearningFinalPage({@required this.courseTitle, @required this.iconPath});
 
   @override
   Widget build(BuildContext context) {

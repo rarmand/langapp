@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:langapp/components/button_filled/button_square.dart';
 import 'package:langapp/components/frame/learning_frame.dart';
 import 'package:langapp/components/input_field/input_field.dart';
@@ -18,7 +17,7 @@ class WriteTranslationTask extends StatelessWidget {
       courseTitle: "Course Title",
       child: Column(
         children: <Widget>[
-          PointsLabel(points: 24500),
+          PointsLabel(points: 24500, iconPath: "assets/course/add.svg"),
           SizedBox(height: 40.0),
           LearningWord(word: "the word"),
           PhoneticWord(word: "/my mankhiohihio/"),

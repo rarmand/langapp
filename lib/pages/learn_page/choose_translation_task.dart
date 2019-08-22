@@ -35,8 +35,8 @@ class ChooseTranslationTask extends StatelessWidget {
       courseTitle: "Course Title",
       child: Column(
         children: <Widget>[
-          PointsLabel(points: 24500),
-          SizedBox(height: 48.0),
+          PointsLabel(points: 24500, iconPath: "assets/course/test.svg"),
+          SizedBox(height: 40.0),
           LearningWord(word: "the word"),
           PhoneticWord(word: "/my mankhiohihio/"),
           SizedBox(height: 48.0),

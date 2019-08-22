@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:langapp/components/button_filled/button_filled.dart';
-import 'package:langapp/components/frame/frame.dart';
 import 'package:langapp/components/input_field/input_field.dart';
 import 'package:langapp/styles/colors.dart';
 

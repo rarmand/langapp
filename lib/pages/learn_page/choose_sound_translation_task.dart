@@ -40,7 +40,7 @@ class ChooseSoundTranslationTask extends StatelessWidget {
       courseTitle: "Course Title",
       child: Column(
         children: <Widget>[
-          PointsLabel(points: 24500),
+          PointsLabel(points: 24500, iconPath: "assets/course/review_vocab.svg"),
           SizedBox(height: 64.0),
           this.soundIcon,
           SizedBox(height: 48.0),

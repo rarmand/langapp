@@ -17,11 +17,14 @@ class DailyGoalMarks extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: goals,
-        ));
+      margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
+      child: Wrap(
+        runSpacing: 4.0,
+        alignment: WrapAlignment.center,
+        runAlignment: WrapAlignment.spaceBetween,
+        children: goals,
+      ),
+    );
   }
 }
 
@@ -33,8 +36,9 @@ class Mark extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Widget circle = new Container(
-      width: 30.0,
-      height: 30.0,
+      // TODO: może ustawić zmienny rozmiar kółeczek
+      width: 28.0,
+      height: 28.0,
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: (this.isMarked ? [GREEN_DARK, GREEN_LIGHT] : [GRAY.withAlpha(120), GRAY]),

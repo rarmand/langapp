@@ -5,8 +5,10 @@ import 'package:langapp/styles/colors.dart';
 class DailyGoalImg extends StatelessWidget {
   final Widget roundup = SvgPicture.asset('assets/intro/round_up.svg');
   final int timestamp;
+  final Color backgroundColor;
+  final Color textColor;
 
-  DailyGoalImg({@required int this.timestamp});
+  DailyGoalImg({@required int this.timestamp, this.backgroundColor = GREEN_DARK, this.textColor = WHITE});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +24,7 @@ class DailyGoalImg extends StatelessWidget {
               child: Text(
                 this.timestamp.toString(),
                 style: TextStyle(
-                  color: WHITE,
+                  color: this.textColor,
                   fontSize: 48,
                   fontFamily: "Roboto",
                 ),
@@ -32,7 +34,7 @@ class DailyGoalImg extends StatelessWidget {
                 boxShadow: [
                   BoxShadow(
                     blurRadius: 50.0,
-                    color: GREEN_DARK,
+                    color: this.backgroundColor,
                   ),
                 ],
               ),

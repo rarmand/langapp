@@ -1,10 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:langapp/styles/colors.dart';
 
 class PointsLabel extends StatelessWidget {
   final int points;
+  final String iconPath;
+  Widget icon;
 
-  PointsLabel({@required this.points});
+  PointsLabel({@required this.points, @required this.iconPath}) {
+    this.icon = SvgPicture.asset(
+      this.iconPath,
+      color: BROWN_DARK.withOpacity(0.5),
+      width: 32.0,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -14,11 +23,8 @@ class PointsLabel extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          Icon(
-            Icons.public,
-            color: BROWN_DARK.withOpacity(0.5),
-          ),
-          SizedBox(width: 8.0),
+          this.icon,
+          SizedBox(width: 4.0),
           Text(
             this.points.toString(),
             style: TextStyle(
