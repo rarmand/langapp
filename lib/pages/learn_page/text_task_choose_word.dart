@@ -1,18 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:langapp/components/button_outlined/button_answer_outlined.dart';
 import 'package:langapp/components/frame/learning_frame.dart';
+import 'package:langapp/components/learning_process/learning_word.dart';
+import 'package:langapp/components/learning_process/phonetic_word.dart';
 import 'package:langapp/components/learning_process/points_label.dart';
 
-class ChooseSoundTranslationTask extends StatelessWidget {
+class TextTaskChooseWord extends StatelessWidget {
   final String courseTitle;
 
-  // TODO: if clicked, it needs to change a color
-  // and add some shadow behind, if its not clicked
-  final Widget soundIcon = SvgPicture.asset(
-    "assets/learning/sound.svg",
-    height: 100.0,
-  );
   final List<ButtonAnswerOutlined> answers = [
     ButtonAnswerOutlined(
       btnText: "Text number 1",
@@ -32,7 +27,7 @@ class ChooseSoundTranslationTask extends StatelessWidget {
     )
   ];
 
-  ChooseSoundTranslationTask({@required this.courseTitle});
+  TextTaskChooseWord({@required this.courseTitle});
 
   @override
   Widget build(BuildContext context) {
@@ -40,9 +35,10 @@ class ChooseSoundTranslationTask extends StatelessWidget {
       courseTitle: "Course Title",
       child: Column(
         children: <Widget>[
-          PointsLabel(points: 24500, iconPath: "assets/course/review_vocab.svg"),
-          SizedBox(height: 64.0),
-          this.soundIcon,
+          PointsLabel(points: 24500, iconPath: "assets/course/test.svg"),
+          SizedBox(height: 40.0),
+          LearningWord(word: "the word"),
+          PhoneticWord(word: "/my mankhiohihio/"),
           SizedBox(height: 48.0),
           Column(
             children: this.answers,

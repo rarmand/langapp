@@ -5,7 +5,7 @@ import 'package:langapp/components/frame/learning_frame.dart';
 import 'package:langapp/components/input_field/input_field.dart';
 import 'package:langapp/components/learning_process/points_label.dart';
 
-class WriteSoundTranslationTask extends StatelessWidget {
+class SoundTaskWriteWord extends StatelessWidget {
   final String courseTitle;
   // TODO: if clicked, it needs to change a color
   // and add some shadow behind, if its not clicked
@@ -14,7 +14,7 @@ class WriteSoundTranslationTask extends StatelessWidget {
     height: 100.0,
   );
 
-  WriteSoundTranslationTask({@required this.courseTitle});
+  SoundTaskWriteWord({@required this.courseTitle});
 
   @override
   Widget build(BuildContext context) {

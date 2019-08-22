@@ -6,10 +6,10 @@ import 'package:langapp/components/learning_process/learning_word.dart';
 import 'package:langapp/components/learning_process/phonetic_word.dart';
 import 'package:langapp/components/learning_process/points_label.dart';
 
-class WriteTranslationTask extends StatelessWidget {
+class TextTaskWriteWord extends StatelessWidget {
   final String courseTitle;
 
-  WriteTranslationTask({@required this.courseTitle});
+  TextTaskWriteWord({@required this.courseTitle});
 
   @override
   Widget build(BuildContext context) {

@@ -7,11 +7,11 @@ import 'package:langapp/components/learning_process/learning_word.dart';
 import 'package:langapp/components/learning_process/points_label.dart';
 import 'package:langapp/components/learning_process/translation_word.dart';
 
-class ChooseLettersTranslationTask extends StatelessWidget {
+class TextTaskAssembleWord extends StatelessWidget {
   final String courseTitle;
   // TODO: do naprawy ogólne działanie i sens zadania
 
-  ChooseLettersTranslationTask({@required this.courseTitle});
+  TextTaskAssembleWord({@required this.courseTitle});
 
   @override
   Widget build(BuildContext context) {
