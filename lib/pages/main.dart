@@ -11,6 +11,7 @@ import 'package:langapp/pages/upload_course_page/upload_course_page.dart';
 
 import 'learn_page/choose_sound_translation_task.dart';
 import 'learn_page/choose_translation_task.dart';
+import 'learn_page/stop_learning_process_modal.dart';
 import 'learn_page/write_sound_translation_task.dart';
 
 class IntroPagesView extends StatefulWidget {
@@ -26,6 +27,7 @@ class _IntroPagesView extends State<IntroPagesView> {
     return Scaffold(
       body: PageView(
         children: <Widget>[
+          StopLearningProcessModal(),
           DailyGoalAchievedModal(),
           SpeakSoundWordTask(courseTitle: "Course Title"),
           ChooseLettersTranslationTask(courseTitle: "Course Title"),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:langapp/components/button_filled/button_filled_big.dart';
 import 'package:langapp/components/frame/learning_frame.dart';
+import 'package:langapp/components/learning_process/learning_word.dart';
 import 'package:langapp/components/learning_process/points_label.dart';
 import 'package:langapp/components/learning_process/translation_word.dart';
 import 'package:langapp/styles/colors.dart';
@@ -22,12 +23,12 @@ class SpeakSoundWordTask extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LearningFrame(
-      courseTitle: "My course Title hahahahahah",
+      courseTitle: "My course Title",
       child: Column(
         children: <Widget>[
           PointsLabel(points: 24500, iconPath: "assets/course/test.svg"),
-          SizedBox(height: 64.0),
-          TranslationWord(word: "słowo"),
+          SizedBox(height: 40.0),
+          LearningWord(word: "słowo"),
           SizedBox(
             height: 32.0,
           ),
@@ -38,7 +39,7 @@ class SpeakSoundWordTask extends StatelessWidget {
           SizedBox(height: 32.0),
           // Inkwell ? klikalne ? jako ikonka nagrywania
           InkWell(child: this.microphoneIcon, onTap: () => print("hey")),
-          SizedBox(height: 64.0),
+          SizedBox(height: 72.0),
           // to raczej do stacka
           ButtonFilledBig(onPressed: () {}),
           SizedBox(height: 24.0),
