@@ -5,8 +5,6 @@ import 'package:langapp/components/frame/learning_frame.dart';
 import 'package:langapp/components/learning_process/points_label.dart';
 
 class SoundTaskChooseWord extends StatelessWidget {
-  final String courseTitle;
-
   // TODO: if clicked, it needs to change a color
   // and add some shadow behind, if its not clicked
   final Widget soundIcon = SvgPicture.asset(
@@ -32,15 +30,16 @@ class SoundTaskChooseWord extends StatelessWidget {
     )
   ];
 
-  SoundTaskChooseWord({@required this.courseTitle});
+  final String iconPath;
+
+  SoundTaskChooseWord({Key key, @required this.iconPath}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return LearningFrame(
-      courseTitle: "Course Title",
       child: Column(
         children: <Widget>[
-          PointsLabel(points: 24500, iconPath: "assets/course/review_vocab.svg"),
+          PointsLabel(points: 24500, iconPath: this.iconPath),
           SizedBox(height: 64.0),
           this.soundIcon,
           SizedBox(height: 48.0),

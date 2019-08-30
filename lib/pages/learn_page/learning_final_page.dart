@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:langapp/components/frame/learning_frame.dart';
 import 'package:langapp/pages/learn_page/vocabulary_card.dart';
 import 'package:langapp/styles/colors.dart';
 
 class LearningFinalPage extends StatelessWidget {
-  final String courseTitle;
   final int points = 256999;
   final String iconPath;
   Widget icon;
@@ -21,12 +21,17 @@ class LearningFinalPage extends StatelessWidget {
     VocabularyCard(vocabulary: "a man", translation: "mężczyzna", isKnown: true),
   ];
 
-  LearningFinalPage({@required this.courseTitle, @required this.iconPath});
+  LearningFinalPage({Key key, @required this.iconPath}) : super(key: key) {
+    this.icon = SvgPicture.asset(
+      this.iconPath,
+      color: GREEN_DARK,
+      height: 48.0,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return LearningFrame(
-      courseTitle: this.courseTitle,
       point: 10,
       child: Column(
         children: <Widget>[
@@ -59,11 +64,7 @@ class LearningFinalPage extends StatelessWidget {
             ),
           ),
           SizedBox(height: 32.0),
-          Icon(
-            Icons.public,
-            size: 48.0,
-            color: GREEN_DARK,
-          ),
+          this.icon,
           SizedBox(height: 32.0),
           Container(
             alignment: Alignment.centerLeft,

@@ -21,7 +21,6 @@ class TheoryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LearningFrame(
-      courseTitle: "Course Title",
       point: 0,
       child: Column(
         children: [

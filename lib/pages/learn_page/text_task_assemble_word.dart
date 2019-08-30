@@ -3,23 +3,22 @@ import 'package:langapp/components/button_filled/button_square.dart';
 import 'package:langapp/components/button_outlined/button_letter.dart';
 import 'package:langapp/components/frame/learning_frame.dart';
 import 'package:langapp/components/input_field/input_one_letter_field.dart';
-import 'package:langapp/components/learning_process/learning_word.dart';
 import 'package:langapp/components/learning_process/points_label.dart';
 import 'package:langapp/components/learning_process/translation_word.dart';
 
 class TextTaskAssembleWord extends StatelessWidget {
-  final String courseTitle;
   // TODO: do naprawy ogólne działanie i sens zadania
 
-  TextTaskAssembleWord({@required this.courseTitle});
+  final String iconPath;
+
+  TextTaskAssembleWord({Key key, @required this.iconPath}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return LearningFrame(
-      courseTitle: this.courseTitle,
       child: Column(
         children: <Widget>[
-          PointsLabel(points: 24500, iconPath: "assets/course/test.svg"),
+          PointsLabel(points: 24500, iconPath: this.iconPath),
           SizedBox(height: 64.0),
           TranslationWord(word: "słowo"), SizedBox(height: 12.0),
           Wrap(

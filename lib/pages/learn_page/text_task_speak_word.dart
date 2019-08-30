@@ -7,8 +7,6 @@ import 'package:langapp/components/learning_process/points_label.dart';
 import 'package:langapp/styles/colors.dart';
 
 class TextTaskSpeakWord extends StatelessWidget {
-  final String courseTitle;
-
   // TODO: if clicked, it needs to change a color
   // and add some shadow behind, if its not clicked
   final Widget microphoneIcon = SvgPicture.asset(
@@ -17,15 +15,16 @@ class TextTaskSpeakWord extends StatelessWidget {
     height: 100.0,
   );
 
-  TextTaskSpeakWord({@required this.courseTitle});
+  final String iconPath;
+
+  TextTaskSpeakWord({Key key, @required this.iconPath}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return LearningFrame(
-      courseTitle: "My course Title",
       child: Column(
         children: <Widget>[
-          PointsLabel(points: 24500, iconPath: "assets/course/test.svg"),
+          PointsLabel(points: 24500, iconPath: this.iconPath),
           SizedBox(height: 40.0),
           LearningWord(word: "słowo", isSoundIcon: false),
           SizedBox(

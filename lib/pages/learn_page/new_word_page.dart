@@ -8,15 +8,13 @@ import 'package:langapp/components/learning_process/phonetic_word.dart';
 import 'package:langapp/components/learning_process/translation_word.dart';
 
 class NewWordPage extends StatelessWidget {
-  final String courseTitle;
   final Widget soundIcon = SvgPicture.asset("assets/learning/sound.svg");
 
-  NewWordPage({@required this.courseTitle});
+  NewWordPage({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return LearningFrame(
-      courseTitle: "Course Title",
       child: Column(
         children: <Widget>[
           LearningWord(word: "the word"),

@@ -26,7 +26,7 @@ class _IntroControllerState extends State<IntroController> {
         children: [
           PageView(
             children: pages,
-            // TODO: płynne przejście kropek
+            // TODO: płynne przejście kropek;
             onPageChanged: (int index) => setState(() => _selectedIndex = index),
           ),
           Positioned(

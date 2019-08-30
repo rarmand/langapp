@@ -7,17 +7,16 @@ import 'package:langapp/components/learning_process/phonetic_word.dart';
 import 'package:langapp/components/learning_process/points_label.dart';
 
 class TextTaskWriteWord extends StatelessWidget {
-  final String courseTitle;
+  final String iconPath;
 
-  TextTaskWriteWord({@required this.courseTitle});
+  TextTaskWriteWord({Key key, @required this.iconPath}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return LearningFrame(
-      courseTitle: "Course Title",
       child: Column(
         children: <Widget>[
-          PointsLabel(points: 24500, iconPath: "assets/course/add.svg"),
+          PointsLabel(points: 24500, iconPath: this.iconPath),
           SizedBox(height: 40.0),
           LearningWord(word: "the word"),
           PhoneticWord(word: "/my mankhiohihio/"),

@@ -6,13 +6,16 @@ import 'package:langapp/components/learning_process/loudspeaker_word_button.dart
 import 'package:langapp/components/learning_process/points_label.dart';
 
 class TextTaskChooseSound extends StatelessWidget {
+  final String iconPath;
+
+  TextTaskChooseSound({Key key, @required this.iconPath}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return LearningFrame(
-      courseTitle: "Course Title lalla",
       child: Column(
         children: <Widget>[
-          PointsLabel(points: 24500, iconPath: "assets/course/add.svg"),
+          PointsLabel(points: 24500, iconPath: this.iconPath),
           SizedBox(height: 40.0),
           LearningWord(word: "the word", isSoundIcon: false),
           SizedBox(height: 32.0),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:langapp/pages/learn_page/daily_goal_achieved_modal.dart';
+import 'package:langapp/pages/learn_page/learn_page_controller.dart';
 import 'package:langapp/pages/learn_page/learning_final_page.dart';
 import 'package:langapp/pages/learn_page/new_course_start_modal.dart';
 import 'package:langapp/pages/learn_page/new_word_page.dart';
@@ -28,21 +29,22 @@ class _IntroPagesView extends State<IntroPagesView> {
     return Scaffold(
       body: PageView(
         children: <Widget>[
-          SpeedTestMenuTest(),
-          TextTaskChooseSound(),
-          TextTaskSpeakWord(courseTitle: "Course Title"),
-          TextTaskAssembleWord(courseTitle: "Course Title"),
-          SoundTaskWriteWord(courseTitle: "Course Title"),
-          TextTaskWriteWord(courseTitle: "Course Title"),
-          LearningFinalPage(courseTitle: "Course Title", iconPath: "assets/course/test.svg"),
-          TextTaskChooseWord(courseTitle: "Course Title"),
-          SoundTaskChooseWord(courseTitle: "Course Title"),
-          NewWordPage(courseTitle: "Course Title"),
-          StopLearningProcessModal(),
-          DailyGoalAchievedModal(),
-          NewCourseStartModal(),
-          TheoryPage(courseTitle: "Course Title"),
-          UploadCoursePage(courseChoice: "Repetition", courseName: "Course Name"),
+          LearnPageController(courseTitle: "My course"),
+          // SpeedTestMenuTest(),
+          // TextTaskChooseSound(courseTitle: "Course Title"),
+          // TextTaskSpeakWord(courseTitle: "Course Title"),
+          // TextTaskAssembleWord(courseTitle: "Course Title"),
+          // SoundTaskWriteWord(courseTitle: "Course Title"),
+          // TextTaskWriteWord(courseTitle: "Course Title"),
+          // LearningFinalPage(courseTitle: "Course Title", iconPath: "assets/course/test.svg"),
+          // TextTaskChooseWord(courseTitle: "Course Title"),
+          // SoundTaskChooseWord(courseTitle: "Course Title"),
+          // NewWordPage(courseTitle: "Course Title"),
+          // StopLearningProcessModal(),
+          // DailyGoalAchievedModal(),
+          // NewCourseStartModal(),
+          // TheoryPage(courseTitle: "Course Title"),
+          // UploadCoursePage(courseChoice: "Repetition", courseName: "Course Name"),
         ],
       ),
     );

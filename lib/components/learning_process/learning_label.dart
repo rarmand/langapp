@@ -9,10 +9,14 @@ class LearningLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 4.0,
-      width: MediaQuery.of(context).size.width * this.point / this.points,
-      color: GREEN_LIGHT,
+    return Row(
+      children: [
+        Container(
+          height: 4.0,
+          width: MediaQuery.of(context).size.width * this.point / this.points,
+          color: GREEN_LIGHT,
+        ),
+      ],
     );
   }
 }
