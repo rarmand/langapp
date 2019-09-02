@@ -55,7 +55,7 @@ class SettingsPage extends StatelessWidget {
               subtitle: "The method of learning set by the user.\n\nYou can set your way of learning below.",
               element: DiagnosedSkillsBlocks(isChosen: !this.diagnosedMethod),
             ),
-            ElementCheckbox(name: "Choose your method of learning", isChecked: this.diagnosedMethod),
+            ElementCheckbox(name: "Choose your method of learning"),
             ElementButton(
               name: "Edit my method",
               buttonIcon: Icons.edit,

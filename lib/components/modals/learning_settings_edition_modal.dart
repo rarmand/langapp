@@ -28,7 +28,7 @@ class LearningSettingsEditionModal extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 24.0),
-                DiagnosedSkillsBlocks(),
+                DiagnosedSkillsBlocks(editMode: true),
                 SizedBox(height: 40.0),
                 ButtonFilled(
                   btnText: "Save",

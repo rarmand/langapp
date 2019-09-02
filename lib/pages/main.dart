@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:langapp/pages/home_menu_page/home_controller.dart';
 import 'package:langapp/pages/learn_page/daily_goal_achieved_modal.dart';
 import 'package:langapp/pages/learn_page/learn_page_controller.dart';
 import 'package:langapp/pages/learn_page/learning_final_page.dart';
@@ -29,6 +30,7 @@ class _IntroPagesView extends State<IntroPagesView> {
     return Scaffold(
       body: PageView(
         children: <Widget>[
+          HomeController(),
           LearnPageController(courseTitle: "My course"),
           // SpeedTestMenuTest(),
           // TextTaskChooseSound(courseTitle: "Course Title"),

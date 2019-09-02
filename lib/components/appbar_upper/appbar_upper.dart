@@ -53,7 +53,7 @@ class AppBarUpper extends StatelessWidget implements PreferredSizeWidget {
                   icon: Icon(Icons.close, color: BROWN_DARK),
                   onPressed: () => Navigator.of(context).pop(null),
                 )
-              : null),
+              : SizedBox()),
         ],
       ),
     );

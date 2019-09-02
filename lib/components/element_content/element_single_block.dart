@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:langapp/components/profile_elements/diagnosed_skills_blocks.dart';
+import 'package:langapp/components/profile_elements/skill_block.dart';
 
 class ElementSingleBlock extends StatelessWidget {
   final bool isChosen;

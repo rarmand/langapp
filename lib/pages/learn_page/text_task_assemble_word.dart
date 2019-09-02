@@ -70,6 +70,3 @@ class TextTaskAssembleWord extends StatelessWidget {
     );
   }
 }
-
-/*
- */
