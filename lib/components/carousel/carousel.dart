@@ -1,7 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
-// TODO: przemyśleć kreowanie tej karuzeli; gdzie wsadzać tworzenie się kart
 class Carousel extends StatelessWidget {
   final List<Widget> items;
 
@@ -10,7 +9,7 @@ class Carousel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CarouselSlider(
-      height: 320.0,
+      height: 360.0,
       viewportFraction: 0.7,
       enlargeCenterPage: true,
       items: this.items,

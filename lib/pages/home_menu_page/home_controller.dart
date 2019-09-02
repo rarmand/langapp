@@ -33,13 +33,11 @@ class _HomeControllerState extends State<HomeController> {
 
   // TODO: jak zmienić kolor ?
 
-  Widget _getMenuIcon({@required String iconPath, int buttonIndex}) {
-    Widget icon = SvgPicture.asset(
-      iconPath,
-      height: 23.0,
-    );
-    return icon;
-  }
+  Widget _getMenuIcon({@required String iconPath, int buttonIndex, bool isChosen = false}) => SvgPicture.asset(
+        iconPath,
+        height: 23.0,
+        color: (isChosen ? YELLOW : BROWN_DARK),
+      );
 
   Widget _bottomNavigationBar(int selectedIndex) => BottomNavigationBar(
         onTap: (int index) => setState(() => _selectedIndex = index),
@@ -54,18 +52,22 @@ class _HomeControllerState extends State<HomeController> {
           BottomNavigationBarItem(
             title: Text("Home"),
             icon: this._getMenuIcon(iconPath: this.paths['homePath']),
+            activeIcon: this._getMenuIcon(iconPath: this.paths['homePath'], isChosen: true),
           ),
           BottomNavigationBarItem(
             title: Text("Challenge"),
             icon: this._getMenuIcon(iconPath: this.paths['challengePath']),
+            activeIcon: this._getMenuIcon(iconPath: this.paths['challengePath'], isChosen: true),
           ),
           BottomNavigationBarItem(
             title: Text("Profile"),
             icon: this._getMenuIcon(iconPath: this.paths['profilePath']),
+            activeIcon: this._getMenuIcon(iconPath: this.paths['profilePath'], isChosen: true),
           ),
           BottomNavigationBarItem(
             title: Text("Settings"),
             icon: this._getMenuIcon(iconPath: this.paths['settingsPath']),
+            activeIcon: this._getMenuIcon(iconPath: this.paths['settingsPath'], isChosen: true),
           ),
         ],
       );

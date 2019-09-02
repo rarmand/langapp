@@ -14,11 +14,12 @@ class WelcomeCard extends StatelessWidget {
       // TODO: jak zablokować powrót gdy już przejdę do DAILY GOAL?
       onTap: () => Navigator.pushNamed(context, this.route),
       child: Container(
+        margin: EdgeInsets.symmetric(vertical: 20.0),
         width: MediaQuery.of(context).size.width * 0.64,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            SizedBox(height: 15.0),
+            SizedBox(height: 16.0),
             this.img,
             Text(
               this.title,
@@ -43,7 +44,7 @@ class WelcomeCard extends StatelessWidget {
               color: BROWN_SHADOW_25,
               offset: Offset(0, SHADOW_OFFSET / 2),
               blurRadius: SHADOW_RADIUS,
-            )
+            ),
           ],
         ),
       ),

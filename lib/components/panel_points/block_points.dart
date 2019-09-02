@@ -48,7 +48,7 @@ class BlockPoints extends StatelessWidget {
             color: BROWN_SHADOW_25,
             offset: Offset(0, SHADOW_OFFSET / 2),
             blurRadius: SHADOW_RADIUS,
-          )
+          ),
         ],
       ),
     );

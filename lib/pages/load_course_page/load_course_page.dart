@@ -4,11 +4,12 @@ import 'package:langapp/styles/colors.dart';
 
 // proces ładowania się danych z bazy do nauki
 // TODO: widok do poprawy, więcej space od góry, dostosować do Frame, żeby działało scrollowanie
-class UploadCoursePage extends StatelessWidget {
+class LoadCoursePage extends StatelessWidget {
   final String courseChoice;
   final String courseName;
 
-  UploadCoursePage({@required this.courseChoice, @required this.courseName});
+  LoadCoursePage({@required this.courseChoice, @required this.courseName});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

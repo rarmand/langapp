@@ -15,7 +15,6 @@ import 'package:langapp/pages/learn_page/text_task_choose_word.dart';
 import 'package:langapp/pages/learn_page/text_task_speak_word.dart';
 import 'package:langapp/pages/learn_page/text_task_write_word.dart';
 import 'package:langapp/pages/learn_page/theory_page.dart';
-import 'package:langapp/pages/upload_course_page/upload_course_page.dart';
 
 class IntroPagesView extends StatefulWidget {
   _IntroPagesView createState() {

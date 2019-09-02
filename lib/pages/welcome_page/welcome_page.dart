@@ -22,7 +22,7 @@ class WelcomePage extends StatelessWidget {
       child: Column(
         children: <Widget>[
           WelcomeIcons(),
-          IntroText(text: "For now, you can use every course\nyou are interested at."),
+          IntroText(text: "For now, you can use every course\nyou are interested in."),
           IntroText(text: "We wish you have fun and learn\nyour favourite language in the best way\nyour brain says."),
           SizedBox(height: 28.0),
           ButtonOutlined(

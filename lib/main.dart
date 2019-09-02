@@ -25,8 +25,7 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp(
       title: 'Langgarden',
-      initialRoute: "/",
-      // initialRoute: "/intro",
+      initialRoute: "/intro",
       routes: {
         // TODO: nawigacja nie push and pop, raczej replacement, jak to działa?
         '/': (context) => HomeController(),

@@ -13,10 +13,11 @@ class LearningChoiceModal extends StatelessWidget {
       body: GestureDetector(
         onTap: () => Navigator.pop(context),
         child: Container(
+          alignment: Alignment.center,
           child: SingleChildScrollView(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
+                SizedBox(height: 20.0),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
@@ -46,6 +47,7 @@ class LearningChoiceModal extends StatelessWidget {
                     ),
                   ],
                 ),
+                SizedBox(height: 20.0),
               ],
             ),
           ),
