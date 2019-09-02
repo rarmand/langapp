@@ -25,7 +25,7 @@ class LearningFinalPage extends StatelessWidget {
     this.icon = SvgPicture.asset(
       this.iconPath,
       color: GREEN_DARK,
-      height: 48.0,
+      height: 104.0,
     );
   }
 

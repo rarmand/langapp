@@ -8,16 +8,11 @@ class ButtonsCourse extends StatelessWidget {
     return Container(
       padding: EdgeInsets.only(top: 20, bottom: 20),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           ButtonCourse(
-            name: "Add a course",
+            name: "Add a new course to learn",
             icon: Icons.add_box,
-            onPressed: () {},
-          ),
-          ButtonCourse(
-            name: "Create a course",
-            icon: Icons.create,
             onPressed: () {},
           ),
         ],

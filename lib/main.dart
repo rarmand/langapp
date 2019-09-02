@@ -29,8 +29,8 @@ class MyApp extends StatelessWidget {
       // initialRoute: "/intro",
       routes: {
         // TODO: nawigacja nie push and pop, raczej replacement, jak to działa?
-        // '/': (context) => HomeController(),
-        '/': (context) => LearnPageController(courseTitle: "Hahaha"),
+        '/': (context) => HomeController(),
+        // '/': (context) => LearnPageController(courseTitle: "Hahaha"),
         '/intro': (context) => IntroController(),
         '/login': (context) => LoginPage(),
         '/reset_password': (context) => ResetPasswordPage(),

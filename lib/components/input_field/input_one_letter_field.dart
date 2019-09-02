@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:langapp/styles/colors.dart';
 
-class InputOneLetterField extends StatelessWidget {
+class InputOneLetterField extends StatefulWidget {
+  @override
+  _InputOneLetterFieldState createState() => _InputOneLetterFieldState();
+}
+
+class _InputOneLetterFieldState extends State<InputOneLetterField> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -9,12 +14,15 @@ class InputOneLetterField extends StatelessWidget {
       padding: EdgeInsets.only(top: 4.0),
       width: 36.0,
       child: TextField(
+        readOnly: true,
         textCapitalization: TextCapitalization.characters,
         textAlign: TextAlign.center,
         textAlignVertical: TextAlignVertical.center,
         maxLength: 1,
         style: TextStyle(
           color: BROWN_DARK,
+          fontSize: 22,
+          fontWeight: FontWeight.bold,
         ),
         decoration: InputDecoration(
           counterText: "",

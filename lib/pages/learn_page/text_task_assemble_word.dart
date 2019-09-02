@@ -39,7 +39,7 @@ class TextTaskAssembleWord extends StatelessWidget {
             ],
           ),
           // TODO: jak rozstawić odpowiednie spaces pomiędzy elementami?
-          SizedBox(height: MediaQuery.of(context).size.height / 7),
+          SizedBox(height: MediaQuery.of(context).size.height / 8),
           Wrap(
             alignment: WrapAlignment.center,
             spacing: 16.0,

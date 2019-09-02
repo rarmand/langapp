@@ -27,6 +27,9 @@ class LearnPageController extends StatefulWidget {
 
 class _LearnPageControllerState extends State<LearnPageController> {
   final List<Widget> pages = [
+    NewWordPage(
+      key: PageStorageKey("NewWordPage"),
+    ),
     TextTaskChooseSound(
       key: PageStorageKey("TextTaskChooseSound"),
       iconPath: "assets/course/test.svg",
@@ -47,10 +50,6 @@ class _LearnPageControllerState extends State<LearnPageController> {
       key: PageStorageKey("TextTaskWriteWord"),
       iconPath: "assets/course/test.svg",
     ),
-    LearningFinalPage(
-      key: PageStorageKey("LearningFinalPage"),
-      iconPath: "assets/course/test.svg",
-    ),
     TextTaskChooseWord(
       key: PageStorageKey("TextTaskChooseWord"),
       iconPath: "assets/course/test.svg",
@@ -59,8 +58,9 @@ class _LearnPageControllerState extends State<LearnPageController> {
       key: PageStorageKey("SoundTaskChooseWord"),
       iconPath: "assets/course/test.svg",
     ),
-    NewWordPage(
-      key: PageStorageKey("NewWordPage"),
+    LearningFinalPage(
+      key: PageStorageKey("LearningFinalPage"),
+      iconPath: "assets/course/test.svg",
     ),
   ];
 
@@ -88,7 +88,7 @@ class _LearnPageControllerState extends State<LearnPageController> {
             left: 0,
             right: 0,
             top: 0,
-            child: LearningLabel(point: 5),
+            child: LearningLabel(point: this._selectedIndex, points: this.pages.length - 1),
           ),
         ],
       ),
