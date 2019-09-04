@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:langapp/components/frame/learning_frame.dart';
 import 'package:langapp/pages/learn_page/vocabulary_card.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class TheoryPage extends StatelessWidget {
   final String courseTitle;
@@ -18,17 +19,56 @@ class TheoryPage extends StatelessWidget {
 
   TheoryPage({@required this.courseTitle});
 
-  @override
-  Widget build(BuildContext context) {
-    return LearningFrame(
-      point: 0,
-      child: Column(
-        children: [
-          SizedBox(height: 24.0),
-          ...this._vocabList,
-          SizedBox(height: 24.0),
+  Widget _createList(context, String vocab, int size) {
+    List<VocabularyCard> vocabulary = [];
+
+    for (int i = 0; i < size; i++) {
+      vocabulary.add(VocabularyCard(
+        vocabulary: vocab,
+        translation: "mamma mia",
+        isKnown: false,
+      ));
+    }
+  }
+
+  Widget _getWordCard(BuildContext context, DocumentSnapshot document) {
+    return ListTile(
+      title: Column(
+        children: <Widget>[
+          VocabularyCard(
+            vocabulary: document['word'],
+            translation: document['translation'],
+            isKnown: true,
+          ),
         ],
       ),
     );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        child: StreamBuilder(
+          stream: Firestore.instance.collection("french_vocabulary").snapshots(),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) return const Text("Loading...");
+
+            return ListView.builder(
+              itemCount: snapshot.data.documents.length,
+              itemBuilder: (context, index) => this._getWordCard(context, snapshot.data.documents[index]),
+            );
+          },
+        ),
+      ),
+    );
+    // return LearningFrame(
+    //   point: 0,
+    //   child: ListView.builder(
+    //     shrinkWrap: true,
+    //     itemCount: this._vocabList.length,
+    //     itemBuilder: (context, index) => this._vocabList[index],
+    //   ),
+    // );
   }
 }

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "392930889978",
+    "firebase_url": "https://langapp-760c9.firebaseio.com",
+    "project_id": "langapp-760c9",
+    "storage_bucket": "langapp-760c9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:392930889978:android:1eff076797a3435b",
+        "android_client_info": {
+          "package_name": "com.example.langapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "392930889978-0lm95navjvu5c24jn6qpd546onnethrc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA9Axl7i7trZ8jl0_iTi2F2-ZZ0EZdbfhk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "392930889978-0lm95navjvu5c24jn6qpd546onnethrc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

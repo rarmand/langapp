@@ -27,7 +27,7 @@ class SoundTaskWriteWord extends StatelessWidget {
           this.soundIcon,
           SizedBox(height: 64.0),
           InputField(
-            title: "Write the translation",
+            label: "Write the translation",
           ),
           SizedBox(height: MediaQuery.of(context).size.height / 6),
           Row(

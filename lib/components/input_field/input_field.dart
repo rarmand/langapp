@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:langapp/styles/colors.dart';
 
 class InputField extends StatelessWidget {
-  final String title;
+  final String label;
   final bool isPassword;
+  String existingText;
 
-  InputField({@required this.title, this.isPassword = false});
+  InputField({@required this.label, this.isPassword = false, this.existingText = ""});
 
   @override
   Widget build(BuildContext context) {
@@ -13,14 +14,15 @@ class InputField extends StatelessWidget {
       margin: EdgeInsets.symmetric(vertical: 5.0),
       width: BTN_WIDTH,
       height: BTN_HEIGHT,
-      child: TextField(
+      child: TextFormField(
+        initialValue: this.existingText,
         obscureText: (isPassword ? true : false),
         style: TextStyle(
           color: BLACK,
         ),
         decoration: InputDecoration(
-          labelText: this.title,
-          labelStyle: TextStyle(color: GREEN_LIGHT),
+          labelText: this.label,
+          labelStyle: TextStyle(color: BROWN_DARK),
           contentPadding: EdgeInsets.only(bottom: 4),
           focusedBorder: UnderlineInputBorder(
             borderSide: BorderSide(

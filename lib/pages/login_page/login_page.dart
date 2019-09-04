@@ -16,9 +16,9 @@ class LoginPage extends StatelessWidget {
         Container(
           child: Column(
             children: <Widget>[
-              InputField(title: "Email"),
+              InputField(label: "Email"),
               InputField(
-                title: "Password",
+                label: "Password",
                 isPassword: true,
               ),
               InkWell(

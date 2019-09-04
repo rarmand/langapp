@@ -20,20 +20,15 @@ class RegisterPage extends StatelessWidget {
         Container(
           child: Column(
             children: <Widget>[
-              InputField(title: "Username"),
-              InputField(title: "Email"),
-              InputField(
-                title: "Password",
-                isPassword: true,
-              ),
+              InputField(label: "Username"),
+              InputField(label: "Email"),
+              InputField(label: "Password", isPassword: true),
               Container(
                 width: BTN_WIDTH - 10,
                 child: Text(
                   "Password has to contain 10 characters: small letters, capital lettes, numbers",
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 11,
-                  ),
+                  style: TextStyle(fontSize: 11),
                 ),
               ),
             ],
@@ -51,9 +46,7 @@ class RegisterPage extends StatelessWidget {
               child: Text(
                 "You agree to Langgarden’s Terms of Service and Privacy Policy.",
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 9,
-                ),
+                style: TextStyle(fontSize: 9),
               ),
             ),
             const SizedBox(height: 30),

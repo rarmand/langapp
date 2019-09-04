@@ -32,7 +32,7 @@ class ResetPasswordPage extends StatelessWidget {
                   ),
                 ),
               ),
-              InputField(title: "Email"),
+              InputField(label: "Email"),
             ],
           ),
         ),
