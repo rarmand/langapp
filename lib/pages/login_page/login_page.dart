@@ -6,14 +6,29 @@ import 'package:langapp/components/button_outlined/button_outlined.dart';
 import 'package:langapp/components/frame/frame.dart';
 import 'package:langapp/components/input_field/input_field.dart';
 import 'package:langapp/components/logo/logo_mid.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  String _email;
+  String _password;
+
+  void validateAndLogin() {
+    Navigator.pushNamed(context, '/');
+  }
+
+  void pushResetPassword() => Navigator.of(context).pushNamed('/reset_password');
+
   @override
   Widget build(BuildContext context) {
     return Frame(
       children: <Widget>[
         LogoMid(),
-        Container(
+        Form(
           child: Column(
             children: <Widget>[
               InputField(label: "Email"),
@@ -25,29 +40,25 @@ class LoginPage extends StatelessWidget {
                 child: Text(
                   "Forgot password?",
                   style: TextStyle(
-                    fontSize: 11,
+                    fontSize: 12,
                     decoration: TextDecoration.underline,
                   ),
                 ),
-                onTap: () => Navigator.of(context).pushNamed('/reset_password'),
+                onTap: this.pushResetPassword,
               ),
+              const SizedBox(height: 60),
+              ButtonFilled(
+                btnText: "Sign in",
+                onPressed: this.validateAndLogin,
+              ),
+              ButtonOutlined(
+                btnText: "Sign up",
+                onPressed: () => Navigator.pushNamed(context, '/register'),
+              ),
+              const SizedBox(height: 30),
             ],
           ),
         ),
-        Column(
-          children: <Widget>[
-            const SizedBox(height: 60),
-            ButtonFilled(
-              btnText: "Sign in",
-              onPressed: () => Navigator.pushNamed(context, '/'),
-            ),
-            ButtonOutlined(
-              btnText: "Sign up",
-              onPressed: () => Navigator.pushNamed(context, '/register'),
-            ),
-            const SizedBox(height: 30),
-          ],
-        )
       ],
     );
   }
