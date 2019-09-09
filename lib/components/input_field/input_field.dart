@@ -4,10 +4,18 @@ import 'package:langapp/styles/colors.dart';
 class InputField extends StatelessWidget {
   final String label;
   final bool isPassword;
-  bool isValidated;
-  String existingText;
 
-  InputField({@required this.label, this.isPassword = false, this.existingText = "", this.isValidated = false});
+  String existingText;
+  Function onSaved;
+  Function validator;
+
+  InputField({
+    @required this.label,
+    this.isPassword = false,
+    this.existingText = "",
+    this.validator,
+    this.onSaved,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -16,8 +24,8 @@ class InputField extends StatelessWidget {
       width: BTN_WIDTH,
       child: TextFormField(
         initialValue: this.existingText,
-        validator: (input) => input.isEmpty ? "The field can\'t be empty!" : null,
-        onSaved: (input) => null,
+        validator: this.validator,
+        onSaved: this.onSaved,
         //
         style: TextStyle(color: BLACK),
         obscureText: (isPassword ? true : false),

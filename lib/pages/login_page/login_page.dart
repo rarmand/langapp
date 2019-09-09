@@ -19,17 +19,30 @@ class _LoginPageState extends State<LoginPage> {
   String _email;
   String _password;
 
-  void validateAndLogin() {
-    final form = this._formKey.currentState;
-    if (form.validate()) {
-      print("Form is valid. Email: $_email, password: $_password");
-    } else {
-      print("Form is invalid. Email: $_email, password: $_password");
-    }
-    // Navigator.pushNamed(context, '/');
+  void pushResetPassword() => Navigator.of(context).pushNamed('/reset_password');
+
+  String _onEmailValidator(String input) {
+    if (input.isEmpty) return "Provide an email";
+
+    Pattern pattern =
+        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+    RegExp regexp = new RegExp(pattern);
+
+    if (!regexp.hasMatch(input)) return "Email is not valid";
+
+    return null;
   }
 
-  void pushResetPassword() => Navigator.of(context).pushNamed('/reset_password');
+  String _onPasswordValidator(String input) {
+    if (input.isEmpty)
+      return "Provide a password";
+    else if (input.length < 10) return "Password is too short";
+
+    return null;
+  }
+
+  void _onEmailSaved(String input) => this._email = input;
+  void _onPasswordSaved(String input) => this._password = input;
 
   @override
   Widget build(BuildContext context) {
@@ -44,28 +57,31 @@ class _LoginPageState extends State<LoginPage> {
             children: <Widget>[
               LogoMid(),
               Expanded(
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Column(
-                    children: <Widget>[
-                      InputField(label: "Email"),
-                      InputField(
-                        label: "Password",
-                        isPassword: true,
-                      ),
-                      const SizedBox(height: 4.0),
-                      InkWell(
-                        child: Text(
-                          "Forgot password?",
-                          style: TextStyle(
-                            fontSize: 12,
-                            decoration: TextDecoration.underline,
-                          ),
+                child: Column(
+                  children: <Widget>[
+                    InputField(
+                      label: "Email",
+                      validator: this._onEmailValidator,
+                      onSaved: this._onEmailSaved,
+                    ),
+                    InputField(
+                      label: "Password",
+                      isPassword: true,
+                      validator: this._onPasswordValidator,
+                      onSaved: this._onPasswordSaved,
+                    ),
+                    const SizedBox(height: 4.0),
+                    InkWell(
+                      child: Text(
+                        "Forgot password?",
+                        style: TextStyle(
+                          fontSize: 12,
+                          decoration: TextDecoration.underline,
                         ),
-                        onTap: this.pushResetPassword,
                       ),
-                    ],
-                  ),
+                      onTap: this.pushResetPassword,
+                    ),
+                  ],
                 ),
               ),
               ButtonFilled(
@@ -84,5 +100,22 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
     );
+  }
+
+  void validateAndLogin() async {
+    final form = this._formKey.currentState;
+    if (form.validate()) {
+      form.save();
+      print("Form is valid. Email: $_email, password: $_password");
+
+      try {
+        var result =
+            await FirebaseAuth.instance.signInWithEmailAndPassword(email: this._email, password: this._password);
+        print(result.user);
+        Navigator.pushNamed(context, '/');
+      } catch (e) {
+        print(e.message);
+      }
+    }
   }
 }
