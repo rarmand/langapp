@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:langapp/components/element_content/daily_goal_panel.dart';
 import 'package:langapp/components/element_content/element_button.dart';
@@ -8,13 +9,20 @@ import 'package:langapp/components/modals/learning_settings_edition_modal.dart';
 import 'package:langapp/components/modals/profile_edition_modal.dart';
 import 'package:langapp/components/profile_elements/diagnosed_skills_blocks.dart';
 import 'package:langapp/components/profile_elements/profile_info_line.dart';
+import 'package:langapp/model/app_model.dart';
+import 'package:scoped_model/scoped_model.dart';
 
-class SettingsPage extends StatelessWidget {
+class SettingsPage extends StatefulWidget {
   final bool diagnosedMethod;
 
   // TODO: przypilnować konstrukcję settings page
   SettingsPage({Key key, this.diagnosedMethod = true}) : super(key: key);
 
+  @override
+  _SettingsPageState createState() => _SettingsPageState();
+}
+
+class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     return MenuFrame(
@@ -49,11 +57,11 @@ class SettingsPage extends StatelessWidget {
               title: "Learning settings",
               subtitle:
                   "Diagnosed method of learning with the application algorithm.\n\nPresented values inform which skill works better in learning process.",
-              element: DiagnosedSkillsBlocks(isChosen: this.diagnosedMethod),
+              element: DiagnosedSkillsBlocks(isChosen: this.widget.diagnosedMethod),
             ),
             ElementContent(
               subtitle: "The method of learning set by the user.\n\nYou can set your way of learning below.",
-              element: DiagnosedSkillsBlocks(isChosen: !this.diagnosedMethod),
+              element: DiagnosedSkillsBlocks(isChosen: !this.widget.diagnosedMethod),
             ),
             ElementCheckbox(name: "Choose your method of learning"),
             ElementButton(
@@ -68,12 +76,22 @@ class SettingsPage extends StatelessWidget {
             ),
             // log out
             ElementButton(
-                name: "Log out",
-                buttonIcon: Icons.exit_to_app,
-                onPressed: () => Navigator.pushNamedAndRemoveUntil(context, '/login', (Route<dynamic> route) => false)),
+              name: "Log out",
+              buttonIcon: Icons.exit_to_app,
+              onPressed: this._logOut,
+            ),
           ],
         ),
       ),
     );
+  }
+
+  Future<Navigator> _logOut() async {
+    await FirebaseAuth.instance.signOut();
+
+    ScopedModel.of<UserModel>(context).setUserId(uid: '');
+    ScopedModel.of<UserModel>(context).setUsername(username: '');
+
+    return Navigator.pushNamedAndRemoveUntil(context, '/login', (Route<dynamic> route) => false);
   }
 }

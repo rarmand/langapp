@@ -137,7 +137,7 @@ class _RegisterPageState extends State<RegisterPage> {
           'username': this._username,
         });
 
-        ScopedModel.of<UserModel>(context, rebuildOnChange: true).setUsername(username: this._username);
+        ScopedModel.of<UserModel>(context).setUsername(username: this._username);
 
         Navigator.pushNamed(context, '/welcome');
 

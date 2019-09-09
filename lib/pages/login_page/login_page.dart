@@ -115,7 +115,7 @@ class _LoginPageState extends State<LoginPage> {
             await FirebaseAuth.instance.signInWithEmailAndPassword(email: this._email, password: this._password);
         print(result.user);
 
-        ScopedModel.of<UserModel>(context, rebuildOnChange: true).setUserId(uid: result.user.uid);
+        ScopedModel.of<UserModel>(context).setUserId(uid: result.user.uid);
         Navigator.pushNamed(context, '/');
       } catch (e) {
         print(e.message);

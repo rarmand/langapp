@@ -88,7 +88,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
       print("Form is valid. Email: $_email");
 
       try {
-        FirebaseAuth.instance.sendPasswordResetEmail(email: this._email);
+        await FirebaseAuth.instance.sendPasswordResetEmail(email: this._email);
         Navigator.of(context).push(
           PageRouteBuilder(
             opaque: false,
