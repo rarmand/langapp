@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -16,6 +17,22 @@ class ResetPasswordPage extends StatefulWidget {
 
 class _ResetPasswordPageState extends State<ResetPasswordPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  String _email;
+
+  String _onEmailValidator(String input) {
+    if (input.isEmpty) return "Provide an email";
+
+    Pattern pattern =
+        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+    RegExp regexp = new RegExp(pattern);
+
+    if (!regexp.hasMatch(input)) return "Email is not valid";
+
+    return null;
+  }
+
+  void _onEmailSaved(String input) => this._email = input;
 
   @override
   Widget build(BuildContext context) {
@@ -43,18 +60,17 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                         ),
                       ),
                     ),
-                    InputField(label: "Email"),
+                    InputField(
+                      label: "Email",
+                      onSaved: this._onEmailSaved,
+                      validator: this._onEmailValidator,
+                    ),
                   ],
                 ),
               ),
               ButtonFilled(
                 btnText: "Send",
-                onPressed: () => Navigator.of(context).push(
-                  PageRouteBuilder(
-                    opaque: false,
-                    pageBuilder: (BuildContext context, _, __) => ResetPasswordModal(email: "thisemail@pocztex.se"),
-                  ),
-                ),
+                onPressed: this._validateAndResetPassword,
               ),
               const SizedBox(height: 16),
             ],
@@ -62,5 +78,26 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
         ),
       ),
     );
+  }
+
+  void _validateAndResetPassword() async {
+    final form = this._formKey.currentState;
+
+    if (form.validate()) {
+      form.save();
+      print("Form is valid. Email: $_email");
+
+      try {
+        FirebaseAuth.instance.sendPasswordResetEmail(email: this._email);
+        Navigator.of(context).push(
+          PageRouteBuilder(
+            opaque: false,
+            pageBuilder: (BuildContext context, _, __) => ResetPasswordModal(email: this._email),
+          ),
+        );
+      } catch (e) {
+        print(e.message);
+      }
+    }
   }
 }

@@ -17,7 +17,10 @@ class ThirdIntro extends StatelessWidget {
           const SizedBox(height: marginValue),
           ButtonFilled(
             btnText: "Sign up",
-            onPressed: () => Navigator.pushNamedAndRemoveUntil(context, '/register', (Route<dynamic> route) => false),
+            onPressed: () {
+              Navigator.pushNamedAndRemoveUntil(context, '/login', (Route<dynamic> route) => false);
+              Navigator.pushNamed(context, '/register');
+            },
           ),
           ButtonOutlined(
             btnText: "I have an account",

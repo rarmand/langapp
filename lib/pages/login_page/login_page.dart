@@ -7,6 +7,8 @@ import 'package:langapp/components/frame/frame.dart';
 import 'package:langapp/components/input_field/input_field.dart';
 import 'package:langapp/components/logo/logo_mid.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:langapp/model/app_model.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -86,7 +88,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
               ButtonFilled(
                 btnText: "Sign in",
-                onPressed: this.validateAndLogin,
+                onPressed: this._validateAndLogin,
               ),
               ButtonOutlined(
                 btnText: "Sign up",
@@ -102,7 +104,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  void validateAndLogin() async {
+  void _validateAndLogin() async {
     final form = this._formKey.currentState;
     if (form.validate()) {
       form.save();
@@ -112,6 +114,8 @@ class _LoginPageState extends State<LoginPage> {
         var result =
             await FirebaseAuth.instance.signInWithEmailAndPassword(email: this._email, password: this._password);
         print(result.user);
+
+        ScopedModel.of<UserModel>(context, rebuildOnChange: true).setUserId(uid: result.user.uid);
         Navigator.pushNamed(context, '/');
       } catch (e) {
         print(e.message);
