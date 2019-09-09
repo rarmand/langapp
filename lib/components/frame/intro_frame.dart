@@ -10,10 +10,12 @@ class IntroFrame extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Frame(
-      children: <Widget>[
-        LogoBig(),
-        this.child,
-      ],
+      child: Column(
+        children: <Widget>[
+          LogoBig(),
+          this.child,
+        ],
+      ),
     );
   }
 }

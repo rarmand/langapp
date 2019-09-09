@@ -10,49 +10,51 @@ class RegisterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Frame(
-      children: <Widget>[
-        // TODO
-        // poprawnie skalibrować rozmieszczenie logo ze strzałką
-        Arrow(
-          child: LogoMid(),
-          onPressed: () => Navigator.pop(context),
-        ),
-        Container(
-          child: Column(
+      child: Column(
+        children: <Widget>[
+          // TODO
+          // poprawnie skalibrować rozmieszczenie logo ze strzałką
+          Arrow(
+            child: LogoMid(),
+            onPressed: () => Navigator.pop(context),
+          ),
+          Container(
+            child: Column(
+              children: <Widget>[
+                InputField(label: "Username"),
+                InputField(label: "Email"),
+                InputField(label: "Password", isPassword: true),
+                Container(
+                  width: BTN_WIDTH - 10,
+                  child: Text(
+                    "Password has to contain 10 characters: small letters, capital lettes, numbers",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 11),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Column(
             children: <Widget>[
-              InputField(label: "Username"),
-              InputField(label: "Email"),
-              InputField(label: "Password", isPassword: true),
+              const SizedBox(height: 40),
+              ButtonFilled(
+                btnText: "Sign up",
+                onPressed: () => Navigator.pushNamed(context, '/welcome'),
+              ),
               Container(
-                width: BTN_WIDTH - 10,
+                width: BTN_WIDTH,
                 child: Text(
-                  "Password has to contain 10 characters: small letters, capital lettes, numbers",
+                  "You agree to Langgarden’s Terms of Service and Privacy Policy.",
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 11),
+                  style: TextStyle(fontSize: 9),
                 ),
               ),
+              const SizedBox(height: 30),
             ],
-          ),
-        ),
-        Column(
-          children: <Widget>[
-            const SizedBox(height: 40),
-            ButtonFilled(
-              btnText: "Sign up",
-              onPressed: () => Navigator.pushNamed(context, '/welcome'),
-            ),
-            Container(
-              width: BTN_WIDTH,
-              child: Text(
-                "You agree to Langgarden’s Terms of Service and Privacy Policy.",
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 9),
-              ),
-            ),
-            const SizedBox(height: 30),
-          ],
-        )
-      ],
+          )
+        ],
+      ),
     );
   }
 }

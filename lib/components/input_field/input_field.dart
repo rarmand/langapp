@@ -14,16 +14,16 @@ class InputField extends StatelessWidget {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 5.0),
       width: BTN_WIDTH,
-      height: BTN_HEIGHT,
       child: TextFormField(
         initialValue: this.existingText,
-        obscureText: (isPassword ? true : false),
-        validator: (value) => value.isEmpty ? "The field can\'t be empty!" : null,
+        validator: (input) => input.isEmpty ? "The field can\'t be empty!" : null,
+        onSaved: (input) => null,
+        //
         style: TextStyle(color: BLACK),
+        obscureText: (isPassword ? true : false),
         decoration: InputDecoration(
           labelText: this.label,
           labelStyle: TextStyle(color: BROWN_DARK),
-          // contentPadding: EdgeInsets.only(bottom: 4),
           focusedBorder: UnderlineInputBorder(
             borderSide: BorderSide(color: BROWN_DARK),
           ),

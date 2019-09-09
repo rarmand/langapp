@@ -13,45 +13,47 @@ class ResetPasswordPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Frame(
-      children: [
-        Arrow(
-          child: LogoMid(),
-          onPressed: () => Navigator.pop(context),
-        ),
-        Container(
-          child: Column(
+      child: Column(
+        children: [
+          Arrow(
+            child: LogoMid(),
+            onPressed: () => Navigator.pop(context),
+          ),
+          Container(
+            child: Column(
+              children: <Widget>[
+                Container(
+                  padding: EdgeInsets.only(bottom: 30.0),
+                  width: BTN_WIDTH,
+                  child: Text(
+                    "Please enter your email where we will send further instructions.",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 11,
+                    ),
+                  ),
+                ),
+                InputField(label: "Email"),
+              ],
+            ),
+          ),
+          Column(
             children: <Widget>[
-              Container(
-                padding: EdgeInsets.only(bottom: 30.0),
-                width: BTN_WIDTH,
-                child: Text(
-                  "Please enter your email where we will send further instructions.",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 11,
+              const SizedBox(height: 90),
+              ButtonFilled(
+                btnText: "Send",
+                onPressed: () => Navigator.of(context).push(
+                  PageRouteBuilder(
+                    opaque: false,
+                    pageBuilder: (BuildContext context, _, __) => ResetPasswordModal(email: "thisemail@pocztex.se"),
                   ),
                 ),
               ),
-              InputField(label: "Email"),
+              const SizedBox(height: 30),
             ],
-          ),
-        ),
-        Column(
-          children: <Widget>[
-            const SizedBox(height: 90),
-            ButtonFilled(
-              btnText: "Send",
-              onPressed: () => Navigator.of(context).push(
-                PageRouteBuilder(
-                  opaque: false,
-                  pageBuilder: (BuildContext context, _, __) => ResetPasswordModal(email: "thisemail@pocztex.se"),
-                ),
-              ),
-            ),
-            const SizedBox(height: 30),
-          ],
-        )
-      ],
+          )
+        ],
+      ),
     );
   }
 }

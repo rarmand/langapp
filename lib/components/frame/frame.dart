@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class Frame extends StatelessWidget {
-  List<Widget> children;
+  Widget child;
 
-  Frame({@required this.children});
+  Frame({@required this.child});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +13,9 @@ class Frame extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: this.children,
+            children: [
+              this.child,
+            ],
           ),
         ),
       ),
