@@ -14,11 +14,19 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final formKey = GlobalKey<FormState>();
+
   String _email;
   String _password;
 
   void validateAndLogin() {
-    Navigator.pushNamed(context, '/');
+    final form = formKey.currentState;
+    if (form.validate()) {
+      print("Form is valid. Email: $_email, password: $_password");
+    } else {
+      print("Form is invalid. Email: $_email, password: $_password");
+    }
+    // Navigator.pushNamed(context, '/');
   }
 
   void pushResetPassword() => Navigator.of(context).pushNamed('/reset_password');
@@ -29,6 +37,7 @@ class _LoginPageState extends State<LoginPage> {
       children: <Widget>[
         LogoMid(),
         Form(
+          key: this.formKey,
           child: Column(
             children: <Widget>[
               InputField(label: "Email"),
