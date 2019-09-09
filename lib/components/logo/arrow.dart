@@ -13,7 +13,7 @@ class Arrow extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Container(
-          margin: EdgeInsets.fromLTRB(10, 50, 0, 0),
+          margin: EdgeInsets.fromLTRB(0, 50, 0, 0),
           child: IconButton(
             padding: EdgeInsets.zero,
             icon: Icon(

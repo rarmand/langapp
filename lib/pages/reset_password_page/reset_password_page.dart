@@ -9,37 +9,44 @@ import 'package:langapp/components/logo/logo_mid.dart';
 import 'package:langapp/components/modals/reset_password_modal.dart';
 import 'package:langapp/styles/colors.dart';
 
-class ResetPasswordPage extends StatelessWidget {
+class ResetPasswordPage extends StatefulWidget {
+  @override
+  _ResetPasswordPageState createState() => _ResetPasswordPageState();
+}
+
+class _ResetPasswordPageState extends State<ResetPasswordPage> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Frame(
-      child: Column(
-        children: [
-          Arrow(
-            child: LogoMid(),
-            onPressed: () => Navigator.pop(context),
-          ),
-          Container(
-            child: Column(
-              children: <Widget>[
-                Container(
-                  padding: EdgeInsets.only(bottom: 30.0),
-                  width: BTN_WIDTH,
-                  child: Text(
-                    "Please enter your email where we will send further instructions.",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 11,
+      child: Form(
+        key: this._formKey,
+        child: IntrinsicHeight(
+          child: Column(
+            children: [
+              Arrow(
+                child: LogoMid(),
+                onPressed: () => Navigator.pop(context),
+              ),
+              Expanded(
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      padding: EdgeInsets.symmetric(vertical: 40.0),
+                      width: BTN_WIDTH,
+                      child: Text(
+                        "Please enter your email where we will send further instructions.",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 11,
+                        ),
+                      ),
                     ),
-                  ),
+                    InputField(label: "Email"),
+                  ],
                 ),
-                InputField(label: "Email"),
-              ],
-            ),
-          ),
-          Column(
-            children: <Widget>[
-              const SizedBox(height: 90),
+              ),
               ButtonFilled(
                 btnText: "Send",
                 onPressed: () => Navigator.of(context).push(
@@ -49,10 +56,10 @@ class ResetPasswordPage extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 30),
+              const SizedBox(height: 16),
             ],
-          )
-        ],
+          ),
+        ),
       ),
     );
   }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:langapp/components/dots/dots.dart';
-import 'package:langapp/pages/intro_page/intro.dart';
-import 'package:langapp/pages/intro_page/secintro.dart';
-import 'package:langapp/pages/intro_page/trdintro.dart';
+import 'package:langapp/pages/intro_page/first_intro.dart';
+import 'package:langapp/pages/intro_page/second_intro.dart';
+import 'package:langapp/pages/intro_page/third_intro.dart';
 
 // TODO: dopracować shadow i wielkość ikonek
 class IntroController extends StatefulWidget {
@@ -12,9 +12,9 @@ class IntroController extends StatefulWidget {
 
 class _IntroControllerState extends State<IntroController> {
   final List<Widget> pages = [
-    IntroPage(key: PageStorageKey("IntroPage")),
-    SecIntroPage(key: PageStorageKey("SecIntroPage")),
-    TrdIntroPage(key: PageStorageKey("TrdIntroPage")),
+    FirstIntro(key: PageStorageKey("IntroPage")),
+    SecondIntro(key: PageStorageKey("SecIntroPage")),
+    ThirdIntro(key: PageStorageKey("TrdIntroPage")),
   ];
 
   int _selectedIndex = 0;

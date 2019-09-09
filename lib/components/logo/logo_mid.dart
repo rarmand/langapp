@@ -10,7 +10,7 @@ class LogoMid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.fromLTRB(0, 60, 0, 60),
+      padding: EdgeInsets.symmetric(vertical: 40.0),
       child: logo,
     );
   }

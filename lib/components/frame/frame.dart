@@ -7,18 +7,21 @@ class Frame extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              this.child,
-            ],
+    return LayoutBuilder(builder: (BuildContext context, BoxConstraints constraints) {
+      return Scaffold(
+        body: Container(
+          child: SingleChildScrollView(
+            // TODO: po co to?
+            child: ConstrainedBox(
+              constraints: constraints.copyWith(
+                minHeight: constraints.maxHeight,
+                maxHeight: double.infinity,
+              ),
+              child: this.child,
+            ),
           ),
         ),
-      ),
-    );
+      );
+    });
   }
 }

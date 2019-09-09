@@ -3,10 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:langapp/components/frame/intro_frame.dart';
 import 'package:langapp/components/intro_text/intro_text.dart';
 
-// TODO: intro ze swapowaniem 3x z różnym contentem
-class IntroPage extends StatelessWidget {
-  IntroPage({Key key}) : super(key: key);
-  
+class FirstIntro extends StatelessWidget {
+  FirstIntro({Key key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return IntroFrame(
