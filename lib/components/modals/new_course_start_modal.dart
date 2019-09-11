@@ -1,9 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:langapp/components/button_filled/button_filled.dart';
 import 'package:langapp/components/courses_list/course_box.dart';
+import 'package:langapp/components/modals/learning_choice_modal.dart';
 import 'package:langapp/styles/colors.dart';
 
 class NewCourseStartModal extends StatelessWidget {
+  void _onPressed(BuildContext context) {
+    Navigator.pushNamedAndRemoveUntil(context, "/", (Route<dynamic> route) => false);
+    Navigator.of(context).push(PageRouteBuilder(
+      opaque: false,
+      pageBuilder: (BuildContext context, _, __) => LearningChoiceModal(),
+    ));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,13 +25,14 @@ class NewCourseStartModal extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                CourseBox(index: 0, type: true, isNewCourse: true),
-                SizedBox(height: 64.0),
+                const SizedBox(height: 16.0),
+                CourseBox(index: 0, isNewCourse: true),
+                const SizedBox(height: 64.0),
                 ButtonFilled(
                   btnText: "Start",
-                  onPressed: () => Navigator.pushNamed(context, "/"),
+                  onPressed: () => this._onPressed(context),
                 ),
-                SizedBox(height: 10.0),
+                const SizedBox(height: 16.0),
               ],
             ),
           ),

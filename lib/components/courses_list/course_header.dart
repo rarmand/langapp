@@ -8,7 +8,7 @@ class CourseHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(top: 16.0, left: 16.0),
+      margin: EdgeInsets.only(left: 16.0),
       child: Row(
         children: <Widget>[
           CourseFlag(),

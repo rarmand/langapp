@@ -56,7 +56,7 @@ class LearnBlock extends StatelessWidget {
               this.title,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 18.0,
+                fontSize: 16.0,
               ),
             ),
             this._icon,

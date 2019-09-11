@@ -7,10 +7,10 @@ import 'package:langapp/components/panel_points/panel_points.dart';
 // TODO: scrollowanie na marginesach w landscape nie działa
 class HomePage extends StatelessWidget {
   List<Widget> coursesList = [
-    CourseBox(index: 0, type: false),
-    CourseBox(index: 1, type: true),
-    CourseBox(index: 2, type: false),
-    CourseBox(index: 3, type: true),
+    CourseBox(index: 0),
+    CourseBox(index: 2),
+    // CourseBox(index: 2, type: false),
+    // CourseBox(index: 3, type: true),
   ];
 
   HomePage({Key key}) : super(key: key);

@@ -3,7 +3,6 @@ import 'package:langapp/components/courses_list/course_box.dart';
 import 'package:langapp/components/courses_list/learn_block.dart';
 import 'package:langapp/styles/colors.dart';
 
-// TODO: scrollowanie
 // TODO: zablokować background , zeby nic tam nie dzialalo po nacisnięciu
 class LearningChoiceModal extends StatelessWidget {
   @override
@@ -17,7 +16,7 @@ class LearningChoiceModal extends StatelessWidget {
           child: SingleChildScrollView(
             child: Column(
               children: <Widget>[
-                SizedBox(height: 20.0),
+                const SizedBox(height: 48.0),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
@@ -31,9 +30,9 @@ class LearningChoiceModal extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(height: 20.0),
-                CourseBox(index: 0, type: true),
-                SizedBox(height: 20.0),
+                const SizedBox(height: 20.0),
+                CourseBox(index: 0),
+                const SizedBox(height: 20.0),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
@@ -47,7 +46,7 @@ class LearningChoiceModal extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(height: 28.0),
+                const SizedBox(height: 28.0),
                 InkWell(
                   onTap: () => Navigator.pop(context),
                   child: Text(
@@ -58,6 +57,7 @@ class LearningChoiceModal extends StatelessWidget {
                     ),
                   ),
                 ),
+                const SizedBox(height: 12.0),
               ],
             ),
           ),

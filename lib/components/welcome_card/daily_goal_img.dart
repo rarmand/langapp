@@ -14,7 +14,7 @@ class DailyGoalImg extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        const SizedBox(height: 35),
+        const SizedBox(height: 36),
         Stack(
           alignment: Alignment.center,
           children: <Widget>[
@@ -25,8 +25,15 @@ class DailyGoalImg extends StatelessWidget {
                 this.timestamp.toString(),
                 style: TextStyle(
                   color: this.textColor,
-                  fontSize: 48,
+                  fontSize: 56,
                   fontFamily: "Roboto",
+                  shadows: [
+                    Shadow(
+                      color: WHITE,
+                      offset: Offset(0, SHADOW_OFFSET / 2),
+                      blurRadius: 16.0,
+                    ),
+                  ],
                 ),
               ),
               decoration: BoxDecoration(

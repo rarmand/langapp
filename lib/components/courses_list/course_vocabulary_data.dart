@@ -17,7 +17,7 @@ class CourseVocabularyData extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 24.0),
+      margin: EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
       child: Row(
         mainAxisAlignment: (isNewCourse ? MainAxisAlignment.center : MainAxisAlignment.spaceEvenly),
         children: <Widget>[

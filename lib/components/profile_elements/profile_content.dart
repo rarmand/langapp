@@ -17,10 +17,9 @@ class ProfileContent extends StatelessWidget {
           ProfileInfoLine(name: "Tutor", data: "no"),
           ProfileInfoLine(name: "Contests", data: "10"),
           ProfileInfoLine(name: "Challenges", data: "2"),
-          ElementContent(title: "Daily goals", element: DailyGoalMarks()),
           ElementContent(
-            title: "Diagnosed skills",
-            element: DiagnosedSkillsBlocks(),
+            title: "Daily goals",
+            element: DailyGoalMarks(),
           ),
         ],
       ),

@@ -30,7 +30,7 @@ class LanguageImg extends StatelessWidget {
                 boxShadow: [
                   BoxShadow(
                     blurRadius: 12.0,
-                    color: WHITE,
+                    color: BROWN_SHADOW_25,
                   ),
                 ],
               ),
@@ -42,7 +42,7 @@ class LanguageImg extends StatelessWidget {
           ],
         ),
         const SizedBox(
-          height: 40,
+          height: 36,
         ),
       ],
     );

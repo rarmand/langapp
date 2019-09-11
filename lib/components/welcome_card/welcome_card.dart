@@ -11,7 +11,6 @@ class WelcomeCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      // TODO: jak zablokować powrót gdy już przejdę do DAILY GOAL?
       onTap: () => Navigator.pushNamed(context, this.route),
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 20.0),
@@ -19,7 +18,7 @@ class WelcomeCard extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
             this.img,
             Text(
               this.title,

@@ -5,8 +5,11 @@ import 'package:langapp/styles/colors.dart';
 class CourseType extends StatelessWidget {
   final Widget tagIcon = SvgPicture.asset(
     'assets/course/tag.svg',
-    color: WHITE,
+    color: BROWN_SHADOW_25.withAlpha(128),
   );
+  final String type;
+
+  CourseType({this.type = "vocabulary"});
 
   @override
   Widget build(BuildContext context) {
@@ -16,8 +19,12 @@ class CourseType extends StatelessWidget {
           this.tagIcon,
           SizedBox(width: 8),
           Text(
-            "type",
-            style: TextStyle(color: WHITE),
+            this.type,
+            style: TextStyle(
+              color: BROWN_SHADOW_25.withAlpha(128),
+              fontWeight: FontWeight.w100,
+              fontStyle: FontStyle.italic,
+            ),
           ),
         ],
       ),

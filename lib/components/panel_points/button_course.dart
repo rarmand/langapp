@@ -14,12 +14,13 @@ class ButtonCourse extends StatelessWidget {
       icon: Icon(
         this.icon,
         color: BROWN_LIGHT,
+        size: 22.0,
       ),
       label: Text(
         this.name,
         style: TextStyle(
-          fontSize: 14.0,
-          color: BROWN_DARK,
+          fontSize: 16.0,
+          color: BROWN_LIGHT,
         ),
       ),
       onPressed: this.onPressed,

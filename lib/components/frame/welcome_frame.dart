@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:langapp/components/button_outlined/button_outlined.dart';
 import 'package:langapp/components/logo/arrow.dart';
 import 'package:langapp/components/logo/logo_small.dart';
 
@@ -16,7 +15,7 @@ class WelcomeFrame extends StatelessWidget {
   WelcomeFrame({
     @required this.child,
     @required this.title,
-    this.bottomHeight = 45,
+    this.bottomHeight = 40,
     this.logoWithArrow = true,
     this.onPressedNext,
     this.onPressedBack,
@@ -32,12 +31,6 @@ class WelcomeFrame extends StatelessWidget {
             title,
             this.child,
             SizedBox(height: this.bottomHeight / 2),
-            // SizedBox(height: this.bottomHeight),
-            // ButtonOutlined(
-            //   btnText: "Next",
-            //   onPressed: this.onPressedNext,
-            // ),
-            // SizedBox(height: this.bottomHeight / 2),
           ],
         ),
       ),

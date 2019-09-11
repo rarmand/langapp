@@ -17,7 +17,6 @@ class VocabularyTypeData extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(top: 16.0, bottom: 20.0),
       child: Row(
         children: <Widget>[
           icon,
@@ -26,7 +25,7 @@ class VocabularyTypeData extends StatelessWidget {
             this.number.toString(),
             style: TextStyle(
               fontFamily: "Roboto",
-              fontWeight: FontWeight.w500,
+              fontWeight: FontWeight.normal,
               fontSize: 16,
               color: WHITE,
             ),

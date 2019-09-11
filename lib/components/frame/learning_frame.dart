@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:langapp/components/learning_process/learning_label.dart';
 
 class LearningFrame extends StatelessWidget {
   Widget child;

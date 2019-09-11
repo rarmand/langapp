@@ -52,29 +52,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 isChosen: 0,
               ),
             ),
-            // learning edition
-            ElementContent(
-              title: "Learning settings",
-              subtitle:
-                  "Diagnosed method of learning with the application algorithm.\n\nPresented values inform which skill works better in learning process.",
-              element: DiagnosedSkillsBlocks(isChosen: this.widget.diagnosedMethod),
-            ),
-            ElementContent(
-              subtitle: "The method of learning set by the user.\n\nYou can set your way of learning below.",
-              element: DiagnosedSkillsBlocks(isChosen: !this.widget.diagnosedMethod),
-            ),
-            ElementCheckbox(name: "Choose your method of learning"),
-            ElementButton(
-              name: "Edit my method",
-              buttonIcon: Icons.edit,
-              onPressed: () => Navigator.of(context).push(
-                PageRouteBuilder(
-                  opaque: false,
-                  pageBuilder: (BuildContext context, _, __) => LearningSettingsEditionModal(),
-                ),
-              ),
-            ),
-            // log out
+
             ElementButton(
               name: "Log out",
               buttonIcon: Icons.exit_to_app,

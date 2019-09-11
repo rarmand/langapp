@@ -11,17 +11,12 @@ class LanguagePage extends StatelessWidget {
     WelcomeCard(
       title: "German",
       img: LanguageImg(flagImgPath: "assets/flags/germany.svg"),
-      route: '/choose_daily_goal',
-    ),
-    WelcomeCard(
-      title: "English",
-      img: LanguageImg(flagImgPath: "assets/flags/united_kingdom.svg"),
-      route: '/choose_daily_goal',
+      route: '/choose_new_course',
     ),
     WelcomeCard(
       title: "French",
       img: LanguageImg(flagImgPath: "assets/flags/france.svg"),
-      route: '/choose_daily_goal',
+      route: '/choose_new_course',
     ),
   ];
 

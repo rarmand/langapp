@@ -7,38 +7,38 @@ import 'package:langapp/components/welcome_card/welcome_card.dart';
 import 'package:langapp/styles/colors.dart';
 
 class DailyGoalPage extends StatelessWidget {
-  List<Widget> dailyGoalItems = [
+  List<Widget> _dailyGoalItems = [
     WelcomeCard(
       title: "words per day",
       img: DailyGoalImg(
         timestamp: 10,
       ),
-      route: "/",
+      route: "/choose_language",
     ),
     WelcomeCard(
       title: "words per day",
       img: DailyGoalImg(
         timestamp: 25,
       ),
-      route: "/",
+      route: "/choose_language",
     ),
     WelcomeCard(
       title: "words per day",
       img: DailyGoalImg(
         timestamp: 40,
       ),
-      route: "/",
+      route: "/choose_language",
     ),
     WelcomeCard(
       title: "words per day",
       img: DailyGoalImg(
         timestamp: 50,
       ),
-      route: "/",
+      route: "/choose_language",
     ),
   ];
 
-  final List<TextSpan> title = <TextSpan>[
+  final List<TextSpan> _title = <TextSpan>[
     TextSpan(
       text: "Choose your\n",
       style: TextStyle(
@@ -62,10 +62,10 @@ class DailyGoalPage extends StatelessWidget {
     return WelcomeFrame(
       onPressedNext: () => Navigator.pushNamed(context, "/"),
       onPressedBack: () => Navigator.pop(context),
-      title: RichTextWidget(textLines: this.title),
+      title: RichTextWidget(textLines: this._title),
       child: Container(
         margin: EdgeInsets.only(top: 60.0),
-        child: Carousel(items: this.dailyGoalItems),
+        child: Carousel(items: this._dailyGoalItems),
       ),
     );
   }

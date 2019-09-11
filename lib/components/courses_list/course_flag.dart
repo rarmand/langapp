@@ -19,7 +19,7 @@ class CourseFlag extends StatelessWidget {
             boxShadow: [
               BoxShadow(
                 blurRadius: 16.0,
-                color: WHITE,
+                color: BROWN_SHADOW_25,
               ),
             ],
           ),

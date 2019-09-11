@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:langapp/model/app_model.dart';
 import 'package:langapp/styles/colors.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 import 'block_points.dart';
 import 'buttons_course.dart';
@@ -10,11 +12,11 @@ class PanelPoints extends StatefulWidget {
 }
 
 class _PanelPointsState extends State<PanelPoints> {
-  bool isPanelExpanded = false;
+  bool _isPanelExpanded = false;
 
   // TODO: zwijanie animacja
   void onPressedArrow() {
-    setState(() => this.isPanelExpanded = !this.isPanelExpanded);
+    setState(() => this._isPanelExpanded = !this._isPanelExpanded);
   }
 
   @override
@@ -35,7 +37,7 @@ class _PanelPointsState extends State<PanelPoints> {
         ],
       ),
       padding: EdgeInsets.only(bottom: BTN_RADIUS),
-      child: (this.isPanelExpanded
+      child: (this._isPanelExpanded
           ? Container(
               margin: EdgeInsets.only(left: 16, right: 16),
               child: Column(

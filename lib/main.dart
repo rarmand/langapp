@@ -8,6 +8,7 @@ import 'package:langapp/pages/learn_page/learn_page_controller.dart';
 import 'package:langapp/pages/learn_page/speed_test_menu_page.dart';
 import 'package:langapp/pages/learn_page/theory_page.dart';
 import 'package:langapp/pages/login_page/login_page.dart';
+import 'package:langapp/pages/new_course_choice_page/new_course_choice_page.dart';
 import 'package:langapp/pages/register_page/register_page.dart';
 import 'package:langapp/pages/reset_password_page/reset_password_page.dart';
 import 'package:langapp/pages/welcome_page/welcome_page.dart';
@@ -30,7 +31,7 @@ class MyApp extends StatelessWidget {
       model: UserModel(),
       child: MaterialApp(
         title: 'Langgarden',
-        initialRoute: "/intro",
+        initialRoute: "/welcome",
         routes: {
           '/': (context) => HomeController(),
           '/intro': (context) => IntroController(),
@@ -40,6 +41,7 @@ class MyApp extends StatelessWidget {
           '/welcome': (context) => WelcomePage(),
           '/choose_language': (context) => LanguagePage(),
           '/choose_daily_goal': (context) => DailyGoalPage(),
+          '/choose_new_course': (context) => NewCourseChoicePage(),
           // TODO: poprawne ścieżki odpowiednio dla kursów
           "/theory": (context) => TheoryPage(courseTitle: "None"),
           "/test": (context) => SpeedTestMenuTest(),

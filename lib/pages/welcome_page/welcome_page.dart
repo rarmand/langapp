@@ -5,13 +5,15 @@ import 'package:langapp/components/intro_text/intro_text.dart';
 import 'package:langapp/components/logo/welcome_icons.dart';
 
 class WelcomePage extends StatelessWidget {
+  final String _nextPath = "/choose_daily_goal";
+
   @override
   Widget build(BuildContext context) {
     // Stack ?
     return WelcomeFrame(
       bottomHeight: 25.0,
       logoWithArrow: false,
-      onPressedNext: () => Navigator.pushNamed(context, "/choose_language"),
+      onPressedNext: () => Navigator.pushNamed(context, this._nextPath),
       title: Text(
         "Welcome!",
         style: TextStyle(
@@ -27,7 +29,7 @@ class WelcomePage extends StatelessWidget {
           SizedBox(height: 28.0),
           ButtonOutlined(
             btnText: "Next",
-            onPressed: () => Navigator.pushNamed(context, '/choose_language'),
+            onPressed: () => Navigator.pushNamed(context, this._nextPath),
           ),
         ],
       ),

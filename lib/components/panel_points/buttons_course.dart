@@ -13,7 +13,7 @@ class ButtonsCourse extends StatelessWidget {
           ButtonCourse(
             name: "Add a new course to learn",
             icon: Icons.add_box,
-            onPressed: () {},
+            onPressed: () => Navigator.pushNamed(context, "/choose_language"),
           ),
         ],
       ),
