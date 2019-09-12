@@ -52,7 +52,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 isChosen: 0,
               ),
             ),
-
+            const SizedBox(height: 24.0),
             ElementButton(
               name: "Log out",
               buttonIcon: Icons.exit_to_app,

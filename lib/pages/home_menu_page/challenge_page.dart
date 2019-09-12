@@ -5,8 +5,7 @@ import 'package:langapp/components/challenge_headers/challenge_not_challenged.da
 import 'package:langapp/components/frame/menu_frame.dart';
 
 class ChallengePage extends StatelessWidget {
-  // TODO: podawać info z zewn czy jest user challenged
-  bool isChallenged = true;
+  bool isChallenged = false;
 
   ChallengePage({Key key}) : super(key: key);
 
