@@ -2,27 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:langapp/styles/colors.dart';
 
 class DailyGoalMarks extends StatelessWidget {
-  // TODO: czy dodawać cień do kulek? NIEEE albo coś innego do odznaczania
-  // czy nie zmienić całkiem stylu
-  List<Mark> goals = [
-    Mark(isMarked: true),
-    Mark(isMarked: false),
-    Mark(isMarked: true),
-    Mark(isMarked: false),
-    Mark(isMarked: false),
-    Mark(isMarked: true),
-    Mark(isMarked: false),
-  ];
+  List<Mark> _goals = [];
+
+  DailyGoalMarks({@required List<bool> dailyGoalData}) {
+    dailyGoalData.forEach((element) => this._goals.add(Mark(isMarked: element)));
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
+      margin: EdgeInsets.fromLTRB(0, 8, 0, 8),
       child: Wrap(
         runSpacing: 4.0,
         alignment: WrapAlignment.center,
         runAlignment: WrapAlignment.spaceBetween,
-        children: goals,
+        children: this._goals,
       ),
     );
   }
@@ -36,16 +30,20 @@ class Mark extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Widget circle = new Container(
-      // TODO: może ustawić zmienny rozmiar kółeczek
-      width: 28.0,
-      height: 28.0,
+      width: 32.0,
+      height: 32.0,
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: (this.isMarked ? [GREEN_DARK, GREEN_LIGHT] : [GRAY.withAlpha(120), GRAY]),
         ),
         shape: BoxShape.circle,
+        border: Border.all(color: BROWN_SHADOW_25, width: 2),
       ),
     );
-    return Container(margin: EdgeInsets.all(4.0), child: circle);
+
+    return Container(
+      margin: EdgeInsets.all(4.0),
+      child: circle,
+    );
   }
 }

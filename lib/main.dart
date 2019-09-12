@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
       model: UserModel(),
       child: MaterialApp(
         title: 'Langgarden',
-        initialRoute: "/intro",
+        initialRoute: "/",
         routes: {
           '/': (context) => HomeController(),
           '/intro': (context) => IntroController(),

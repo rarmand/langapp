@@ -3,29 +3,30 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 
 class ProfileInfoLine extends StatelessWidget {
-  final String name;
-  final String data;
+  final String text;
+  final String value;
 
-  ProfileInfoLine({@required this.name, @required this.data});
+  ProfileInfoLine({@required this.text, @required this.value});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
+      margin: EdgeInsets.fromLTRB(0, 12, 0, 12),
       child: Row(
         children: <Widget>[
+          // TODO: tu może być problem: zapytać
           Container(
             width: MediaQuery.of(context).size.width / 3,
             child: Text(
-              this.name,
+              this.text,
               style: TextStyle(),
             ),
           ),
           Container(
             // TODO: blokada na długość tekstu albo jakiś WrAP
-            width: MediaQuery.of(context).size.width / 2,
+            width: MediaQuery.of(context).size.width / 3,
             child: Text(
-              this.data,
+              this.value,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
               ),

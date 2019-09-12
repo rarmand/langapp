@@ -1,24 +1,72 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/widgets.dart';
 import 'package:langapp/components/element_content/element_content.dart';
 import 'package:langapp/components/panel_points/block_points.dart';
 import 'package:langapp/components/profile_elements/daily_goal_marks.dart';
 import 'package:langapp/components/profile_elements/profile_info_line.dart';
+import 'package:langapp/model/app_model.dart';
+import 'package:scoped_model/scoped_model.dart';
 
-class ProfileContent extends StatelessWidget {
+class ProfileContent extends StatefulWidget {
+  @override
+  _ProfileContentState createState() => _ProfileContentState();
+}
+
+class _ProfileContentState extends State<ProfileContent> {
+  String _username = 'xxx';
+  int _longestStrike = 0;
+  int _speedTestStrike = 0;
+  int _challengesCount = 0;
+  int _points = 0;
+  List<bool> _dailyGoalsList = [true, true, false, true, false, false, false];
+
+  void _getData(BuildContext context) async {
+    String userUid = ScopedModel.of<UserModel>(context).userId;
+
+    print(userUid); // works
+
+    DocumentSnapshot ds = await Firestore.instance.collection("users").document(userUid).get();
+
+    if (ds.exists) {
+      List coursesTable = ds.data['courses'];
+      int dataPoints = 0;
+
+      if (coursesTable.length > 0)
+        coursesTable.forEach((course) {
+          dataPoints += course['points'];
+        });
+
+      setState(() {
+        _username = ScopedModel.of<UserModel>(context).username;
+        _longestStrike = ds.data['longest_strike'];
+        _speedTestStrike = ds.data['speed_test_strike'];
+        _challengesCount = ds.data['challenges_count'];
+        _points = dataPoints;
+
+        // jak to można lepiej napisać?
+        for (int i = 0; i < ds.data['daily_goal_history'].length; i++) {
+          _dailyGoalsList[i] = ds.data['daily_goal_history'][i];
+        }
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    this._getData(context);
+
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 24.0),
       child: Column(
         children: <Widget>[
-          BlockPoints(),
-          ProfileInfoLine(name: "Username", data: "User123456789"),
-          ProfileInfoLine(name: "Longest strike", data: "12"),
-          ProfileInfoLine(name: "Speed tests", data: "10"),
-          ProfileInfoLine(name: "Challenges", data: "2"),
+          BlockPoints(points: this._points),
+          ProfileInfoLine(text: "Username", value: this._username),
+          ProfileInfoLine(text: "Longest strike", value: this._longestStrike.toString()),
+          ProfileInfoLine(text: "Speed tests strike", value: this._speedTestStrike.toString()),
+          ProfileInfoLine(text: "Challenges", value: this._challengesCount.toString()),
           ElementContent(
             title: "Daily goals",
-            element: DailyGoalMarks(),
+            element: DailyGoalMarks(dailyGoalData: this._dailyGoalsList),
           ),
         ],
       ),

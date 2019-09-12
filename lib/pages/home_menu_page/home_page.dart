@@ -4,7 +4,6 @@ import 'package:langapp/components/courses_list/course_box.dart';
 import 'package:langapp/components/frame/menu_frame.dart';
 import 'package:langapp/components/panel_points/panel_points.dart';
 
-// TODO: scrollowanie na marginesach w landscape nie działa
 class HomePage extends StatelessWidget {
   List<Widget> coursesList = [
     CourseBox(index: 0),
@@ -23,7 +22,6 @@ class HomePage extends StatelessWidget {
           children: <Widget>[
             PanelPoints(),
             SizedBox(height: 24.0),
-            // TODO: zapytac jak to dobrze zrobić, żeby inkwell tak brzydko nie wyglądał jak się klika
             Wrap(
               runSpacing: 24.0,
               children: coursesList,

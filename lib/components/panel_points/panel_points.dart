@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:langapp/components/panel_points/block_points.dart';
+import 'package:langapp/components/panel_points/buttons_course.dart';
 import 'package:langapp/model/app_model.dart';
 import 'package:langapp/styles/colors.dart';
 import 'package:scoped_model/scoped_model.dart';
-
-import 'block_points.dart';
-import 'buttons_course.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class PanelPoints extends StatefulWidget {
   @override
@@ -13,9 +13,29 @@ class PanelPoints extends StatefulWidget {
 
 class _PanelPointsState extends State<PanelPoints> {
   bool _isPanelExpanded = false;
+  int _points = 0;
 
   // TODO: zwijanie animacja
+  // do naprawy setState
   void onPressedArrow() {
+    String userUid = ScopedModel.of<UserModel>(context).userId;
+    print(userUid);
+    
+    Firestore.instance.collection("users").document(userUid).get().then((DocumentSnapshot ds) {
+      int dataPoints = 0;
+
+      if (ds.exists) {
+        List coursesTable = ds.data['courses'];
+
+        if (coursesTable.length > 0)
+          coursesTable.forEach((course) {
+            dataPoints += course['points'];
+          });
+      }
+
+      setState(() => this._points = dataPoints);
+    });
+
     setState(() => this._isPanelExpanded = !this._isPanelExpanded);
   }
 
@@ -42,7 +62,7 @@ class _PanelPointsState extends State<PanelPoints> {
               margin: EdgeInsets.only(left: 16, right: 16),
               child: Column(
                 children: <Widget>[
-                  BlockPoints(),
+                  BlockPoints(points: this._points),
                   Text("Choose a course, repeat material and win more points."),
                   ButtonsCourse(),
                   IconButton(

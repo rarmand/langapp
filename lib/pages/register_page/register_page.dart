@@ -138,6 +138,7 @@ class _RegisterPageState extends State<RegisterPage> {
         });
 
         ScopedModel.of<UserModel>(context).setUsername(username: this._username);
+        ScopedModel.of<UserModel>(context).setEmail(email: this._email);
 
         Navigator.pushNamed(context, '/welcome');
 
@@ -145,8 +146,6 @@ class _RegisterPageState extends State<RegisterPage> {
       } catch (e) {
         print(e.message);
       }
-    } else {
-      print("Form is invalid. Email: $_email, password: $_password, username: $_username");
     }
   }
 }

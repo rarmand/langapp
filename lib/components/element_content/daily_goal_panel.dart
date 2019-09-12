@@ -2,24 +2,28 @@ import 'package:flutter/material.dart';
 import 'package:langapp/styles/colors.dart';
 
 class DailyGoalPanel extends StatelessWidget {
-  // TODO: trzeba jeszcze pomanewrować, jak złączyć stany isChosen panelu do isChosen jednej wartości
-  int isChosen;
+  final int number;
 
   List<DailyGoalValue> goals = [
-    DailyGoalValue(value: 10, isChosen: true),
+    DailyGoalValue(value: 10),
     DailyGoalValue(value: 25),
     DailyGoalValue(value: 40),
     DailyGoalValue(value: 50),
   ];
 
-  DailyGoalPanel({@required this.isChosen});
+// TODO: dorobić kółeczko ze strzałką
+  DailyGoalPanel({@required this.number}) {
+    goals.forEach((goal) {
+      if (goal.value == this.number) goal.isChosen = true;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width,
       margin: EdgeInsets.only(top: 20.0),
-      padding: EdgeInsets.symmetric(vertical: 15.0),
+      padding: EdgeInsets.symmetric(vertical: 16.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: this.goals,

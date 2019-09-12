@@ -116,6 +116,9 @@ class _LoginPageState extends State<LoginPage> {
         print(result.user);
 
         ScopedModel.of<UserModel>(context).setUserId(uid: result.user.uid);
+        ScopedModel.of<UserModel>(context).setEmail(email: result.user.email);
+
+        // TODO: pewnie wyświetlić błąd jak nie da się zalogować
         Navigator.pushNamed(context, '/');
       } catch (e) {
         print(e.message);

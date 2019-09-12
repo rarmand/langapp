@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:langapp/styles/colors.dart';
 
 class BlockPoints extends StatelessWidget {
-  final int points = 2533;
+  final int points;
+
+  BlockPoints({@required this.points});
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +36,6 @@ class BlockPoints extends StatelessWidget {
       height: 152.0,
       width: 200.0,
       margin: EdgeInsets.only(top: 40.0, bottom: 40.0),
-      // TODO: cieniowanie klocka?
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(BTN_RADIUS)),
         gradient: LinearGradient(
