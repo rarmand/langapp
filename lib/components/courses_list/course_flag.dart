@@ -3,7 +3,20 @@ import 'package:flutter_svg/svg.dart';
 import 'package:langapp/styles/colors.dart';
 
 class CourseFlag extends StatelessWidget {
-  final Widget flagIcon = SvgPicture.asset('assets/flags/germany.svg');
+  Widget _flagIcon;
+
+  CourseFlag({@required String language}) {
+    // TODO: może da się lepiej
+    String path = '';
+    if (language == "french")
+      path = 'france';
+    else if (language == "german") path = "germany";
+
+    this._flagIcon = SvgPicture.asset(
+      'assets/flags/$path.svg',
+      width: 58.0,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -11,6 +24,7 @@ class CourseFlag extends StatelessWidget {
       alignment: Alignment.center,
       children: <Widget>[
         Container(
+          margin: EdgeInsets.symmetric(horizontal: 16.0),
           height: 62,
           width: 62,
           decoration: BoxDecoration(
@@ -24,10 +38,7 @@ class CourseFlag extends StatelessWidget {
             ],
           ),
         ),
-        Transform.scale(
-          scale: 0.7,
-          child: this.flagIcon,
-        ),
+        this._flagIcon,
       ],
     );
   }

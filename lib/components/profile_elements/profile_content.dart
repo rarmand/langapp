@@ -13,35 +13,33 @@ class ProfileContent extends StatefulWidget {
 }
 
 class _ProfileContentState extends State<ProfileContent> {
-  String _username = 'xxx';
+  String _username = '...';
   int _longestStrike = 0;
   int _speedTestStrike = 0;
   int _challengesCount = 0;
   int _points = 0;
-  List<bool> _dailyGoalsList = [true, true, false, true, false, false, false];
+  List<bool> _dailyGoalsList = [false, false, false, false, false, false, false];
 
-  void _getData(BuildContext context) async {
-    String userUid = ScopedModel.of<UserModel>(context).userId;
+  @override
+  void initState() {
+    super.initState();
+    this._getData();
+  }
 
-    print(userUid); // works
+  void _getData() async {
+    String userId = ScopedModel.of<UserModel>(context).userId;
 
-    DocumentSnapshot ds = await Firestore.instance.collection("users").document(userUid).get();
+    print(userId); // works
+
+    DocumentSnapshot ds = await Firestore.instance.collection("users").document(userId).get();
 
     if (ds.exists) {
-      List coursesTable = ds.data['courses'];
-      int dataPoints = 0;
-
-      if (coursesTable.length > 0)
-        coursesTable.forEach((course) {
-          dataPoints += course['points'];
-        });
-
       setState(() {
         _username = ScopedModel.of<UserModel>(context).username;
         _longestStrike = ds.data['longest_strike'];
         _speedTestStrike = ds.data['speed_test_strike'];
         _challengesCount = ds.data['challenges_count'];
-        _points = dataPoints;
+        _points = ScopedModel.of<UserModel>(context).points;
 
         // jak to można lepiej napisać?
         for (int i = 0; i < ds.data['daily_goal_history'].length; i++) {
@@ -53,8 +51,6 @@ class _ProfileContentState extends State<ProfileContent> {
 
   @override
   Widget build(BuildContext context) {
-    this._getData(context);
-
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 24.0),
       child: Column(

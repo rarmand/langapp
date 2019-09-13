@@ -3,14 +3,16 @@ import 'package:scoped_model/scoped_model.dart';
 
 class UserModel extends Model {
   String _userId = 't0aEzrSxuZcxMtp5GMX2hhzM7ed2';
-  String _username = 'olaf';
-  String _email = 'olaholik56@interia.pl';
+  String _username = '';
+  String _email = '';
   int _dailyGoal = 10;
+  int _points = 0;
 
   String get userId => _userId;
   String get username => _username;
   String get email => _email;
   int get dailyGoal => _dailyGoal;
+  int get points => _points;
 
   void setUserId({String uid}) {
     this._userId = uid;
@@ -29,6 +31,11 @@ class UserModel extends Model {
 
   void setDailyGoal({int dailyGoal}) {
     this._dailyGoal = dailyGoal;
+    notifyListeners();
+  }
+
+  void setPoints({int points}) {
+    this._points = points;
     notifyListeners();
   }
 

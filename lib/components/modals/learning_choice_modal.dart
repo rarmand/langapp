@@ -5,6 +5,10 @@ import 'package:langapp/styles/colors.dart';
 
 // TODO: zablokować background , zeby nic tam nie dzialalo po nacisnięciu
 class LearningChoiceModal extends StatelessWidget {
+  final int index;
+
+  LearningChoiceModal({@required this.index});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,7 +35,7 @@ class LearningChoiceModal extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 20.0),
-                CourseBox(index: 0),
+                CourseBox(index: this.index),
                 const SizedBox(height: 20.0),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,

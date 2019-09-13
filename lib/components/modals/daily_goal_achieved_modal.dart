@@ -34,6 +34,7 @@ class DailyGoalAchievedModal extends StatelessWidget {
                         backgroundColor: WHITE,
                         textColor: GREEN_LIGHT,
                       ),
+                      // TODO: animacja zdobycia kolejnego daily goal
                       DailyGoalMarks(),
                     ],
                   ),

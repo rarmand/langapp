@@ -5,11 +5,15 @@ import 'package:langapp/components/modals/learning_choice_modal.dart';
 import 'package:langapp/styles/colors.dart';
 
 class NewCourseStartModal extends StatelessWidget {
+  final int index;
+
+  NewCourseStartModal({@required this.index = 0});
+
   void _onPressed(BuildContext context) {
     Navigator.pushNamedAndRemoveUntil(context, "/", (Route<dynamic> route) => false);
     Navigator.of(context).push(PageRouteBuilder(
       opaque: false,
-      pageBuilder: (BuildContext context, _, __) => LearningChoiceModal(),
+      pageBuilder: (BuildContext context, _, __) => LearningChoiceModal(index: this.index),
     ));
   }
 

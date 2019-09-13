@@ -6,11 +6,12 @@ class DiagnosedSkillsBlocks extends StatelessWidget {
   final bool isChosen;
   final bool editMode;
   List<SkillBlock> skillsList = [];
+  Map skillset = {};
 
-  DiagnosedSkillsBlocks({this.isChosen = true, this.editMode = false}) {
+  DiagnosedSkillsBlocks({this.isChosen = true, this.skillset, this.editMode = false}) {
     skillsList = [
       SkillBlock(
-        title: "25%",
+        title: this.skillset['speaking'].toString() + "%",
         subtitle: "speaking",
         isChosen: this.isChosen,
         editMode: this.editMode,
@@ -20,7 +21,7 @@ class DiagnosedSkillsBlocks extends StatelessWidget {
         ],
       ),
       SkillBlock(
-        title: "25%",
+        title: this.skillset['reading'].toString() + "%",
         subtitle: "reading",
         isChosen: this.isChosen,
         editMode: this.editMode,
@@ -30,7 +31,7 @@ class DiagnosedSkillsBlocks extends StatelessWidget {
         ],
       ),
       SkillBlock(
-        title: "25%",
+        title: this.skillset['listening'].toString() + "%",
         subtitle: "listening",
         isChosen: this.isChosen,
         editMode: this.editMode,
@@ -40,7 +41,7 @@ class DiagnosedSkillsBlocks extends StatelessWidget {
         ],
       ),
       SkillBlock(
-        title: "25%",
+        title: this.skillset['writing'].toString() + "%",
         subtitle: "writing",
         isChosen: this.isChosen,
         editMode: this.editMode,
@@ -56,7 +57,7 @@ class DiagnosedSkillsBlocks extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(top: 20.0, bottom: 5.0),
+      padding: EdgeInsets.only(top: 20.0, bottom: 4.0),
       child: Wrap(spacing: 10.0, children: skillsList),
     );
   }

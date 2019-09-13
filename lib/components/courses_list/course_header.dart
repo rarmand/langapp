@@ -1,24 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:langapp/components/courses_list/course_flag.dart';
+import 'package:langapp/components/courses_list/course_title.dart';
 import 'package:langapp/components/courses_list/course_type.dart';
 
-import 'course_title.dart';
-
 class CourseHeader extends StatelessWidget {
+  String title = '';
+  String type = '';
+  String language = '';
+
+  CourseHeader({@required this.title, this.type, this.language});
+
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(left: 16.0),
       child: Row(
         children: <Widget>[
-          CourseFlag(),
+          CourseFlag(language: this.language),
           Container(
-            margin: EdgeInsets.only(left: 10.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                CourseTitle(title: "Just something"),
-                CourseType(),
+                CourseTitle(title: this.title),
+                CourseType(type: this.type),
               ],
             ),
           )

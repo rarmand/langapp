@@ -3,10 +3,13 @@ import 'package:langapp/components/modals/skillset_page.dart';
 import 'package:langapp/styles/colors.dart';
 
 class CourseSkillset extends StatelessWidget {
+  final int index;
+  CourseSkillset({@required this.index});
+
   void _onTap(BuildContext context) {
     Navigator.of(context).push(PageRouteBuilder(
       opaque: false,
-      pageBuilder: (BuildContext context, _, __) => SkillsetBlock(),
+      pageBuilder: (BuildContext context, _, __) => SkillsetPage(index: this.index),
     ));
   }
 

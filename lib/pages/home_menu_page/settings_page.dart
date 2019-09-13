@@ -21,7 +21,13 @@ class _SettingsPageState extends State<SettingsPage> {
   String _email = "";
   int _dailyGoal = 10;
 
-  void _getData(BuildContext context) async {
+  @override
+  void initState() {
+    super.initState();
+    this._getData();
+  }
+
+  void _getData() async {
     String userUid = ScopedModel.of<UserModel>(context).userId;
     print(userUid); // works
 
@@ -34,8 +40,6 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
-    this._getData(context);
-
     return MenuFrame(
       title: "Settings",
       child: Container(

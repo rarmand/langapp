@@ -9,10 +9,12 @@ class CourseTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(top: 28.0, bottom: 10.0),
+      margin: EdgeInsets.only(top: 24.0, bottom: 8.0),
       child: Text(
         // TODO: ograniczenie liczby znaków dla title? do 14 ?
+        // jak wrapować tekst ?
         this.title,
+        overflow: TextOverflow.visible,
         style: TextStyle(
           color: WHITE,
           fontSize: 22,

@@ -5,8 +5,19 @@ class ElementButton extends StatelessWidget {
   final String name;
   final IconData buttonIcon;
   final Function onPressed;
+  final bool disabled;
+  Color _buttonColor = GREEN_LIGHT;
 
-  ElementButton({@required this.name, @required this.buttonIcon, this.onPressed});
+  ElementButton({
+    @required this.name,
+    @required this.buttonIcon,
+    @required this.onPressed,
+    this.disabled = true,
+  }) {
+    if (disabled) {
+      this._buttonColor = GRAY;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -14,11 +25,11 @@ class ElementButton extends StatelessWidget {
       margin: EdgeInsets.only(bottom: 10.0),
       alignment: Alignment.centerLeft,
       child: FlatButton.icon(
-        icon: Icon(this.buttonIcon, color: GREEN_LIGHT),
+        icon: Icon(this.buttonIcon, color: this._buttonColor),
         label: Text(
           this.name,
           style: TextStyle(
-            color: GREEN_LIGHT,
+            color: this._buttonColor,
             fontSize: 15.0,
             fontWeight: FontWeight.bold,
           ),

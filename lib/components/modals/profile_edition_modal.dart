@@ -112,11 +112,6 @@ class _ProfileEditionModalState extends State<ProfileEditionModal> {
                     ),
                   ),
                   const SizedBox(height: 24.0),
-                  Text(
-                    "Every edition must be confirmed with password!",
-                    textAlign: TextAlign.left,
-                  ),
-                  const SizedBox(height: 8.0),
                   InputField(
                     label: "Username",
                     existingText: this._username,
@@ -130,12 +125,6 @@ class _ProfileEditionModalState extends State<ProfileEditionModal> {
                     validator: this._onEmailValidator,
                   ),
                   InputField(
-                    label: "Password",
-                    isPassword: true,
-                    onSaved: this._onPasswordSaved,
-                    validator: this._onPasswordValidator,
-                  ),
-                  InputField(
                     label: "New password",
                     isPassword: true,
                     onSaved: this._onNewPasswordSaved,
@@ -146,6 +135,17 @@ class _ProfileEditionModalState extends State<ProfileEditionModal> {
                     isPassword: true,
                     onSaved: this._onConfirmNewPasswordSaved,
                     validator: this._onConfirmNewPasswordValidator,
+                  ),
+                  const SizedBox(height: 24.0),
+                  Text(
+                    "Every edition must be confirmed with password!",
+                    textAlign: TextAlign.left,
+                  ),
+                  InputField(
+                    label: "Password",
+                    isPassword: true,
+                    onSaved: this._onPasswordSaved,
+                    validator: this._onPasswordValidator,
                   ),
                   SizedBox(height: 24.0),
                   ButtonFilled(
@@ -172,7 +172,7 @@ class _ProfileEditionModalState extends State<ProfileEditionModal> {
       try {
         String oldEmail = ScopedModel.of<UserModel>(context).email;
         String oldUsername = ScopedModel.of<UserModel>(context).username;
-        
+
         // authentication
         var result = await FirebaseAuth.instance.signInWithEmailAndPassword(email: oldEmail, password: this._password);
         print(result.user);

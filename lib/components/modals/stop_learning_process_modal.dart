@@ -28,7 +28,7 @@ class StopLearningProcessModal extends StatelessWidget {
                       ),
                       SizedBox(height: 24.0),
                       Text(
-                        "Achieved scpre will be saved.",
+                        "Achieved points will be saved.",
                         textAlign: TextAlign.center,
                       ),
                       SizedBox(height: 24.0),
