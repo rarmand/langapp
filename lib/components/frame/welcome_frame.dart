@@ -27,10 +27,15 @@ class WelcomeFrame extends StatelessWidget {
       child: Center(
         child: Column(
           children: <Widget>[
-            (logoWithArrow ? Arrow(child: LogoSmall(), onPressed: this.onPressedBack) : LogoSmall()),
+            (logoWithArrow
+                ? Arrow(
+                    child: LogoSmall(),
+                    onPressed: this.onPressedBack,
+                  )
+                : LogoSmall()),
             title,
             this.child,
-            SizedBox(height: this.bottomHeight / 2),
+            SizedBox(height: this.bottomHeight),
           ],
         ),
       ),

@@ -124,21 +124,30 @@ class _RegisterPageState extends State<RegisterPage> {
 
     if (form.validate()) {
       form.save();
-      print("Form is valid. Email: $_email, password: $_password, username: $_username");
+      // print("Form is valid. Email: $_email, password: $_password, username: $_username");
 
       try {
         // authentication
         var result =
             await FirebaseAuth.instance.createUserWithEmailAndPassword(email: this._email, password: this._password);
-        print(result.user);
 
         // add to database
         Firestore.instance.collection("users").document(result.user.uid).setData({
           'username': this._username,
+          'email': this._email,
+          'longest_strike': 0,
+          'speed_test_strike': 0,
+          'courses': [],
+          'daily_goal': 10,
+          'daily_goal_history': List<bool>.generate(7, (int index) => false),
+          'challenges_count': 0,
+          'challenge_id': 0,
         });
 
+        ScopedModel.of<UserModel>(context).setUserId(uid: result.user.uid);
         ScopedModel.of<UserModel>(context).setUsername(username: this._username);
         ScopedModel.of<UserModel>(context).setEmail(email: this._email);
+        ScopedModel.of<UserModel>(context).setPoints(points: 0);
 
         Navigator.pushNamed(context, '/welcome');
 

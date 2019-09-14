@@ -4,21 +4,25 @@ import 'package:langapp/styles/colors.dart';
 class WelcomeCard extends StatelessWidget {
   final String title;
   final Widget img;
-  final String route;
+  final Function onTap;
 
-  WelcomeCard({@required this.title, @required this.img, @required this.route});
+  WelcomeCard({
+    @required this.title,
+    @required this.img,
+    @required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Navigator.pushNamed(context, this.route),
+      onTap: this.onTap,
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 20.0),
         width: MediaQuery.of(context).size.width * 0.64,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            const SizedBox(height: 16.0),
+            const SizedBox(height: 8.0),
             this.img,
             Text(
               this.title,

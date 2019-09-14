@@ -4,20 +4,20 @@ import 'package:langapp/components/frame/welcome_frame.dart';
 import 'package:langapp/components/rich_text/rich_text_widget.dart';
 import 'package:langapp/components/welcome_card/language_img.dart';
 import 'package:langapp/components/welcome_card/welcome_card.dart';
+import 'package:langapp/model/app_model.dart';
 import 'package:langapp/styles/colors.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 class LanguagePage extends StatelessWidget {
-  final List<WelcomeCard> languageItems = [
-    WelcomeCard(
-      title: "German",
-      img: LanguageImg(flagImgPath: "assets/flags/germany.svg"),
-      route: '/choose_new_course',
-    ),
-    WelcomeCard(
-      title: "French",
-      img: LanguageImg(flagImgPath: "assets/flags/france.svg"),
-      route: '/choose_new_course',
-    ),
+  final List<Map> _languages = [
+    {
+      'language': 'German',
+      'imgPath': "assets/flags/germany.svg",
+    },
+    {
+      'language': 'French',
+      'imgPath': "assets/flags/france.svg",
+    },
   ];
 
   final List<TextSpan> title = <TextSpan>[
@@ -48,6 +48,22 @@ class LanguagePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<Widget> languageItems = List.generate(
+      this._languages.length,
+      (int index) {
+        return WelcomeCard(
+          title: this._languages[index]['language'],
+          img: LanguageImg(flagImgPath: this._languages[index]['imgPath']),
+          onTap: () {
+            ScopedModel.of<UserModel>(context).setLanguage(
+              language: this._languages[index]['language'],
+            );
+            Navigator.pushNamed(context, "/choose_new_course");
+          },
+        );
+      },
+    );
+
     return WelcomeFrame(
       onPressedNext: () => Navigator.pushNamed(context, "/choose_daily_goal"),
       onPressedBack: () => Navigator.pop(context),
