@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:langapp/model/app_model.dart';
 import 'package:langapp/pages/daily_goal_page/daily_goal_page.dart';
@@ -32,7 +31,7 @@ class MyApp extends StatelessWidget {
       model: UserModel(),
       child: MaterialApp(
         title: 'Langgarden',
-        initialRoute: "/intro",
+        initialRoute: "/",
         routes: {
           '/': (context) => HomeController(),
           '/intro': (context) => IntroController(),

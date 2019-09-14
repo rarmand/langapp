@@ -30,17 +30,15 @@ class _HomePageState extends State<HomePage> {
     int userPoints = 0;
 
     if (ds.exists) {
-      List courses = ds.data['courses'];
+      Map courses = ds.data['courses'];
+      List<Widget> list = [];
 
       if (courses.length > 0) {
-        List<Widget> list = [];
-        for (int i = 0; i < courses.length; i++) {
-          userPoints += courses[i]['points'];
-          list.add(CourseBox(
-            index: i,
-            isNewCourse: false,
-          ));
-        }
+        courses.forEach((index, dataMap) {
+          userPoints += dataMap['points'];
+          list.add(CourseBox(index: index));
+        });
+
         setState(() {
           _coursesList = list;
         });
@@ -60,12 +58,12 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           children: <Widget>[
             PanelPoints(),
-            SizedBox(height: 24.0),
+            const SizedBox(height: 24.0),
             Wrap(
               runSpacing: 24.0,
               children: this._coursesList,
             ),
-            SizedBox(height: 24.0),
+            const SizedBox(height: 24.0),
           ],
         ));
   }

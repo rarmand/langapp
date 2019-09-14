@@ -10,7 +10,7 @@ import 'package:langapp/model/app_model.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class SkillsetPage extends StatefulWidget {
-  int index;
+  String index;
 
   SkillsetPage({@required this.index});
 

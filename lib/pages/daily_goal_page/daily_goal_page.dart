@@ -32,6 +32,8 @@ class DailyGoalPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // TODO: zapytac czy to dobry pomysł
+    //
     List<Widget> dailyGoalItems = List.generate(
       this._timestamps.length,
       (int index) {

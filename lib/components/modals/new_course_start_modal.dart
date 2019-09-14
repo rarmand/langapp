@@ -5,9 +5,9 @@ import 'package:langapp/components/modals/learning_choice_modal.dart';
 import 'package:langapp/styles/colors.dart';
 
 class NewCourseStartModal extends StatelessWidget {
-  final int index;
+  final String index;
 
-  NewCourseStartModal({@required this.index = 0});
+  NewCourseStartModal({@required this.index});
 
   void _onPressed(BuildContext context) {
     Navigator.pushNamedAndRemoveUntil(context, "/", (Route<dynamic> route) => false);
@@ -30,7 +30,7 @@ class NewCourseStartModal extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 const SizedBox(height: 16.0),
-                CourseBox(index: 0, isNewCourse: true),
+                CourseBox(index: this.index, isNewCourse: true),
                 const SizedBox(height: 64.0),
                 ButtonFilled(
                   btnText: "Start",

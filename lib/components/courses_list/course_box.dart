@@ -12,10 +12,10 @@ import 'course_header.dart';
 import 'course_vocabulary_data.dart';
 
 class CourseBox extends StatefulWidget {
-  final int index;
+  String index; // nazwa kursu w bazie - key
   bool isNewCourse;
 
-  CourseBox({this.index, this.isNewCourse = false});
+  CourseBox({@required this.index, this.isNewCourse = false});
   @override
   _CourseBoxState createState() => _CourseBoxState();
 }
@@ -36,24 +36,29 @@ class _CourseBoxState extends State<CourseBox> {
 
   // TODO: do sprawdzenia czy to jest wszystko okk
   void _getData() async {
-    String userId = ScopedModel.of<UserModel>(context).userId;
-    DocumentSnapshot ds = await Firestore.instance.collection('users').document(userId).get();
+    DocumentSnapshot dsCourse = await Firestore.instance.collection('courses').document(this.widget.index).get();
 
-    if (ds.exists) {
-      Map course = ds.data['courses'][this.widget.index];
-      DocumentReference courseRef = course['course_id'];
-      DocumentSnapshot courseDs = await Firestore.instance.collection("courses").document(courseRef.documentID).get();
+    if (dsCourse.exists) {
+      Map courseData = dsCourse.data;
+      setState(() {
+        this._language = courseData['language'];
+        this._courseTitle = courseData['title'];
+        this._courseType = courseData['type'];
+        this._allWordsNumber = courseData['collection_of_words'].length;
+      });
 
-      if (courseDs.exists) {
-        Map courseData = courseDs.data;
-        setState(() {
-          this._courseTitle = courseData['title'];
-          this._courseType = courseData['type'];
-          this._learntWordsNumber = course['learnt_words'];
-          this._wordsToRepeatNumber = course['words_to_repeat'];
-          this._allWordsNumber = courseData['collection_of_words'].length;
-          this._language = courseData['language'];
-        });
+      if (!this.widget.isNewCourse) {
+        String userId = ScopedModel.of<UserModel>(context).userId;
+        DocumentSnapshot dsUserCourse = await Firestore.instance.collection('users').document(userId).get();
+
+        if (dsUserCourse.exists) {
+          Map userCourseData = dsUserCourse.data['courses'][this.widget.index];
+
+          setState(() {
+            this._learntWordsNumber = userCourseData['learnt_words'];
+            this._wordsToRepeatNumber = userCourseData['words_to_repeat'];
+          });
+        }
       }
     }
   }
@@ -62,7 +67,7 @@ class _CourseBoxState extends State<CourseBox> {
     if (this.widget.isNewCourse)
       Navigator.of(context).push(PageRouteBuilder(
         opaque: false,
-        pageBuilder: (BuildContext context, _, __) => NewCourseStartModal(),
+        pageBuilder: (BuildContext context, _, __) => NewCourseStartModal(index: this.widget.index),
       ));
     else
       Navigator.of(context).push(PageRouteBuilder(

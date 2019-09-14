@@ -1,8 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:langapp/components/frame/welcome_frame.dart';
 import 'package:langapp/components/rich_text/rich_text_widget.dart';
 import 'package:langapp/components/courses_list/course_box.dart';
+import 'package:langapp/model/app_model.dart';
 import 'package:langapp/styles/colors.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 class NewCourseChoicePage extends StatefulWidget {
   @override
@@ -10,12 +13,8 @@ class NewCourseChoicePage extends StatefulWidget {
 }
 
 class _NewCourseChoicePageState extends State<NewCourseChoicePage> {
-  List<Widget> coursesList = [
-    CourseBox(index: 0, isNewCourse: true),
-    CourseBox(index: 1, isNewCourse: true),
-    CourseBox(index: 2, isNewCourse: true),
-    CourseBox(index: 3, isNewCourse: true),
-  ];
+  List<Widget> _coursesList = [];
+  List _userCoursesKeys;
 
   final List<TextSpan> _title = <TextSpan>[
     TextSpan(
@@ -35,6 +34,18 @@ class _NewCourseChoicePageState extends State<NewCourseChoicePage> {
       ),
     ),
   ];
+//
+//
+  // TODO: pobranie tylko kursów pod dany język
+  // spr czy dany kurs juz nie jest używany
+//
+//
+// ???????????????????????????????
+  void _getUserData() async {
+    String userId = ScopedModel.of<UserModel>(context).userId;
+    DocumentSnapshot ds = await Firestore.instance.collection('users').document(userId).get();
+    if (ds.exists) this._userCoursesKeys = ds.data['courses'].keys.toList();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,12 +56,50 @@ class _NewCourseChoicePageState extends State<NewCourseChoicePage> {
       child: Column(
         children: <Widget>[
           const SizedBox(height: 60.0),
-          // TODO: zapytac jak to dobrze zrobić, żeby inkwell tak brzydko nie wyglądał jak się klika
-          Wrap(
-            runSpacing: 24.0,
-            children: coursesList,
+          StreamBuilder(
+            stream: Firestore.instance.collection("courses").snapshots(),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) return const Text("Loading...");
+
+              // TODO: no idea how this should work
+              this._coursesList.removeRange(0, this._coursesList.length);
+              this._getUserData();
+              String language = ScopedModel.of<UserModel>(context).language.toLowerCase();
+              print(language);
+
+              QuerySnapshot courses = snapshot.data;
+              int coursesNumber = courses.documents.length;
+
+              // coś tu nie działa
+              // trzeba przetestować dla normalnego użytkowania
+              //
+              for (int i = 0; i < coursesNumber; i++) {
+                if (this._userCoursesKeys == null) {
+                  this._userCoursesKeys = [];
+                }
+
+                if (this._userCoursesKeys.contains(courses.documents[i].documentID)) {
+                  print("user uses such a course: " + courses.documents[i].documentID.toString());
+                } else if (courses.documents[i].data['language'] == language) {
+                  print(courses.documents[i].documentID);
+                  _coursesList.add(
+                    CourseBox(
+                      index: courses.documents[i].documentID,
+                      isNewCourse: true,
+                    ),
+                  );
+                } else {
+                  print("something else");
+                }
+              }
+
+              return Wrap(
+                runSpacing: 24.0,
+                children: this._coursesList,
+              );
+            },
           ),
-          SizedBox(height: 12.0),
+          const SizedBox(height: 12.0),
         ],
       ),
     );

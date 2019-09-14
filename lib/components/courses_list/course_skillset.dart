@@ -3,7 +3,7 @@ import 'package:langapp/components/modals/skillset_page.dart';
 import 'package:langapp/styles/colors.dart';
 
 class CourseSkillset extends StatelessWidget {
-  final int index;
+  final String index;
   CourseSkillset({@required this.index});
 
   void _onTap(BuildContext context) {

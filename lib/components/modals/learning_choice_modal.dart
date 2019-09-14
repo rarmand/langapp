@@ -5,7 +5,7 @@ import 'package:langapp/styles/colors.dart';
 
 // TODO: zablokować background , zeby nic tam nie dzialalo po nacisnięciu
 class LearningChoiceModal extends StatelessWidget {
-  final int index;
+  final String index;
 
   LearningChoiceModal({@required this.index});
 
