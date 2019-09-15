@@ -15,7 +15,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<Widget> _coursesList = [];
+  List<String> _coursesList = [];
 
   @override
   void initState() {
@@ -31,13 +31,16 @@ class _HomePageState extends State<HomePage> {
 
     if (ds.exists) {
       Map courses = ds.data['courses'];
-      List<Widget> list = [];
+      Map challenges = ds.data['challenges'];
+      List<String> list = [];
 
       if (courses.length > 0) {
         courses.forEach((index, dataMap) {
           userPoints += dataMap['points'];
-          list.add(CourseBox(index: index));
+          list.add(index);
         });
+        // wycena challenge'a = 500 points
+        userPoints += challenges.length * 500;
 
         setState(() {
           _coursesList = list;
@@ -61,7 +64,14 @@ class _HomePageState extends State<HomePage> {
             const SizedBox(height: 24.0),
             Wrap(
               runSpacing: 24.0,
-              children: this._coursesList,
+              children: this
+                  ._coursesList
+                  .map(
+                    (index) => CourseBox(
+                      index: index,
+                    ),
+                  )
+                  .toList(),
             ),
             const SizedBox(height: 24.0),
           ],

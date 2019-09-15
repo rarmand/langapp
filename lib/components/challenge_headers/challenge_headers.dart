@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:langapp/components/element_content/element_single_block.dart';
+import 'package:langapp/model/app_model.dart';
 import 'package:langapp/styles/colors.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 class ChallengeHeaders extends StatelessWidget {
-  bool isTutor;
-  bool isChallenged;
+  final bool isTutor;
+  final bool isChallenged;
 
   ChallengeHeaders({this.isTutor = false, this.isChallenged = false});
 
   @override
   Widget build(BuildContext context) {
+    int points = ScopedModel.of<UserModel>(context, rebuildOnChange: true).points;
+
     ElementSingleBlock pointsBlock = ElementSingleBlock(
-      title: "2533",
+      title: points.toString(),
       subtitle: "your points",
       gradient: [BROWN_LIGHT, BROWN_DARK],
     );
@@ -22,45 +26,9 @@ class ChallengeHeaders extends StatelessWidget {
       gradient: [GREEN_LIGHT, GREEN_DARK],
     );
 
-    ElementSingleBlock tutorBlock = ElementSingleBlock(
-      title: "Tutor!",
-      subtitle: "Test yourself",
-      gradient: [YELLOW, YELLOW],
-    );
-
     Widget finalHeader;
 
-    if (isTutor && isChallenged) {
-      finalHeader = Stack(
-        children: <Widget>[
-          Align(
-            alignment: Alignment(-0.5, 0.5),
-            child: pointsBlock,
-          ),
-          Align(
-            alignment: Alignment(0.0, 0.0),
-            child: tutorBlock,
-          ),
-          Align(
-            alignment: Alignment(0.5, -0.5),
-            child: challengeBlock,
-          ),
-        ],
-      );
-    } else if (isTutor) {
-      finalHeader = Stack(
-        children: <Widget>[
-          Align(
-            alignment: Alignment(-0.5, 0.5),
-            child: pointsBlock,
-          ),
-          Align(
-            alignment: Alignment(0.5, -0.5),
-            child: tutorBlock,
-          ),
-        ],
-      );
-    } else if (isChallenged) {
+    if (isChallenged) {
       finalHeader = Stack(
         children: <Widget>[
           Align(

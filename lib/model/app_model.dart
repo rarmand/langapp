@@ -8,6 +8,11 @@ class UserModel extends Model {
   String _language = 'french';
   int _dailyGoal = 10;
   int _points = 0;
+  Map _challenge = {
+    'challenge_id': '',
+    'title': '',
+    'description': '',
+  };
 
   String get userId => _userId;
   String get username => _username;
@@ -16,6 +21,8 @@ class UserModel extends Model {
 
   int get dailyGoal => _dailyGoal;
   int get points => _points;
+
+  Map get challenge => _challenge;
 
   void setUserId({String uid}) {
     this._userId = uid;
@@ -44,6 +51,11 @@ class UserModel extends Model {
 
   void setPoints({int points}) {
     this._points = points;
+    notifyListeners();
+  }
+
+  void setChallenge({Map challenge}) {
+    this._challenge = challenge;
     notifyListeners();
   }
 

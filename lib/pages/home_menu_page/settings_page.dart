@@ -27,9 +27,6 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   void _getData() async {
-    String userUid = ScopedModel.of<UserModel>(context).userId;
-    print(userUid); // works
-
     setState(() {
       _username = ScopedModel.of<UserModel>(context).username;
       _email = ScopedModel.of<UserModel>(context).email;

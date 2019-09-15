@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:langapp/components/button_filled/button_filled.dart';
-import 'package:langapp/components/button_outlined/button_outlined.dart';
+import 'package:langapp/model/app_model.dart';
 import 'package:langapp/styles/colors.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 class ChallengeIsChallenged extends StatelessWidget {
+  final int challengeId;
+  Function onFinishPressed;
+
+  ChallengeIsChallenged({@required this.challengeId, @required this.onFinishPressed});
+
   @override
   Widget build(BuildContext context) {
+    Map challenge = ScopedModel.of<UserModel>(context).challenge;
+
     return Container(
       padding: EdgeInsets.only(top: 20.0, bottom: 20.0),
       child: Column(
@@ -18,9 +26,9 @@ class ChallengeIsChallenged extends StatelessWidget {
               fontSize: 16.0,
             ),
           ),
-          SizedBox(height: 20.0),
+          const SizedBox(height: 20.0),
           Text(
-            "Write a letter to yourself from the future in chosen foreign language.",
+            challenge['title'],
             textAlign: TextAlign.center,
             style: TextStyle(
               color: GREEN_LIGHT,
@@ -28,18 +36,16 @@ class ChallengeIsChallenged extends StatelessWidget {
               fontSize: 20.0,
             ),
           ),
-          SizedBox(height: 20.0),
-          Text("Instruction:"),
-          // TODO: to można wstawic do pętli
-          Text("- one instruction to do something like this"),
-          Text("- one instruction to do something like this"),
-          Text("- one instruction to do something like this"),
-          Text("- one instruction to do something like this"),
-          Text("- one instruction to do something like this"),
-          Text("- one instruction to do something like this"),
+          const SizedBox(height: 20.0),
+          Text(
+            "Instruction:",
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 16.0),
+          Text(challenge['description']),
           Center(
             child: Container(
-              margin: EdgeInsets.only(top: 30.0, bottom: 50.0),
+              margin: EdgeInsets.only(top: 28.0, bottom: 40.0),
               child: Text(
                 "We wish you good luck!",
                 style: TextStyle(
@@ -49,26 +55,16 @@ class ChallengeIsChallenged extends StatelessWidget {
               ),
             ),
           ),
-
-          Text(
-            "Finish of the challenge?",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
+          Center(
+            child: ButtonFilled(
+              btnText: "Finish the challenge",
+              onPressed: this.onFinishPressed,
             ),
           ),
-          SizedBox(height: 20.0),
+          const SizedBox(height: 20.0),
           Text(
-              "Send us a document file or a photo. Our tutor will check it out and decide if the task is made correctly."),
-          Text("Soon you will receive a feedback to the task. Check your email box."),
-          SizedBox(height: 30.0),
-          // TODO: przemyśleć układ funkcjonalności, czy to ma sens logiczny
-          Center(
-            child: ButtonOutlined(btnText: "Upload file"),
+            "Finish of the challenge? Next challenge will appear in two weeks.",
           ),
-          SizedBox(height: 5.0),
-          Center(
-            child: ButtonFilled(btnText: "Finish the challenge"),
-          )
         ],
       ),
     );

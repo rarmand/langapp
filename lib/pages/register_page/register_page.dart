@@ -140,7 +140,7 @@ class _RegisterPageState extends State<RegisterPage> {
           'courses': [],
           'daily_goal': 10,
           'daily_goal_history': List<bool>.generate(7, (int index) => false),
-          'challenges_count': 0,
+          'challenges': {},
           'challenge_id': 0,
         });
 

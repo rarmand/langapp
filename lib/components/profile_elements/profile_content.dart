@@ -28,9 +28,6 @@ class _ProfileContentState extends State<ProfileContent> {
 
   void _getData() async {
     String userId = ScopedModel.of<UserModel>(context).userId;
-
-    print(userId); // works
-
     DocumentSnapshot ds = await Firestore.instance.collection("users").document(userId).get();
 
     if (ds.exists) {
@@ -38,7 +35,7 @@ class _ProfileContentState extends State<ProfileContent> {
         _username = ScopedModel.of<UserModel>(context).username;
         _longestStrike = ds.data['longest_strike'];
         _speedTestStrike = ds.data['speed_test_strike'];
-        _challengesCount = ds.data['challenges_count'];
+        _challengesCount = ds.data['challenges'].length;
         _points = ScopedModel.of<UserModel>(context).points;
 
         // jak to można lepiej napisać?

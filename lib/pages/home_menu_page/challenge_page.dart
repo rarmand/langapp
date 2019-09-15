@@ -1,18 +1,120 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:langapp/components/challenge_headers/challenge_headers.dart';
 import 'package:langapp/components/challenge_headers/challenge_is_challenged.dart';
 import 'package:langapp/components/challenge_headers/challenge_not_challenged.dart';
 import 'package:langapp/components/frame/menu_frame.dart';
+import 'package:langapp/model/app_model.dart';
+import 'package:scoped_model/scoped_model.dart';
+import 'dart:math';
 
-class ChallengePage extends StatelessWidget {
-  bool isChallenged = false;
-
+class ChallengePage extends StatefulWidget {
   ChallengePage({Key key}) : super(key: key);
 
   @override
+  _ChallengePageState createState() => _ChallengePageState();
+}
+
+class _ChallengePageState extends State<ChallengePage> {
+  bool _isChallenged = false;
+  String _challengeId = "0";
+
+  @override
+  void initState() {
+    super.initState();
+    this._getData();
+  }
+
+  void _getData() async {
+    String uid = ScopedModel.of<UserModel>(context).userId;
+    DocumentSnapshot ds = await Firestore.instance.collection("users").document(uid).get();
+
+    setState(() {
+      this._challengeId = ds.data['challenge_id'];
+      this._isChallenged = this._challengeId != "0";
+    });
+  }
+
+// TODO: funkcja słabo działa
+
+  void _onTakeAChallenge() async {
+    // pobranie course_id
+    // sprawdzenie czy zostało juz kiedyś użyte
+    // wprowazdenie do bazy danych i do scoped model ?
+    // dodawanie użytego challenga do challenges dla usera i data zakończenia
+    // blokada jeśli nie minął odpowiedni okres czasu od poprzedniego challenga
+
+    // pobranie danych usera
+    String uid = ScopedModel.of<UserModel>(context).userId;
+    DocumentSnapshot ds = await Firestore.instance.collection("users").document(uid).get();
+
+    if (ds.exists) {
+      Map usedChallenges = ds['challenges'];
+
+      QuerySnapshot qs = await Firestore.instance.collection("challenges").getDocuments();
+
+      if (qs.documents.toList().length > 0) {
+        List<DocumentSnapshot> challengesList = qs.documents.toList();
+        List challengesChoice = [];
+
+        // sprawdz ktore challenge juz byly
+        challengesList.forEach((challengeDs) {
+          if (!usedChallenges.containsKey(challengeDs.documentID.toString())) {
+            challengesChoice.add(challengeDs);
+          }
+        });
+
+        // jeśli sa wolne opcje, korzystaj
+        if (challengesChoice.length > 0) {
+          // losowanie challenge'u
+          Random rnd = new Random.secure();
+          DocumentSnapshot choiceDs = challengesChoice[rnd.nextInt(challengesList.length)];
+
+          // wstawianie do bazy i do modelu
+          await Firestore.instance
+              .collection('users')
+              .document(uid)
+              .updateData({'challenge_id': choiceDs.documentID.toString()});
+
+          Map newChallenge = {
+            'challengeId': choiceDs.documentID.toString(),
+            'title': choiceDs.data['title'],
+            'description': choiceDs.data['description'],
+          };
+          ScopedModel.of<UserModel>(context).setChallenge(challenge: newChallenge);
+
+          setState(() {
+            this._isChallenged = true;
+            this._challengeId = choiceDs.documentID.toString();
+          });
+        } else {
+          // alert że wszystkie na ten moment wykorzystane
+
+        }
+      }
+    }
+  }
+
+  void _onFinishChallenge() async {
+    String uid = ScopedModel.of<UserModel>(context).userId;
+    await Firestore.instance.collection("users").document(uid).updateData({"challenge_id": "0"});
+
+    setState(() {
+      this._isChallenged = false;
+      this._challengeId = "0";
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    Widget beforeChallengeWidget = ChallengeNotChallenged();
-    Widget afterChallengeWidget = ChallengeIsChallenged();
+    Widget beforeChallengeWidget = ChallengeNotChallenged(
+      onTap: this._onTakeAChallenge,
+      disabled: false,
+    );
+    Widget afterChallengeWidget = ChallengeIsChallenged(
+      challengeId: 0,
+      onFinishPressed: this._onFinishChallenge,
+    );
 
     return MenuFrame(
       title: "Challenge",
@@ -20,9 +122,9 @@ class ChallengePage extends StatelessWidget {
         padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
         child: Column(
           children: <Widget>[
-            ChallengeHeaders(isChallenged: this.isChallenged),
+            ChallengeHeaders(isChallenged: this._isChallenged),
             SizedBox(height: 20.0),
-            (isChallenged ? afterChallengeWidget : beforeChallengeWidget),
+            (_isChallenged ? afterChallengeWidget : beforeChallengeWidget),
           ],
         ),
       ),
