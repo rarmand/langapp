@@ -5,7 +5,7 @@ class UserModel extends Model {
   String _userId = 't0aEzrSxuZcxMtp5GMX2hhzM7ed2';
   String _username = '';
   String _email = '';
-  String _language = 'german';
+  String _language = 'french';
   int _dailyGoal = 10;
   int _points = 0;
 

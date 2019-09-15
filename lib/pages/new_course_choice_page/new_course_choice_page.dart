@@ -34,17 +34,21 @@ class _NewCourseChoicePageState extends State<NewCourseChoicePage> {
       ),
     ),
   ];
-//
-//
-  // TODO: pobranie tylko kursów pod dany język
-  // spr czy dany kurs juz nie jest używany
-//
-//
-// ???????????????????????????????
+
+  @override
+  void initState() {
+    super.initState();
+    this._getUserData();
+  }
+
   void _getUserData() async {
     String userId = ScopedModel.of<UserModel>(context).userId;
     DocumentSnapshot ds = await Firestore.instance.collection('users').document(userId).get();
-    if (ds.exists) this._userCoursesKeys = ds.data['courses'].keys.toList();
+    if (ds.exists) {
+      setState(() {
+        this._userCoursesKeys = ds.data['courses'].keys.toList();
+      });
+    }
   }
 
   @override
@@ -61,36 +65,30 @@ class _NewCourseChoicePageState extends State<NewCourseChoicePage> {
             builder: (context, snapshot) {
               if (!snapshot.hasData) return const Text("Loading...");
 
-              // TODO: no idea how this should work
               this._coursesList.removeRange(0, this._coursesList.length);
-              this._getUserData();
               String language = ScopedModel.of<UserModel>(context).language.toLowerCase();
-              print(language);
 
               QuerySnapshot courses = snapshot.data;
               int coursesNumber = courses.documents.length;
 
-              // coś tu nie działa
-              // trzeba przetestować dla normalnego użytkowania
-              //
               for (int i = 0; i < coursesNumber; i++) {
-                if (this._userCoursesKeys == null) {
-                  this._userCoursesKeys = [];
-                }
+                if (this._userCoursesKeys == null) this._userCoursesKeys = [];
 
                 if (this._userCoursesKeys.contains(courses.documents[i].documentID)) {
-                  print("user uses such a course: " + courses.documents[i].documentID.toString());
+                  // print("user uses such a course: " + courses.documents[i].documentID.toString());
                 } else if (courses.documents[i].data['language'] == language) {
-                  print(courses.documents[i].documentID);
+                  // print("found by language: " + courses.documents[i].documentID);
                   _coursesList.add(
                     CourseBox(
                       index: courses.documents[i].documentID,
                       isNewCourse: true,
                     ),
                   );
-                } else {
-                  print("something else");
                 }
+                // else {
+                //   print("something else: " + courses.documents[i].documentID.toString());
+                //   print(this._coursesList);
+                // }
               }
 
               return Wrap(

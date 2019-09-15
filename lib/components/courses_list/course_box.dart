@@ -12,7 +12,7 @@ import 'course_header.dart';
 import 'course_vocabulary_data.dart';
 
 class CourseBox extends StatefulWidget {
-  String index; // nazwa kursu w bazie - key
+  String index; // nazwa kursu w db - key
   bool isNewCourse;
 
   CourseBox({@required this.index, this.isNewCourse = false});

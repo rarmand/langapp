@@ -7,7 +7,7 @@ class CourseFlag extends StatelessWidget {
 
   CourseFlag({@required String language}) {
     // TODO: może da się lepiej
-    String path = '';
+    String path = 'poland';
     if (language == "french")
       path = 'france';
     else if (language == "german") path = "germany";
