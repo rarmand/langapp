@@ -19,7 +19,6 @@ class SettingsPage extends StatefulWidget {
 class _SettingsPageState extends State<SettingsPage> {
   String _username = "";
   String _email = "";
-  int _dailyGoal = 10;
 
   @override
   void initState() {
@@ -34,7 +33,6 @@ class _SettingsPageState extends State<SettingsPage> {
     setState(() {
       _username = ScopedModel.of<UserModel>(context).username;
       _email = ScopedModel.of<UserModel>(context).email;
-      _dailyGoal = ScopedModel.of<UserModel>(context).dailyGoal;
     });
   }
 
@@ -63,9 +61,7 @@ class _SettingsPageState extends State<SettingsPage> {
             ElementContent(
               title: "Daily goal",
               subtitle: "Number of words to learn or repeat per day",
-              element: DailyGoalPanel(
-                number: this._dailyGoal,
-              ),
+              element: DailyGoalPanel(),
             ),
             const SizedBox(height: 24.0),
             ElementButton(

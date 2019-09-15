@@ -77,7 +77,6 @@ class _ProfileEditionModalState extends State<ProfileEditionModal> {
 
   String _onConfirmNewPasswordValidator(String input) {
     if (this._newPassword != input) return "The password must be the same";
-
     return null;
   }
 

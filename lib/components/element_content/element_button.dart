@@ -12,7 +12,7 @@ class ElementButton extends StatelessWidget {
     @required this.name,
     @required this.buttonIcon,
     @required this.onPressed,
-    this.disabled = true,
+    this.disabled = false,
   }) {
     if (disabled) {
       this._buttonColor = GRAY;

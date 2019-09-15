@@ -1,32 +1,42 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:langapp/model/app_model.dart';
 import 'package:langapp/styles/colors.dart';
+import 'package:scoped_model/scoped_model.dart';
 
-class DailyGoalPanel extends StatelessWidget {
-  final int number;
+class DailyGoalPanel extends StatefulWidget {
+  @override
+  _DailyGoalPanelState createState() => _DailyGoalPanelState();
+}
 
-  List<DailyGoalValue> goals = [
-    DailyGoalValue(value: 10),
-    DailyGoalValue(value: 25),
-    DailyGoalValue(value: 40),
-    DailyGoalValue(value: 50),
-  ];
+class _DailyGoalPanelState extends State<DailyGoalPanel> {
+  List<int> _goalsNumbers = [10, 25, 40, 50];
 
-// TODO: dorobić kółeczko ze strzałką
-  DailyGoalPanel({@required this.number}) {
-    goals.forEach((goal) {
-      if (goal.value == this.number) goal.isChosen = true;
-    });
+  void _onDailyGoalChoose(int value) {
+    ScopedModel.of<UserModel>(context).setDailyGoal(dailyGoal: value);
+    Firestore.instance
+        .collection("users")
+        .document(ScopedModel.of<UserModel>(context).userId)
+        .updateData({"daily_goal": value});
   }
 
   @override
   Widget build(BuildContext context) {
+    var chosenGoal = ScopedModel.of<UserModel>(context, rebuildOnChange: true).dailyGoal;
+
     return Container(
       width: MediaQuery.of(context).size.width,
       margin: EdgeInsets.only(top: 20.0),
-      padding: EdgeInsets.symmetric(vertical: 16.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: this.goals,
+        children: this
+            ._goalsNumbers
+            .map((goal) => DailyGoalValue(
+                  value: goal,
+                  onChoose: this._onDailyGoalChoose,
+                  isChosen: goal == chosenGoal,
+                ))
+            .toList(),
       ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(BTN_RADIUS)),
@@ -45,19 +55,26 @@ class DailyGoalPanel extends StatelessWidget {
 
 class DailyGoalValue extends StatelessWidget {
   final int value;
-  bool isChosen;
+  final Function onChoose;
+  final bool isChosen;
 
-  DailyGoalValue({@required this.value, this.isChosen = false});
+  DailyGoalValue({@required this.value, @required this.onChoose, this.isChosen = false});
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      this.value.toString(),
-      style: TextStyle(
-        fontSize: 20.0,
-        fontFamily: "Roboto",
-        fontWeight: (this.isChosen ? FontWeight.bold : FontWeight.w400),
-        color: WHITE,
+    return InkWell(
+      onTap: () => this.onChoose(this.value),
+      child: Container(
+        padding: EdgeInsets.all(16.0),
+        child: Text(
+          this.value.toString(),
+          style: TextStyle(
+            fontSize: 20.0,
+            fontFamily: "Roboto",
+            fontWeight: (this.isChosen ? FontWeight.bold : FontWeight.w400),
+            color: WHITE,
+          ),
+        ),
       ),
     );
   }
