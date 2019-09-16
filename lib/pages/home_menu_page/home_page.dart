@@ -66,11 +66,9 @@ class _HomePageState extends State<HomePage> {
               runSpacing: 24.0,
               children: this
                   ._coursesList
-                  .map(
-                    (index) => CourseBox(
-                      index: index,
-                    ),
-                  )
+                  .map((index) => CourseBox(
+                        index: index,
+                      ))
                   .toList(),
             ),
             const SizedBox(height: 24.0),

@@ -14,6 +14,13 @@ class UserModel extends Model {
     'description': '',
   };
 
+  Map _skillset = {
+    'speaking': 0,
+    'listening': 0,
+    'writing': 0,
+    'reading': 0,
+  };
+
   String get userId => _userId;
   String get username => _username;
   String get email => _email;
@@ -23,6 +30,7 @@ class UserModel extends Model {
   int get points => _points;
 
   Map get challenge => _challenge;
+  Map get skillset => _skillset;
 
   void setUserId({String uid}) {
     this._userId = uid;
@@ -56,6 +64,11 @@ class UserModel extends Model {
 
   void setChallenge({Map challenge}) {
     this._challenge = challenge;
+    notifyListeners();
+  }
+
+  void setSkillset({Map skillset}) {
+    this._skillset = skillset;
     notifyListeners();
   }
 

@@ -12,8 +12,8 @@ import 'course_header.dart';
 import 'course_vocabulary_data.dart';
 
 class CourseBox extends StatefulWidget {
-  String index; // nazwa kursu w db - key
-  bool isNewCourse;
+  final String index; // nazwa kursu w db - key
+  final bool isNewCourse;
 
   CourseBox({@required this.index, this.isNewCourse = false});
   @override
@@ -34,7 +34,6 @@ class _CourseBoxState extends State<CourseBox> {
     this._getData();
   }
 
-  // TODO: do sprawdzenia czy to jest wszystko okk
   void _getData() async {
     DocumentSnapshot dsCourse = await Firestore.instance.collection('courses').document(this.widget.index).get();
 
@@ -50,6 +49,7 @@ class _CourseBoxState extends State<CourseBox> {
       if (!this.widget.isNewCourse) {
         String userId = ScopedModel.of<UserModel>(context).userId;
         DocumentSnapshot dsUserCourse = await Firestore.instance.collection('users').document(userId).get();
+        if (!this.mounted) return;
 
         if (dsUserCourse.exists) {
           Map userCourseData = dsUserCourse.data['courses'][this.widget.index];
@@ -115,8 +115,6 @@ class _CourseBoxState extends State<CourseBox> {
           ],
         ),
       ),
-      // TODO: zapytać Dawida czy taki modal jest okk
-      // TODO: modal do włączenia tylko przy odpowiednich okazjach - nie zawsze dostępny
       onTap: () => this._onTap(context),
     );
   }

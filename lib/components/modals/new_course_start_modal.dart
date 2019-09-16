@@ -22,7 +22,6 @@ class _NewCourseStartModalState extends State<NewCourseStartModal> {
     DocumentSnapshot ds = await Firestore.instance.collection('users').document(userId).get();
 
     if (ds.exists) {
-      print(ds.data);
       Map courses = ds.data['courses'];
 
       courses[this.widget.index] = {
@@ -42,7 +41,6 @@ class _NewCourseStartModalState extends State<NewCourseStartModal> {
         },
       };
 
-      print(courses);
       Firestore.instance.collection("users").document(userId).updateData({"courses": courses});
     }
   }

@@ -5,11 +5,28 @@ import 'package:langapp/styles/colors.dart';
 class DiagnosedSkillsBlocks extends StatelessWidget {
   final bool isChosen;
   final bool editMode;
-  List<SkillBlock> skillsList = [];
   Map skillset = {};
 
-  DiagnosedSkillsBlocks({this.isChosen = true, this.skillset, this.editMode = false}) {
-    skillsList = [
+  DiagnosedSkillsBlocks({this.isChosen = true, @required this.skillset, this.editMode = false});
+
+  Function _validator() {}
+  Function _onSave() {
+    // 'skills': {
+    //       "auto": false,
+    //       "listening": 25,
+    //       "listening_auto": 25,
+    //       "speaking": 25,
+    //       "speaking_auto": 25,
+    //       "reading": 25,
+    //       "reading_auto": 25,
+    //       "writing": 25,
+    //       "writing_auto": 25,
+    //     };
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    List<SkillBlock> skillsList = [
       SkillBlock(
         title: this.skillset['speaking'].toString() + "%",
         subtitle: "speaking",
@@ -51,11 +68,6 @@ class DiagnosedSkillsBlocks extends StatelessWidget {
         ],
       )
     ];
-  }
-
-  // TODO: ustalenie żeby był rozdział matrix 2 x 2 przy szerszym oknie
-  @override
-  Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.only(top: 20.0, bottom: 4.0),
       child: Wrap(spacing: 10.0, children: skillsList),

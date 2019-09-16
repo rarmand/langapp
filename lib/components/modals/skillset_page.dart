@@ -65,6 +65,34 @@ class _SkillsetPageState extends State<SkillsetPage> {
     }
   }
 
+  void _onChosenMethodChange(bool change) async {
+    String userId = ScopedModel.of<UserModel>(context).userId;
+
+    print("Before " + this._diagnosedMethod.toString());
+    setState(() {
+      this._diagnosedMethod = !this._diagnosedMethod;
+    });
+
+    print("After " + this._diagnosedMethod.toString());
+    await Firestore.instance.collection('users').document(userId).updateData({"auto": this._diagnosedMethod});
+  }
+
+  void _onEditPressed() {
+    if (!this._diagnosedMethod) {
+      ScopedModel.of<UserModel>(context).setSkillset(skillset: this._userSetSkills);
+      print(ScopedModel.of<UserModel>(context).skillset);
+
+      Navigator.of(context).push(
+        PageRouteBuilder(
+          opaque: false,
+          pageBuilder: (BuildContext context, _, __) => LearningSettingsEditionModal(
+            skillset: this._userSetSkills,
+          ),
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -95,27 +123,13 @@ class _SkillsetPageState extends State<SkillsetPage> {
                 ElementCheckbox(
                   name: "Choose your method of learning",
                   isChecked: !this._diagnosedMethod,
-                  onChanged: (bool newValue) {
-                    setState(() {
-                      this._diagnosedMethod = !this._diagnosedMethod;
-                      // TODO: do skonczenia wysylanie do bazy danych
-                    });
-                  },
+                  onChanged: this._onChosenMethodChange,
                 ),
                 ElementButton(
                   name: "Edit my method",
                   buttonIcon: Icons.edit,
                   disabled: this._diagnosedMethod,
-                  onPressed: (this._diagnosedMethod
-                      ? null
-                      : () => Navigator.of(context).push(
-                            PageRouteBuilder(
-                              opaque: false,
-                              pageBuilder: (BuildContext context, _, __) => LearningSettingsEditionModal(
-                                skillset: this._userSetSkills,
-                              ),
-                            ),
-                          )),
+                  onPressed: this._onEditPressed,
                 ),
                 ElementContent(
                   subtitle: "The method of learning set by the user.",

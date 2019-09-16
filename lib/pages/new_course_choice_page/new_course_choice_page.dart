@@ -13,7 +13,6 @@ class NewCourseChoicePage extends StatefulWidget {
 }
 
 class _NewCourseChoicePageState extends State<NewCourseChoicePage> {
-  List<Widget> _coursesList = [];
   List _userCoursesKeys;
 
   final List<TextSpan> _title = <TextSpan>[
@@ -63,37 +62,23 @@ class _NewCourseChoicePageState extends State<NewCourseChoicePage> {
           StreamBuilder(
             stream: Firestore.instance.collection("courses").snapshots(),
             builder: (context, snapshot) {
-              if (!snapshot.hasData) return const Text("Loading...");
+              if (!snapshot.hasData || this._userCoursesKeys == null) return const Text("Loading...");
 
-              this._coursesList.removeRange(0, this._coursesList.length);
               String language = ScopedModel.of<UserModel>(context).language.toLowerCase();
-
               QuerySnapshot courses = snapshot.data;
-              int coursesNumber = courses.documents.length;
-
-              for (int i = 0; i < coursesNumber; i++) {
-                if (this._userCoursesKeys == null) this._userCoursesKeys = [];
-
-                if (this._userCoursesKeys.contains(courses.documents[i].documentID)) {
-                  // print("user uses such a course: " + courses.documents[i].documentID.toString());
-                } else if (courses.documents[i].data['language'] == language) {
-                  // print("found by language: " + courses.documents[i].documentID);
-                  _coursesList.add(
-                    CourseBox(
-                      index: courses.documents[i].documentID,
-                      isNewCourse: true,
-                    ),
-                  );
-                }
-                // else {
-                //   print("something else: " + courses.documents[i].documentID.toString());
-                //   print(this._coursesList);
-                // }
-              }
 
               return Wrap(
                 runSpacing: 24.0,
-                children: this._coursesList,
+                children: courses.documents
+                    .where((doc) => !this._userCoursesKeys.contains(doc.documentID) && doc.data['language'] == language)
+                    .map(
+                  (doc) {
+                    return CourseBox(
+                      index: doc.documentID,
+                      isNewCourse: true,
+                    );
+                  },
+                ).toList(),
               );
             },
           ),
