@@ -74,12 +74,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
   Future<Navigator> _logOut() async {
     await FirebaseAuth.instance.signOut();
-
-    ScopedModel.of<UserModel>(context).setUserId(uid: '');
-    ScopedModel.of<UserModel>(context).setUsername(username: '');
-    ScopedModel.of<UserModel>(context).setDailyGoal(dailyGoal: 10);
-    ScopedModel.of<UserModel>(context).setEmail(email: "");
-
+    ScopedModel.of<UserModel>(context).deleteUserData();
     return Navigator.pushNamedAndRemoveUntil(context, '/login', (Route<dynamic> route) => false);
   }
 }

@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:langapp/components/courses_list/course_box.dart';
@@ -24,34 +23,19 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _getData() async {
-    String userId = ScopedModel.of<UserModel>(context).userId;
-    DocumentSnapshot ds = await Firestore.instance.collection('users').document(userId).get();
+    List<String> list = [];
+    await ScopedModel.of<UserModel>(context).setUserData();
+    Map courses = ScopedModel.of<UserModel>(context).courses;
 
-    int userPoints = 0;
-
-    if (ds.exists) {
-      Map courses = ds.data['courses'];
-      Map challenges = ds.data['challenges'];
-      List<String> list = [];
-
-      if (courses.length > 0) {
-        courses.forEach((index, dataMap) {
-          userPoints += dataMap['points'];
-          list.add(index);
-        });
-        // wycena challenge'a = 500 points
-        userPoints += challenges.length * 500;
-
-        setState(() {
-          _coursesList = list;
-        });
-
-        ScopedModel.of<UserModel>(context).setPoints(points: userPoints);
-      }
-    } else
-      setState(() {
-        _coursesList = [];
+    if (courses.length > 0) {
+      courses.forEach((index, dataMap) {
+        list.add(index);
       });
+    }
+
+    setState(() {
+      _coursesList = list;
+    });
   }
 
   @override

@@ -3,28 +3,47 @@ import 'package:langapp/styles/colors.dart';
 
 class SmallInputField extends StatefulWidget {
   String text;
+  final String label;
+  Function onSaved;
 
-  SmallInputField({@required this.text});
+  SmallInputField({
+    @required this.text,
+    @required this.label,
+    @required this.onSaved,
+  });
 
   @override
-  _SmallInputFieldState createState() => _SmallInputFieldState(text: this.text);
+  _SmallInputFieldState createState() => _SmallInputFieldState();
 }
 
 class _SmallInputFieldState extends State<SmallInputField> {
-  String text;
+  String _text = '';
 
-  _SmallInputFieldState({@required this.text}) {
-    this.text = this.text.substring(0, this.text.length - 1);
+  @override
+  void initState() {
+    super.initState();
+    this._text = this.widget.text = this.widget.text.substring(0, this.widget.text.length - 1);
+  }
+
+  String _validator(String input) {
+    int value = int.parse(input);
+
+    print(value);
+    if (value == null)
+      return "No value";
+    else if (value < 10 || value > 70) return "10% to 70%";
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 60.0,
+      width: 100.0,
       child: TextFormField(
-        initialValue: this.text,
+        initialValue: this._text,
         textAlign: TextAlign.center,
         keyboardType: TextInputType.number,
+        onSaved: (input) => this.widget.onSaved(input, this.widget.label),
+        validator: this._validator,
         maxLength: 2,
         style: TextStyle(
           color: WHITE,

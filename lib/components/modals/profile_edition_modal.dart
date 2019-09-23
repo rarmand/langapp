@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:langapp/components/button_filled/button_filled.dart';
@@ -173,8 +172,10 @@ class _ProfileEditionModalState extends State<ProfileEditionModal> {
         String oldUsername = ScopedModel.of<UserModel>(context).username;
 
         // authentication
-        var result = await FirebaseAuth.instance.signInWithEmailAndPassword(email: oldEmail, password: this._password);
-        print(result.user);
+        AuthResult result =
+            await FirebaseAuth.instance.signInWithEmailAndPassword(email: oldEmail, password: this._password);
+
+        print(result.user.isEmailVerified);
 
         // zmiana emaila
         if (oldEmail != this._email) {
@@ -190,9 +191,6 @@ class _ProfileEditionModalState extends State<ProfileEditionModal> {
         // zmiana nazwy usera
         if (oldUsername != this._username) {
           // add to database
-          Firestore.instance.collection("users").document(result.user.uid).updateData({
-            'username': this._username,
-          });
 
           ScopedModel.of<UserModel>(context).setUsername(username: this._username);
         }

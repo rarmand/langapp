@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/widgets.dart';
 import 'package:langapp/components/element_content/element_content.dart';
 import 'package:langapp/components/panel_points/block_points.dart';
@@ -27,23 +26,19 @@ class _ProfileContentState extends State<ProfileContent> {
   }
 
   void _getData() async {
-    String userId = ScopedModel.of<UserModel>(context).userId;
-    DocumentSnapshot ds = await Firestore.instance.collection("users").document(userId).get();
+    List dailyGoalHistory = ScopedModel.of<UserModel>(context).dailyGoalHistory;
 
-    if (ds.exists) {
-      setState(() {
-        _username = ScopedModel.of<UserModel>(context).username;
-        _longestStrike = ds.data['longest_strike'];
-        _speedTestStrike = ds.data['speed_test_strike'];
-        _challengesCount = ds.data['challenges'].length;
-        _points = ScopedModel.of<UserModel>(context).points;
+    setState(() {
+      _username = ScopedModel.of<UserModel>(context).username;
+      _longestStrike = ScopedModel.of<UserModel>(context).longestStrike;
+      _speedTestStrike = ScopedModel.of<UserModel>(context).speedTestsStrike;
+      _challengesCount = ScopedModel.of<UserModel>(context).userChallenges.length;
+      _points = ScopedModel.of<UserModel>(context).points;
 
-        // jak to można lepiej napisać?
-        for (int i = 0; i < ds.data['daily_goal_history'].length; i++) {
-          _dailyGoalsList[i] = ds.data['daily_goal_history'][i];
-        }
-      });
-    }
+      for (int i = 0; i < dailyGoalHistory.length; i++) {
+        _dailyGoalsList[i] = dailyGoalHistory[i];
+      }
+    });
   }
 
   @override

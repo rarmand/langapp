@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:langapp/components/button_filled/button_filled.dart';
@@ -124,30 +123,15 @@ class _RegisterPageState extends State<RegisterPage> {
 
     if (form.validate()) {
       form.save();
-      // print("Form is valid. Email: $_email, password: $_password, username: $_username");
 
       try {
         // authentication
-        var result =
+        AuthResult result =
             await FirebaseAuth.instance.createUserWithEmailAndPassword(email: this._email, password: this._password);
 
-        // add to database
-        Firestore.instance.collection("users").document(result.user.uid).setData({
-          'username': this._username,
-          'email': this._email,
-          'longest_strike': 0,
-          'speed_test_strike': 0,
-          'courses': [],
-          'daily_goal': 10,
-          'daily_goal_history': List<bool>.generate(7, (int index) => false),
-          'challenges': {},
-          'challenge_id': 0,
-        });
-
-        ScopedModel.of<UserModel>(context).setUserId(uid: result.user.uid);
-        ScopedModel.of<UserModel>(context).setUsername(username: this._username);
-        ScopedModel.of<UserModel>(context).setEmail(email: this._email);
-        ScopedModel.of<UserModel>(context).setPoints(points: 0);
+        // set all the rest of data in database
+        ScopedModel.of<UserModel>(context)
+            .setNewUserData(uid: result.user.uid, username: this._username, email: this._email);
 
         Navigator.pushNamed(context, '/welcome');
 

@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:langapp/components/appbar_upper/appbar_upper.dart';
 import 'package:langapp/components/element_content/element_button.dart';
@@ -21,73 +20,33 @@ class SkillsetPage extends StatefulWidget {
 // TODO: do skonczenia
 
 class _SkillsetPageState extends State<SkillsetPage> {
-  bool _diagnosedMethod = false;
-  Map _diagnosedSkills = {
-    "listening": 25,
-    "writing": 25,
-    "speaking": 25,
-    "reading": 25,
-  };
-  Map _userSetSkills = {
-    "listening": 25,
-    "writing": 25,
-    "speaking": 25,
-    "reading": 25,
-  };
+  bool _diagnosedMethod;
 
   @override
   void initState() {
     super.initState();
-    this._getData();
-  }
-
-  void _getData() async {
-    String userId = ScopedModel.of<UserModel>(context).userId;
-    DocumentSnapshot ds = await Firestore.instance.collection('users').document(userId).get();
-
-    if (ds.exists) {
-      Map course = ds.data['courses'][this.widget.index];
-
-      // TODO: czy można lepiej to napisać?
-      // stream ?
-      setState(() {
-        this._diagnosedMethod = !course['skills']['auto'];
-        this._diagnosedSkills['reading'] = course['skills']['reading_auto'];
-        this._diagnosedSkills['listening'] = course['skills']['listening_auto'];
-        this._diagnosedSkills['speaking'] = course['skills']['speaking_auto'];
-        this._diagnosedSkills['writing'] = course['skills']['writing_auto'];
-
-        this._userSetSkills['reading'] = course['skills']['reading'];
-        this._userSetSkills['listening'] = course['skills']['listening'];
-        this._userSetSkills['speaking'] = course['skills']['speaking'];
-        this._userSetSkills['writing'] = course['skills']['writing'];
-      });
-    }
+    ScopedModel.of<UserModel>(context).setSkillset(index: this.widget.index);
+    setState(() {
+      this._diagnosedMethod = ScopedModel.of<UserModel>(context).autoSkillset;
+    });
+    print(this._diagnosedMethod);
   }
 
   void _onChosenMethodChange(bool change) async {
-    String userId = ScopedModel.of<UserModel>(context).userId;
-
-    print("Before " + this._diagnosedMethod.toString());
     setState(() {
       this._diagnosedMethod = !this._diagnosedMethod;
     });
-
-    print("After " + this._diagnosedMethod.toString());
-    await Firestore.instance.collection('users').document(userId).updateData({"auto": this._diagnosedMethod});
+    // update bazy w ScopedModel
+    ScopedModel.of<UserModel>(context, rebuildOnChange: true)
+        .setAutoMethod(isAuto: this._diagnosedMethod, index: this.widget.index);
   }
 
   void _onEditPressed() {
     if (!this._diagnosedMethod) {
-      ScopedModel.of<UserModel>(context).setSkillset(skillset: this._userSetSkills);
-      print(ScopedModel.of<UserModel>(context).skillset);
-
       Navigator.of(context).push(
         PageRouteBuilder(
           opaque: false,
-          pageBuilder: (BuildContext context, _, __) => LearningSettingsEditionModal(
-            skillset: this._userSetSkills,
-          ),
+          pageBuilder: (BuildContext context, _, __) => LearningSettingsEditionModal(),
         ),
       );
     }
@@ -95,6 +54,9 @@ class _SkillsetPageState extends State<SkillsetPage> {
 
   @override
   Widget build(BuildContext context) {
+    Map diagnosedSkills = ScopedModel.of<UserModel>(context, rebuildOnChange: true).skillsetDiagnosed;
+    Map userSetSkills = ScopedModel.of<UserModel>(context, rebuildOnChange: true).skillsetUser;
+
     return Scaffold(
       appBar: AppBarUpper(
         title: "Diagnosed skillset",
@@ -117,7 +79,7 @@ class _SkillsetPageState extends State<SkillsetPage> {
                       "Diagnosed method of learning with the application algorithm.\n\nPresented values inform which skill works better in learning process.",
                   element: DiagnosedSkillsBlocks(
                     isChosen: this._diagnosedMethod,
-                    skillset: this._diagnosedSkills,
+                    skillset: diagnosedSkills,
                   ),
                 ),
                 ElementCheckbox(
@@ -135,7 +97,7 @@ class _SkillsetPageState extends State<SkillsetPage> {
                   subtitle: "The method of learning set by the user.",
                   element: DiagnosedSkillsBlocks(
                     isChosen: !this._diagnosedMethod,
-                    skillset: this._userSetSkills,
+                    skillset: userSetSkills,
                   ),
                 ),
               ],

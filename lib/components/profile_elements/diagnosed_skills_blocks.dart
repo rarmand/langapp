@@ -9,20 +9,17 @@ class DiagnosedSkillsBlocks extends StatelessWidget {
 
   DiagnosedSkillsBlocks({this.isChosen = true, @required this.skillset, this.editMode = false});
 
-  Function _validator() {}
-  Function _onSave() {
-    // 'skills': {
-    //       "auto": false,
-    //       "listening": 25,
-    //       "listening_auto": 25,
-    //       "speaking": 25,
-    //       "speaking_auto": 25,
-    //       "reading": 25,
-    //       "reading_auto": 25,
-    //       "writing": 25,
-    //       "writing_auto": 25,
-    //     };
-  }
+  // 'skills': {
+  //       "auto": false,
+  //       "listening": 25,
+  //       "listening_auto": 25,
+  //       "speaking": 25,
+  //       "speaking_auto": 25,
+  //       "reading": 25,
+  //       "reading_auto": 25,
+  //       "writing": 25,
+  //       "writing_auto": 25,
+  //     };
 
   @override
   Widget build(BuildContext context) {

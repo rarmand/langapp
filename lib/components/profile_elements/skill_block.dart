@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:langapp/components/input_field/small_input_field.dart';
+import 'package:langapp/model/app_model.dart';
 import 'package:langapp/styles/colors.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 // TODO: ustalona z góry pula pktów, którą można rozdzielić między bloczki
+// zdecydowanie do naprawienia
 class SkillBlock extends StatelessWidget {
   final bool isChosen;
   final String title;
@@ -11,8 +14,8 @@ class SkillBlock extends StatelessWidget {
   List<Color> gradient;
 
   SkillBlock({
-    this.title = "",
-    this.subtitle = "",
+    @required this.title,
+    @required this.subtitle,
     this.isChosen = true,
     this.gradient = const [GREEN_DARK, GREEN_LIGHT],
     this.editMode = false,
@@ -20,12 +23,16 @@ class SkillBlock extends StatelessWidget {
     if (this.isChosen == false) this.gradient = const [GRAY, GRAY];
   }
 
+  void _onSaved(String input, String label) {
+    print(label + " " + input);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(bottom: 10.0),
-      height: 150.0,
-      width: 150.0,
+      margin: EdgeInsets.only(bottom: 8.0),
+      height: 148.0,
+      width: 148.0,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(BTN_RADIUS)),
         gradient: LinearGradient(colors: this.gradient),
@@ -45,7 +52,11 @@ class SkillBlock extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           (this.editMode
-              ? SmallInputField(text: this.title)
+              ? SmallInputField(
+                  text: this.title,
+                  label: this.subtitle,
+                  onSaved: this._onSaved,
+                )
               : Text(
                   this.title.toString(),
                   textAlign: TextAlign.center,
@@ -56,9 +67,7 @@ class SkillBlock extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 )),
-          SizedBox(
-            height: 24.0,
-          ),
+          const SizedBox(height: 24.0),
           Text(
             this.subtitle,
             textAlign: TextAlign.center,

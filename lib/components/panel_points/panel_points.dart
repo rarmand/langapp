@@ -12,15 +12,6 @@ class PanelPoints extends StatefulWidget {
 
 class _PanelPointsState extends State<PanelPoints> {
   bool _isPanelExpanded = false;
-  int _points = 0;
-
-  @override
-  void initState() {
-    super.initState();
-
-    int dataPoints = ScopedModel.of<UserModel>(context).points;
-    setState(() => this._points = dataPoints);
-  }
 
   // TODO: zwijanie animacja
   // do naprawy setState
@@ -30,6 +21,8 @@ class _PanelPointsState extends State<PanelPoints> {
 
   @override
   Widget build(BuildContext context) {
+    var points = ScopedModel.of<UserModel>(context, rebuildOnChange: true).points;
+
     return Container(
       decoration: BoxDecoration(
         color: WHITE,
@@ -51,7 +44,7 @@ class _PanelPointsState extends State<PanelPoints> {
               margin: EdgeInsets.only(left: 16, right: 16),
               child: Column(
                 children: <Widget>[
-                  BlockPoints(points: this._points),
+                  BlockPoints(points: points),
                   Text("Choose a course, repeat material and win more points."),
                   ButtonsCourse(),
                   IconButton(

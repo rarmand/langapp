@@ -108,15 +108,13 @@ class _LoginPageState extends State<LoginPage> {
     final form = this._formKey.currentState;
     if (form.validate()) {
       form.save();
-      print("Form is valid. Email: $_email, password: $_password");
 
       try {
-        var result =
+        AuthResult result =
             await FirebaseAuth.instance.signInWithEmailAndPassword(email: this._email, password: this._password);
-        print(result.user);
 
         ScopedModel.of<UserModel>(context).setUserId(uid: result.user.uid);
-        ScopedModel.of<UserModel>(context).setEmail(email: result.user.email);
+        ScopedModel.of<UserModel>(context).setUserData(uid: result.user.uid);
 
         // TODO: pewnie wyświetlić błąd jak nie da się zalogować
         Navigator.pushNamed(context, '/');

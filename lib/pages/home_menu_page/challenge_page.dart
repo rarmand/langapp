@@ -25,13 +25,12 @@ class _ChallengePageState extends State<ChallengePage> {
     this._getData();
   }
 
-  void _getData() async {
-    String uid = ScopedModel.of<UserModel>(context).userId;
-    DocumentSnapshot ds = await Firestore.instance.collection("users").document(uid).get();
+  void _getData() {
+    String challengeId = ScopedModel.of<UserModel>(context).challenge['challenge_id'];
 
     setState(() {
-      this._challengeId = ds.data['challenge_id'];
-      this._isChallenged = this._challengeId != "0";
+      this._challengeId = challengeId;
+      this._isChallenged = this._challengeId != challengeId;
     });
   }
 
@@ -96,8 +95,7 @@ class _ChallengePageState extends State<ChallengePage> {
   }
 
   void _onFinishChallenge() async {
-    String uid = ScopedModel.of<UserModel>(context).userId;
-    await Firestore.instance.collection("users").document(uid).updateData({"challenge_id": "0"});
+    ScopedModel.of<UserModel>(context).setChallenge(isFinished: true);
 
     setState(() {
       this._isChallenged = false;
