@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:langapp/model/app_model.dart';
 import 'package:langapp/styles/colors.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 class SmallInputField extends StatefulWidget {
   String text;
   final String label;
-  Function onSaved;
 
   SmallInputField({
     @required this.text,
     @required this.label,
-    @required this.onSaved,
   });
 
   @override
@@ -25,10 +25,15 @@ class _SmallInputFieldState extends State<SmallInputField> {
     this._text = this.widget.text = this.widget.text.substring(0, this.widget.text.length - 1);
   }
 
+  void _onSaved(String input) {
+    int value = int.parse(input);
+    print(this.widget.label + " " + input);
+    ScopedModel.of<UserModel>(context).setSkillUser(key: this.widget.label, value: value);
+  }
+
   String _validator(String input) {
     int value = int.parse(input);
 
-    print(value);
     if (value == null)
       return "No value";
     else if (value < 10 || value > 70) return "10% to 70%";
@@ -42,7 +47,8 @@ class _SmallInputFieldState extends State<SmallInputField> {
         initialValue: this._text,
         textAlign: TextAlign.center,
         keyboardType: TextInputType.number,
-        onSaved: (input) => this.widget.onSaved(input, this.widget.label),
+        // onSaved: (input) => this.widget.onSaved(input, this.widget.label),
+        onSaved: this._onSaved,
         validator: this._validator,
         maxLength: 2,
         style: TextStyle(

@@ -46,6 +46,7 @@ class UserModel extends Model {
     'writing': 25,
     'reading': 25,
   };
+  String _editedCourseIndex = '';
 
   //
   // getters
@@ -68,10 +69,15 @@ class UserModel extends Model {
 
   Map get courses => _courses;
 
+  // skills
+
   bool get autoSkillset => _autoSkillset;
   Map get skillsetUser => _skillsetUser;
   Map get skillsetDiagnosed => _skillsetDiagnosed;
 
+  int skillUser({String skill}) => _skillsetUser[skill];
+  int skillDiagnosed({String skill}) => _skillsetDiagnosed[skill];
+  String get editedCourseIndex => _editedCourseIndex;
   //
   // setters
   //
@@ -89,8 +95,10 @@ class UserModel extends Model {
     notifyListeners();
   }
 
-  void setEmail({String email}) {
+  void setEmail({String email}) async {
     this._email = email;
+    await Firestore.instance.collection("users").document(this._userId).updateData({'email': this._email});
+
     notifyListeners();
   }
 
@@ -110,13 +118,23 @@ class UserModel extends Model {
     notifyListeners();
   }
 
-  void setSpeedTestsStrike({int strike}) {
+  void setSpeedTestsStrike({int strike}) async {
     this._speedTestsStrike = strike;
+    await Firestore.instance
+        .collection("users")
+        .document(this._userId)
+        .updateData({"speed_test_strike": this._speedTestsStrike});
+
     notifyListeners();
   }
 
-  void setLongestStrike({int strike}) {
+  void setLongestStrike({int strike}) async {
     this._longestStrike = strike;
+    await Firestore.instance
+        .collection("users")
+        .document(this._userId)
+        .updateData({"longest_strike": this._longestStrike});
+
     notifyListeners();
   }
 
@@ -136,12 +154,11 @@ class UserModel extends Model {
     notifyListeners();
   }
 
-  void setAutoMethod({bool isAuto, String index}) async {
-    DocumentSnapshot ds = await Firestore.instance.collection('users').document(this.userId).get();
-    Map data = ds.data['courses'];
+// set skillset
 
-    data[index]['skills']['auto'] = isAuto;
-    await Firestore.instance.collection('users').document(userId).updateData({'courses': data});
+  void setAutoMethod({bool isAuto, String index}) async {
+    this._courses[index]['skills']['auto'] = isAuto;
+    await Firestore.instance.collection('users').document(this._userId).updateData({'courses': this._courses});
 
     this._autoSkillset = isAuto;
     notifyListeners();
@@ -152,8 +169,12 @@ class UserModel extends Model {
     notifyListeners();
   }
 
-  void setSkillUser({String key, String value}) {
+  void setSkillUser({String key, int value}) async {
     this._skillsetUser[key] = value;
+
+    this._courses[this._editedCourseIndex]['skills'][key] = value;
+    await Firestore.instance.collection('users').document(this._userId).updateData({'courses': this._courses});
+
     notifyListeners();
   }
 
@@ -164,7 +185,6 @@ class UserModel extends Model {
 
   void setSkillset({String index}) {
     Map course = this._courses[index];
-
     Map diagnosedSkillset = {};
     Map userSkillset = {};
 
@@ -179,9 +199,15 @@ class UserModel extends Model {
     userSkillset['writing'] = course['skills']['writing'];
 
     this._autoSkillset = course['skills']['auto'];
+
     this._skillsetDiagnosed = diagnosedSkillset;
     this._skillsetUser = userSkillset;
 
+    notifyListeners();
+  }
+
+  void setEditedCourseSkillsetIndex({@required String index}) {
+    this._editedCourseIndex = index;
     notifyListeners();
   }
 

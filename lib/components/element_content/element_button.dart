@@ -6,7 +6,7 @@ class ElementButton extends StatelessWidget {
   final IconData buttonIcon;
   final Function onPressed;
   final bool disabled;
-  Color _buttonColor = GREEN_LIGHT;
+  Color _buttonColor;
 
   ElementButton({
     @required this.name,
@@ -16,6 +16,8 @@ class ElementButton extends StatelessWidget {
   }) {
     if (disabled) {
       this._buttonColor = GRAY;
+    } else {
+      this._buttonColor = GREEN_LIGHT;
     }
   }
 

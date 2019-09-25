@@ -1,31 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:langapp/components/profile_elements/skill_block.dart';
+import 'package:langapp/model/app_model.dart';
 import 'package:langapp/styles/colors.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 class DiagnosedSkillsBlocks extends StatelessWidget {
   final bool isChosen;
   final bool editMode;
-  Map skillset = {};
+  final bool isAutoType;
 
-  DiagnosedSkillsBlocks({this.isChosen = true, @required this.skillset, this.editMode = false});
-
-  // 'skills': {
-  //       "auto": false,
-  //       "listening": 25,
-  //       "listening_auto": 25,
-  //       "speaking": 25,
-  //       "speaking_auto": 25,
-  //       "reading": 25,
-  //       "reading_auto": 25,
-  //       "writing": 25,
-  //       "writing_auto": 25,
-  //     };
+  DiagnosedSkillsBlocks({this.isChosen = true, @required this.isAutoType, this.editMode = false});
 
   @override
   Widget build(BuildContext context) {
+    Map skillset = (isAutoType
+        ? ScopedModel.of<UserModel>(context, rebuildOnChange: true).skillsetDiagnosed
+        : ScopedModel.of<UserModel>(context, rebuildOnChange: true).skillsetUser);
+
     List<SkillBlock> skillsList = [
       SkillBlock(
-        title: this.skillset['speaking'].toString() + "%",
+        title: skillset['speaking'].toString() + "%",
         subtitle: "speaking",
         isChosen: this.isChosen,
         editMode: this.editMode,
@@ -35,7 +29,7 @@ class DiagnosedSkillsBlocks extends StatelessWidget {
         ],
       ),
       SkillBlock(
-        title: this.skillset['reading'].toString() + "%",
+        title: skillset['reading'].toString() + "%",
         subtitle: "reading",
         isChosen: this.isChosen,
         editMode: this.editMode,
@@ -45,7 +39,7 @@ class DiagnosedSkillsBlocks extends StatelessWidget {
         ],
       ),
       SkillBlock(
-        title: this.skillset['listening'].toString() + "%",
+        title: skillset['listening'].toString() + "%",
         subtitle: "listening",
         isChosen: this.isChosen,
         editMode: this.editMode,
@@ -55,7 +49,7 @@ class DiagnosedSkillsBlocks extends StatelessWidget {
         ],
       ),
       SkillBlock(
-        title: this.skillset['writing'].toString() + "%",
+        title: skillset['writing'].toString() + "%",
         subtitle: "writing",
         isChosen: this.isChosen,
         editMode: this.editMode,

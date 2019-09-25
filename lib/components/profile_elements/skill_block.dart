@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:langapp/components/input_field/small_input_field.dart';
-import 'package:langapp/model/app_model.dart';
 import 'package:langapp/styles/colors.dart';
-import 'package:scoped_model/scoped_model.dart';
 
 // TODO: ustalona z góry pula pktów, którą można rozdzielić między bloczki
 // zdecydowanie do naprawienia
@@ -21,10 +19,6 @@ class SkillBlock extends StatelessWidget {
     this.editMode = false,
   }) {
     if (this.isChosen == false) this.gradient = const [GRAY, GRAY];
-  }
-
-  void _onSaved(String input, String label) {
-    print(label + " " + input);
   }
 
   @override
@@ -55,7 +49,7 @@ class SkillBlock extends StatelessWidget {
               ? SmallInputField(
                   text: this.title,
                   label: this.subtitle,
-                  onSaved: this._onSaved,
+                  // onSaved: this._onSaved,
                 )
               : Text(
                   this.title.toString(),

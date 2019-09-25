@@ -29,7 +29,6 @@ class _SkillsetPageState extends State<SkillsetPage> {
     setState(() {
       this._diagnosedMethod = ScopedModel.of<UserModel>(context).autoSkillset;
     });
-    print(this._diagnosedMethod);
   }
 
   void _onChosenMethodChange(bool change) async {
@@ -43,6 +42,7 @@ class _SkillsetPageState extends State<SkillsetPage> {
 
   void _onEditPressed() {
     if (!this._diagnosedMethod) {
+      ScopedModel.of<UserModel>(context).setEditedCourseSkillsetIndex(index: this.widget.index);
       Navigator.of(context).push(
         PageRouteBuilder(
           opaque: false,
@@ -54,9 +54,6 @@ class _SkillsetPageState extends State<SkillsetPage> {
 
   @override
   Widget build(BuildContext context) {
-    Map diagnosedSkills = ScopedModel.of<UserModel>(context, rebuildOnChange: true).skillsetDiagnosed;
-    Map userSetSkills = ScopedModel.of<UserModel>(context, rebuildOnChange: true).skillsetUser;
-
     return Scaffold(
       appBar: AppBarUpper(
         title: "Diagnosed skillset",
@@ -79,7 +76,7 @@ class _SkillsetPageState extends State<SkillsetPage> {
                       "Diagnosed method of learning with the application algorithm.\n\nPresented values inform which skill works better in learning process.",
                   element: DiagnosedSkillsBlocks(
                     isChosen: this._diagnosedMethod,
-                    skillset: diagnosedSkills,
+                    isAutoType: true,
                   ),
                 ),
                 ElementCheckbox(
@@ -97,7 +94,7 @@ class _SkillsetPageState extends State<SkillsetPage> {
                   subtitle: "The method of learning set by the user.",
                   element: DiagnosedSkillsBlocks(
                     isChosen: !this._diagnosedMethod,
-                    skillset: userSetSkills,
+                    isAutoType: false,
                   ),
                 ),
               ],

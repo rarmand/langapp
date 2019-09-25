@@ -5,7 +5,6 @@ import 'package:langapp/model/app_model.dart';
 import 'package:langapp/styles/colors.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-// TODO: nadać możliwość edycji bloków - do zrobienia! wymmiana w b azie danych
 class LearningSettingsEditionModal extends StatefulWidget {
   LearningSettingsEditionModal();
 
@@ -21,9 +20,7 @@ class _LearningSettingsEditionModalState extends State<LearningSettingsEditionMo
   @override
   void initState() {
     super.initState();
-
     this._skillset = ScopedModel.of<UserModel>(context).skillsetUser;
-    print(this._skillset);
   }
 
   @override
@@ -51,7 +48,7 @@ class _LearningSettingsEditionModalState extends State<LearningSettingsEditionMo
                     ),
                   ),
                   const SizedBox(height: 24.0),
-                  DiagnosedSkillsBlocks(skillset: this._skillset, editMode: true),
+                  DiagnosedSkillsBlocks(isAutoType: false, editMode: true),
                   const SizedBox(height: 40.0),
                   ButtonFilled(
                     btnText: "Save",
@@ -71,21 +68,13 @@ class _LearningSettingsEditionModalState extends State<LearningSettingsEditionMo
     final form = this._formKey.currentState;
     if (form.validate()) {
       form.save();
+      Map newSkillset = ScopedModel.of<UserModel>(context).skillsetUser;
+      print("new skillset " + newSkillset.toString());
+      print("Validate and Save: " + this._skillset.toString());
+      // ScopedModel.of<UserModel>(context).setSkillsetUser(skillset: this._skillset);
+
+      // ScopedModel.of<UserModel>(context).setEditedCourseSkillsetIndex(index: '');
       Navigator.pop(context);
-
-      // try {
-      //   var result =
-      //       await FirebaseAuth.instance.signInWithEmailAndPassword(email: this._email, password: this._password);
-      //   print(result.user);
-
-      //   ScopedModel.of<UserModel>(context).setUserId(uid: result.user.uid);
-      //   ScopedModel.of<UserModel>(context).setEmail(email: result.user.email);
-
-      //   // TODO: pewnie wyświetlić błąd jak nie da się zalogować
-
-      // } catch (e) {
-      //   print(e.message);
-      // }
     }
   }
 }
