@@ -43,15 +43,13 @@ class AppBarUpper extends StatelessWidget implements PreferredSizeWidget {
           child: Container(
             child: logo,
           ),
-          onTap: () {
-            print("click icon");
-          },
+          onTap: this.onLogoTap,
         ),
         actions: <Widget>[
           (isCourseAppBar
               ? IconButton(
                   icon: Icon(Icons.close, color: BROWN_DARK),
-                  onPressed: () => Navigator.of(context).pop(null),
+                  onPressed: this.onClosePressed,
                 )
               : SizedBox()),
         ],

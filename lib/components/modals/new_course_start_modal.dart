@@ -8,9 +8,7 @@ import 'package:langapp/styles/colors.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class NewCourseStartModal extends StatefulWidget {
-  final String index;
-
-  NewCourseStartModal({@required this.index});
+  NewCourseStartModal();
 
   @override
   _NewCourseStartModalState createState() => _NewCourseStartModalState();
@@ -23,8 +21,9 @@ class _NewCourseStartModalState extends State<NewCourseStartModal> {
 
     if (ds.exists) {
       Map courses = ds.data['courses'];
+      String courseIndex = ScopedModel.of<UserModel>(context).courseIndex;
 
-      courses[this.widget.index] = {
+      courses[courseIndex] = {
         'points': 0,
         'learnt_words': 0,
         'words_to_repeat': 0,
@@ -52,12 +51,14 @@ class _NewCourseStartModalState extends State<NewCourseStartModal> {
     Navigator.pushNamedAndRemoveUntil(context, "/", (Route<dynamic> route) => false);
     Navigator.of(context).push(PageRouteBuilder(
       opaque: false,
-      pageBuilder: (BuildContext context, _, __) => LearningChoiceModal(index: this.widget.index),
+      pageBuilder: (BuildContext context, _, __) => LearningChoiceModal(),
     ));
   }
 
   @override
   Widget build(BuildContext context) {
+    String courseIndex = ScopedModel.of<UserModel>(context).courseIndex;
+
     return Scaffold(
       backgroundColor: WHITE.withOpacity(0.95),
       body: GestureDetector(
@@ -70,7 +71,7 @@ class _NewCourseStartModalState extends State<NewCourseStartModal> {
               children: <Widget>[
                 const SizedBox(height: 16.0),
                 CourseBox(
-                  index: this.widget.index,
+                  index: courseIndex,
                   isNewCourse: true,
                 ),
                 const SizedBox(height: 64.0),

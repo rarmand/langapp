@@ -29,7 +29,7 @@ class UserModel extends Model {
   Map _userChallenges = {};
 
 // kursy
-
+  String _courseIndex = "";
   Map _courses = {};
 
 // ustalenie do którego kursu należy dany zestaw skilli
@@ -67,7 +67,12 @@ class UserModel extends Model {
   Map get challenge => _challenge;
   Map get userChallenges => _userChallenges;
 
+  // courses
+  String get courseIndex => _courseIndex;
   Map get courses => _courses;
+  Map course({@required String index}) {
+    return this._courses[index];
+  }
 
   // skills
 
@@ -151,6 +156,23 @@ class UserModel extends Model {
       this._challenge = challenge;
     }
 
+    notifyListeners();
+  }
+// set courses
+
+  set courseIndex(String index) {
+    this._courseIndex = index;
+    print(this._courseIndex);
+    notifyListeners();
+  }
+
+  void deleteCourse() async {
+    if (this._courses.containsKey(this._courseIndex)) {
+      this._courses.remove(this._courseIndex);
+      print(this._courses);
+      print(this._courseIndex);
+      await Firestore.instance.collection("users").document(userId).updateData({"courses": this._courses});
+    }
     notifyListeners();
   }
 

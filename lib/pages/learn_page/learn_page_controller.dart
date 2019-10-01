@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:langapp/components/appbar_upper/appbar_upper.dart';
-import 'package:langapp/components/frame/learning_frame.dart';
 import 'package:langapp/components/learning_process/learning_label.dart';
+import 'package:langapp/model/app_model.dart';
 import 'package:langapp/pages/learn_page/learning_final_page.dart';
 import 'package:langapp/pages/learn_page/new_word_page.dart';
 import 'package:langapp/pages/learn_page/sound_task_choose_word.dart';
@@ -11,15 +11,12 @@ import 'package:langapp/pages/learn_page/text_task_choose_sound.dart';
 import 'package:langapp/pages/learn_page/text_task_choose_word.dart';
 import 'package:langapp/pages/learn_page/text_task_speak_word.dart';
 import 'package:langapp/pages/learn_page/text_task_write_word.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 // TODO: do poprawienia przekazywanie informacji o tytule
 class LearnPageController extends StatefulWidget {
-  final String courseTitle;
-
-  LearnPageController({@required this.courseTitle});
-
   @override
-  _LearnPageControllerState createState() => _LearnPageControllerState(courseTitle: this.courseTitle);
+  _LearnPageControllerState createState() => _LearnPageControllerState();
 }
 
 class _LearnPageControllerState extends State<LearnPageController> {
@@ -62,12 +59,12 @@ class _LearnPageControllerState extends State<LearnPageController> {
   ];
 
   int _selectedIndex = 0;
-  final String courseTitle;
-
-  _LearnPageControllerState({@required this.courseTitle});
+  String courseTitle;
 
   @override
   Widget build(BuildContext context) {
+    courseTitle = ScopedModel.of<UserModel>(context, rebuildOnChange: true).courseIndex;
+
     return Scaffold(
       appBar: AppBarUpper(
         title: this.courseTitle,

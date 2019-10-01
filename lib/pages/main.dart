@@ -16,7 +16,7 @@ class _IntroPagesView extends State<IntroPagesView> {
       body: PageView(
         children: <Widget>[
           HomeController(),
-          LearnPageController(courseTitle: "My course"),
+          LearnPageController(),
           // SpeedTestMenuTest(),
           // TextTaskChooseSound(courseTitle: "Course Title"),
           // TextTaskSpeakWord(courseTitle: "Course Title"),

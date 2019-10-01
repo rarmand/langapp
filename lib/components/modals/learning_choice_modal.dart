@@ -6,25 +6,9 @@ import 'package:langapp/model/app_model.dart';
 import 'package:langapp/styles/colors.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-// TODO: zablokować background , zeby nic tam nie dzialalo po nacisnięciu
 class LearningChoiceModal extends StatelessWidget {
-  final String index;
-
-  LearningChoiceModal({@required this.index});
-
   void _onDeleteCourse(BuildContext context) async {
-    // usunięcie z bazy danych kursu
-    String userId = ScopedModel.of<UserModel>(context).userId;
-    DocumentSnapshot ds = await Firestore.instance.collection('users').document(userId).get();
-
-    if (ds.exists) {
-      Map courses = ds.data['courses'];
-
-      // usuwanie z bazy danych
-      if (courses.containsKey(this.index)) courses.remove(this.index);
-      await Firestore.instance.collection("users").document(userId).updateData({"courses": courses});
-    }
-
+    await ScopedModel.of<UserModel>(context).deleteCourse();
     Navigator.pushNamedAndRemoveUntil(
       context,
       "/",
@@ -34,6 +18,8 @@ class LearningChoiceModal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String courseIndex = ScopedModel.of<UserModel>(context, rebuildOnChange: true).courseIndex;
+
     return Scaffold(
       backgroundColor: WHITE.withOpacity(0.95),
       body: GestureDetector(
@@ -58,7 +44,7 @@ class LearningChoiceModal extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 20.0),
-                CourseBox(index: this.index),
+                CourseBox(index: courseIndex),
                 const SizedBox(height: 20.0),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,

@@ -1,58 +1,62 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:langapp/components/frame/learning_frame.dart';
+import 'package:langapp/model/app_model.dart';
 import 'package:langapp/pages/learn_page/vocabulary_card.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:scoped_model/scoped_model.dart';
 
-class TheoryPage extends StatelessWidget {
-  final String courseTitle;
-  List<VocabularyCard> _vocabList = [
-    VocabularyCard(vocabulary: "a man", translation: "mężczyzna", isKnown: false),
-    VocabularyCard(vocabulary: "a man", translation: "mężczyzna", isKnown: false),
-    VocabularyCard(vocabulary: "a man", translation: "mężczyzna", isKnown: true),
-    VocabularyCard(vocabulary: "a man", translation: "mężczyzna", isKnown: true),
-    VocabularyCard(vocabulary: "a man", translation: "mężczyzna", isKnown: true),
-    VocabularyCard(vocabulary: "a man", translation: "mężczyzna", isKnown: true),
-    VocabularyCard(vocabulary: "a man", translation: "mężczyzna", isKnown: true),
-    VocabularyCard(vocabulary: "a man", translation: "mężczyzna", isKnown: true),
-    VocabularyCard(vocabulary: "a man", translation: "mężczyzna", isKnown: true),
-  ];
+class TheoryPage extends StatefulWidget {
+  @override
+  _TheoryPageState createState() => _TheoryPageState();
+}
 
-  TheoryPage({@required this.courseTitle});
-
-  Widget _createList(context, String vocab, int size) {
-    List<VocabularyCard> vocabulary = [];
-
-    for (int i = 0; i < size; i++) {
-      vocabulary.add(VocabularyCard(
-        vocabulary: vocab,
-        translation: "mamma mia",
-        isKnown: false,
-      ));
-    }
-  }
-
-  Widget _getWordCard(BuildContext context, DocumentSnapshot document) {
-    return ListTile(
-      title: Column(
-        children: <Widget>[
-          VocabularyCard(
-            vocabulary: document['word'],
-            translation: document['translation'],
-            isKnown: true,
-          ),
-        ],
-      ),
-    );
-  }
-
+class _TheoryPageState extends State<TheoryPage> {
   @override
   Widget build(BuildContext context) {
+    String courseIndex = ScopedModel.of<UserModel>(context, rebuildOnChange: true).courseIndex;
+
     return LearningFrame(
       point: 0,
-      child: ListView.builder(
-        shrinkWrap: true,
-        itemCount: this._vocabList.length,
-        itemBuilder: (context, index) => this._vocabList[index],
+      child: Container(
+        child: Column(
+          children: <Widget>[
+            const SizedBox(height: 24.0),
+            StreamBuilder(
+              stream: Firestore.instance.collection("courses").document(courseIndex).snapshots(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) return const Text("Loading...");
+
+                DocumentSnapshot ds = snapshot.data;
+
+                // TODO: pobieranie danych słow już znajomych użytkownikom
+                // zmienić w bazie danych zapis na liste słow
+
+                if (!ds.exists) {
+                  return const Text("No words");
+                }
+
+                List<dynamic> courseWords = ds.data['collection_of_words'];
+                print(courseWords);
+                // [{text: halo,
+                // help_texts: [sss, ffff, fffffffff, fffffff],
+                // help_imgs: [dddd], phonetics: xxx, audio_url: lalala, translation: hello},
+                // {text: neu, phonetics: dddd, translation: new}]
+
+                return Wrap(
+                  runSpacing: 8.0,
+                  children: courseWords.map((wordData) {
+                    return VocabularyCard(
+                      vocabulary: wordData['text'],
+                      translation: wordData['translation'],
+                      isKnown: false,
+                    );
+                  }).toList(),
+                );
+              },
+            ),
+            const SizedBox(height: 12.0),
+          ],
+        ),
       ),
     );
   }

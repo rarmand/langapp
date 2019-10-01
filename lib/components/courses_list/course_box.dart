@@ -64,15 +64,17 @@ class _CourseBoxState extends State<CourseBox> {
   }
 
   void _onTap(BuildContext context) {
+    ScopedModel.of<UserModel>(context).courseIndex = this.widget.index;
+
     if (this.widget.isNewCourse)
       Navigator.of(context).push(PageRouteBuilder(
         opaque: false,
-        pageBuilder: (BuildContext context, _, __) => NewCourseStartModal(index: this.widget.index),
+        pageBuilder: (BuildContext context, _, __) => NewCourseStartModal(),
       ));
     else
       Navigator.of(context).push(PageRouteBuilder(
         opaque: false,
-        pageBuilder: (BuildContext context, _, __) => LearningChoiceModal(index: this.widget.index),
+        pageBuilder: (BuildContext context, _, __) => LearningChoiceModal(),
       ));
   }
 

@@ -25,8 +25,6 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    // TODO: hide clock and battery info
-
     return ScopedModel<UserModel>(
       model: UserModel(),
       child: MaterialApp(
@@ -43,9 +41,9 @@ class MyApp extends StatelessWidget {
           '/choose_daily_goal': (context) => DailyGoalPage(),
           '/choose_new_course': (context) => NewCourseChoicePage(),
           // TODO: poprawne ścieżki odpowiednio dla kursów
-          "/theory": (context) => TheoryPage(courseTitle: "None"),
+          "/theory": (context) => TheoryPage(),
           "/test": (context) => SpeedTestMenuTest(),
-          "/session": (context) => LearnPageController(courseTitle: "None"),
+          "/session": (context) => LearnPageController(),
         },
         // sets theme for the entire app
         theme: ThemeData(
