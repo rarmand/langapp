@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:langapp/components/button_outlined/button_answer_outlined.dart';
-import 'package:langapp/components/frame/learning_frame.dart';
 import 'package:langapp/components/learning_process/points_label.dart';
 
 class SoundTaskChooseWord extends StatelessWidget {
@@ -36,17 +35,22 @@ class SoundTaskChooseWord extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LearningFrame(
-      child: Column(
-        children: <Widget>[
-          PointsLabel(points: 24500, iconPath: this.iconPath),
-          SizedBox(height: 64.0),
-          this.soundIcon,
-          SizedBox(height: 48.0),
-          Column(
-            children: this.answers,
+    return Scaffold(
+      body: Container(
+        padding: EdgeInsets.fromLTRB(24, 0, 24, 0),
+        child: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              PointsLabel(points: 24500, iconPath: this.iconPath),
+              SizedBox(height: 64.0),
+              this.soundIcon,
+              SizedBox(height: 48.0),
+              Column(
+                children: this.answers,
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

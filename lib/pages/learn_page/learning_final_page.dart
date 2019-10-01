@@ -31,53 +31,57 @@ class LearningFinalPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LearningFrame(
-      point: 10,
-      child: Column(
-        children: <Widget>[
-          Container(
-            padding: EdgeInsets.only(top: 64.0, bottom: 40.0),
-            alignment: Alignment.center,
-            child: Text(
-              "Session accomplished!",
-              style: TextStyle(
-                color: GREEN_LIGHT,
-                fontSize: 22.0,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-          Text(
-            "You achieved",
-            style: TextStyle(
-              fontSize: 18.0,
-              color: GREEN_LIGHT,
-            ),
-          ),
-          SizedBox(height: 12.0),
-          Text(
-            this.points.toString() + " points!",
-            style: TextStyle(
-              fontFamily: "Roboto",
-              fontWeight: FontWeight.bold,
-              fontSize: 18.0,
-            ),
-          ),
-          SizedBox(height: 32.0),
-          this.icon,
-          SizedBox(height: 32.0),
-          Container(
-            alignment: Alignment.centerLeft,
-            child: Text("Learnt words:", style: TextStyle(fontSize: 16.0)),
-          ),
-          Column(
+    return Scaffold(
+      body: Container(
+        padding: EdgeInsets.fromLTRB(24, 0, 24, 0),
+        child: SingleChildScrollView(
+          child: Column(
             children: <Widget>[
-              SizedBox(height: 20.0),
-              ...this._vocabList,
-              SizedBox(height: 20.0),
+              Container(
+                padding: EdgeInsets.only(top: 64.0, bottom: 40.0),
+                alignment: Alignment.center,
+                child: Text(
+                  "Session accomplished!",
+                  style: TextStyle(
+                    color: GREEN_LIGHT,
+                    fontSize: 22.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              Text(
+                "You achieved",
+                style: TextStyle(
+                  fontSize: 18.0,
+                  color: GREEN_LIGHT,
+                ),
+              ),
+              SizedBox(height: 12.0),
+              Text(
+                this.points.toString() + " points!",
+                style: TextStyle(
+                  fontFamily: "Roboto",
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18.0,
+                ),
+              ),
+              SizedBox(height: 32.0),
+              this.icon,
+              SizedBox(height: 32.0),
+              Container(
+                alignment: Alignment.centerLeft,
+                child: Text("Learnt words:", style: TextStyle(fontSize: 16.0)),
+              ),
+              Column(
+                children: <Widget>[
+                  SizedBox(height: 20.0),
+                  ...this._vocabList,
+                  SizedBox(height: 20.0),
+                ],
+              )
             ],
-          )
-        ],
+          ),
+        ),
       ),
     );
   }

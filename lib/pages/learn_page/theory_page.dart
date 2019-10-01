@@ -16,6 +16,7 @@ class _TheoryPageState extends State<TheoryPage> {
     String courseIndex = ScopedModel.of<UserModel>(context, rebuildOnChange: true).courseIndex;
 
     return LearningFrame(
+      title: "Theory",
       point: 0,
       child: Container(
         child: Column(

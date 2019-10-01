@@ -7,6 +7,7 @@ class SpeedTestMenuTest extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LearningFrame(
+      title: '',
       point: 0,
       child: Container(
         height: MediaQuery.of(context).size.height * 6 / 7,

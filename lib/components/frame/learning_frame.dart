@@ -5,9 +5,9 @@ import 'package:langapp/components/learning_process/learning_label.dart';
 class LearningFrame extends StatelessWidget {
   final Widget child;
   final int point;
-  final String courseTitle = "Theory";
+  final String title;
 
-  LearningFrame({@required this.child, this.point = 4});
+  LearningFrame({@required this.child, this.point = 4, @required this.title});
 
   void _onClose(BuildContext context) {
     Navigator.pushNamedAndRemoveUntil(context, "/", (Route<dynamic> route) => false);
@@ -17,7 +17,7 @@ class LearningFrame extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBarUpper(
-        title: this.courseTitle,
+        title: this.title,
         isCourseAppBar: true,
         onLogoTap: () => this._onClose(context),
         onClosePressed: () => this._onClose(context),

@@ -20,22 +20,29 @@ class LearnPageController extends StatefulWidget {
 }
 
 class _LearnPageControllerState extends State<LearnPageController> {
-  final List<Widget> pages = [
-    NewWordPage(
-      key: PageStorageKey("NewWordPage"),
-    ),
-    TextTaskChooseSound(
-      key: PageStorageKey("TextTaskChooseSound"),
-      iconPath: "assets/course/test.svg",
-    ),
-    TextTaskSpeakWord(
-      key: PageStorageKey("TextTaskSpeakWord"),
-      iconPath: "assets/course/test.svg",
-    ),
+  final List<Widget> _reading = [
     TextTaskAssembleWord(
       key: PageStorageKey("TextTaskAssembleWord"),
       iconPath: "assets/course/test.svg",
     ),
+    TextTaskChooseWord(
+      key: PageStorageKey("TextTaskChooseWord"),
+      iconPath: "assets/course/test.svg",
+    ),
+  ];
+
+  final List<Widget> _listening = [
+    TextTaskChooseSound(
+      key: PageStorageKey("TextTaskChooseSound"),
+      iconPath: "assets/course/test.svg",
+    ),
+    SoundTaskChooseWord(
+      key: PageStorageKey("SoundTaskChooseWord"),
+      iconPath: "assets/course/test.svg",
+    ),
+  ];
+
+  final List<Widget> _writing = [
     SoundTaskWriteWord(
       key: PageStorageKey("SoundTaskWriteWord"),
       iconPath: "assets/course/test.svg",
@@ -44,22 +51,38 @@ class _LearnPageControllerState extends State<LearnPageController> {
       key: PageStorageKey("TextTaskWriteWord"),
       iconPath: "assets/course/test.svg",
     ),
-    TextTaskChooseWord(
-      key: PageStorageKey("TextTaskChooseWord"),
+  ];
+
+  final List<Widget> _speaking = [
+    TextTaskSpeakWord(
+      key: PageStorageKey("TextTaskSpeakWord"),
       iconPath: "assets/course/test.svg",
     ),
-    SoundTaskChooseWord(
-      key: PageStorageKey("SoundTaskChooseWord"),
-      iconPath: "assets/course/test.svg",
+  ];
+//
+//
+  final List<Widget> _general = [
+    NewWordPage(
+      key: PageStorageKey("NewWordPage"),
     ),
     LearningFinalPage(
       key: PageStorageKey("LearningFinalPage"),
       iconPath: "assets/course/test.svg",
     ),
   ];
-
+//
+//
   int _selectedIndex = 0;
   String courseTitle;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  void generateTasks() {
+    
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +90,8 @@ class _LearnPageControllerState extends State<LearnPageController> {
 
     return Scaffold(
       appBar: AppBarUpper(
-        title: this.courseTitle,
+        // do naprawienia
+        title: "Learning process",
         isCourseAppBar: true,
         onLogoTap: () => Navigator.pushNamedAndRemoveUntil(context, "/", (Route<dynamic> route) => false),
         onClosePressed: () => Navigator.pushNamedAndRemoveUntil(context, "/", (Route<dynamic> route) => false),
@@ -75,14 +99,14 @@ class _LearnPageControllerState extends State<LearnPageController> {
       body: Stack(
         children: <Widget>[
           PageView(
-            children: this.pages,
+            children: this._general,
             onPageChanged: (int index) => setState(() => this._selectedIndex = index),
           ),
           Positioned(
             left: 0,
             right: 0,
             top: 0,
-            child: LearningLabel(point: this._selectedIndex, points: this.pages.length - 1),
+            child: LearningLabel(point: this._selectedIndex, points: this._general.length - 1),
           ),
         ],
       ),

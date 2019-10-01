@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:langapp/components/button_filled/button_filled_big.dart';
-import 'package:langapp/components/frame/learning_frame.dart';
 import 'package:langapp/components/learning_process/learning_word.dart';
 import 'package:langapp/components/learning_process/points_label.dart';
 import 'package:langapp/styles/colors.dart';
@@ -21,28 +20,33 @@ class TextTaskSpeakWord extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LearningFrame(
-      child: Column(
-        children: <Widget>[
-          PointsLabel(points: 24500, iconPath: this.iconPath),
-          SizedBox(height: 40.0),
-          LearningWord(word: "słowo", isSoundIcon: false),
-          SizedBox(
-            height: 32.0,
-          ),
-          Text(
-            "Tap the microphone icon and record your speaking of the word.",
-            textAlign: TextAlign.center,
-          ),
-          SizedBox(height: 32.0),
-          // Inkwell ? klikalne ? jako ikonka nagrywania
+    return Scaffold(
+      body: Container(
+        padding: EdgeInsets.fromLTRB(24, 0, 24, 0),
+        child: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              PointsLabel(points: 24500, iconPath: this.iconPath),
+              SizedBox(height: 40.0),
+              LearningWord(word: "słowo", isSoundIcon: false),
+              SizedBox(
+                height: 32.0,
+              ),
+              Text(
+                "Tap the microphone icon and record your speaking of the word.",
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 32.0),
+              // Inkwell ? klikalne ? jako ikonka nagrywania
 
-          InkWell(child: this.microphoneIcon, onTap: () => print("hey")),
-          SizedBox(height: 72.0),
-          // to raczej do stacka
-          ButtonFilledBig(onPressed: () {}),
-          SizedBox(height: 24.0),
-        ],
+              InkWell(child: this.microphoneIcon, onTap: () => print("hey")),
+              SizedBox(height: 72.0),
+              // to raczej do stacka
+              ButtonFilledBig(onPressed: () {}),
+              SizedBox(height: 24.0),
+            ],
+          ),
+        ),
       ),
     );
   }
