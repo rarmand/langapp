@@ -1,22 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:langapp/model/app_model.dart';
 import 'package:langapp/styles/colors.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 class DailyGoalMarks extends StatelessWidget {
-  List<Mark> _goals = [];
-
-  DailyGoalMarks({@required List<bool> dailyGoalData}) {
-    dailyGoalData.forEach((element) => this._goals.add(Mark(isMarked: element)));
-  }
-
   @override
   Widget build(BuildContext context) {
+    List<Mark> goals = [];
+    ScopedModel.of<UserModel>(context, rebuildOnChange: true)
+        .dailyGoalHistory
+        .forEach((goal) => goals.add(Mark(isMarked: goal)));
+
     return Container(
       margin: EdgeInsets.fromLTRB(0, 8, 0, 8),
       child: Wrap(
         runSpacing: 4.0,
         alignment: WrapAlignment.center,
         runAlignment: WrapAlignment.spaceBetween,
-        children: this._goals,
+        children: goals,
       ),
     );
   }

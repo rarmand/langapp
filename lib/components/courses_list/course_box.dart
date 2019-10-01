@@ -111,7 +111,7 @@ class _CourseBoxState extends State<CourseBox> {
               repetitionVocabulary: this._wordsToRepeatNumber,
               isNewCourse: this.widget.isNewCourse,
             ),
-            CourseSkillset(index: this.widget.index),
+            CourseSkillset(index: this.widget.index, isNewCourse: this.widget.isNewCourse),
           ],
         ),
       ),

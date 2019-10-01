@@ -39,10 +39,7 @@ class BlockPoints extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(BTN_RADIUS)),
         gradient: LinearGradient(
-          colors: <Color>[
-            BROWN_LIGHT,
-            ORANGE,
-          ],
+          colors: <Color>[BROWN_LIGHT, BROWN_DARK],
         ),
         boxShadow: [
           BoxShadow(

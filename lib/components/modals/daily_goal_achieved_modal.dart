@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:langapp/components/profile_elements/daily_goal_marks.dart';
 import 'package:langapp/components/welcome_card/daily_goal_img.dart';
+import 'package:langapp/model/app_model.dart';
 import 'package:langapp/styles/colors.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 // TODO: how to build it properly?
 class DailyGoalAchievedModal extends StatelessWidget {
@@ -30,7 +32,7 @@ class DailyGoalAchievedModal extends StatelessWidget {
                         ),
                       ),
                       DailyGoalImg(
-                        timestamp: 10,
+                        timestamp: ScopedModel.of<UserModel>(context, rebuildOnChange: true).dailyGoal,
                         backgroundColor: WHITE,
                         textColor: GREEN_LIGHT,
                       ),

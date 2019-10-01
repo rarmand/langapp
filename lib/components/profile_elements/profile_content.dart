@@ -12,49 +12,26 @@ class ProfileContent extends StatefulWidget {
 }
 
 class _ProfileContentState extends State<ProfileContent> {
-  String _username = '...';
-  int _longestStrike = 0;
-  int _speedTestStrike = 0;
-  int _challengesCount = 0;
-  int _points = 0;
-  List<bool> _dailyGoalsList = [false, false, false, false, false, false, false];
-
-  @override
-  void initState() {
-    super.initState();
-    this._getData();
-  }
-
-  void _getData() async {
-    List dailyGoalHistory = ScopedModel.of<UserModel>(context).dailyGoalHistory;
-
-    setState(() {
-      _username = ScopedModel.of<UserModel>(context).username;
-      _longestStrike = ScopedModel.of<UserModel>(context).longestStrike;
-      _speedTestStrike = ScopedModel.of<UserModel>(context).speedTestsStrike;
-      _challengesCount = ScopedModel.of<UserModel>(context).userChallenges.length;
-      _points = ScopedModel.of<UserModel>(context).points;
-
-      for (int i = 0; i < dailyGoalHistory.length; i++) {
-        _dailyGoalsList[i] = dailyGoalHistory[i];
-      }
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
+    String username = ScopedModel.of<UserModel>(context, rebuildOnChange: true).username;
+    int longestStrike = ScopedModel.of<UserModel>(context, rebuildOnChange: true).longestStrike;
+    int speedTestStrike = ScopedModel.of<UserModel>(context, rebuildOnChange: true).speedTestsStrike;
+    int challengesCount = ScopedModel.of<UserModel>(context, rebuildOnChange: true).userChallenges.length;
+    int points = ScopedModel.of<UserModel>(context, rebuildOnChange: true).points;
+
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 24.0),
       child: Column(
         children: <Widget>[
-          BlockPoints(points: this._points),
-          ProfileInfoLine(text: "Username", value: this._username),
-          ProfileInfoLine(text: "Longest strike", value: this._longestStrike.toString()),
-          ProfileInfoLine(text: "Speed tests strike", value: this._speedTestStrike.toString()),
-          ProfileInfoLine(text: "Challenges", value: this._challengesCount.toString()),
+          BlockPoints(points: points),
+          ProfileInfoLine(text: "Username", value: username),
+          ProfileInfoLine(text: "Longest strike", value: longestStrike.toString()),
+          ProfileInfoLine(text: "Speed tests strike", value: speedTestStrike.toString()),
+          ProfileInfoLine(text: "Challenges", value: challengesCount.toString()),
           ElementContent(
             title: "Daily goals",
-            element: DailyGoalMarks(dailyGoalData: this._dailyGoalsList),
+            element: DailyGoalMarks(),
           ),
         ],
       ),

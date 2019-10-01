@@ -33,10 +33,21 @@ class _SmallInputFieldState extends State<SmallInputField> {
 
   String _validator(String input) {
     int value = int.parse(input);
+    // Map skillset = ScopedModel.of<UserModel>(context).skillsetUser;
+    // int sum = 0;
+    // skillset.forEach((key, value) {
+    //   if (key != this.widget.label) {
+    //     sum += value;
+    //   }
+    // });
+
+    // print(this.widget.label + " " + input);
+    // print(value);
 
     if (value == null)
       return "No value";
     else if (value < 10 || value > 70) return "10% to 70%";
+    // else if (sum + value != 100) return "Must be 100%";
   }
 
   @override
@@ -47,7 +58,6 @@ class _SmallInputFieldState extends State<SmallInputField> {
         initialValue: this._text,
         textAlign: TextAlign.center,
         keyboardType: TextInputType.number,
-        // onSaved: (input) => this.widget.onSaved(input, this.widget.label),
         onSaved: this._onSaved,
         validator: this._validator,
         maxLength: 2,

@@ -47,28 +47,13 @@ class TheoryPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        child: StreamBuilder(
-          stream: Firestore.instance.collection("french_vocabulary").snapshots(),
-          builder: (context, snapshot) {
-            if (!snapshot.hasData) return const Text("Loading...");
-
-            return ListView.builder(
-              itemCount: snapshot.data.documents.length,
-              itemBuilder: (context, index) => this._getWordCard(context, snapshot.data.documents[index]),
-            );
-          },
-        ),
+    return LearningFrame(
+      point: 0,
+      child: ListView.builder(
+        shrinkWrap: true,
+        itemCount: this._vocabList.length,
+        itemBuilder: (context, index) => this._vocabList[index],
       ),
     );
-    // return LearningFrame(
-    //   point: 0,
-    //   child: ListView.builder(
-    //     shrinkWrap: true,
-    //     itemCount: this._vocabList.length,
-    //     itemBuilder: (context, index) => this._vocabList[index],
-    //   ),
-    // );
   }
 }

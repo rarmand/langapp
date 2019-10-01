@@ -31,8 +31,6 @@ class _HomeControllerState extends State<HomeController> {
 
   int _selectedIndex = 0;
 
-  // TODO: jak zmienić kolor ?
-
   Widget _getMenuIcon({@required String iconPath, int buttonIndex, bool isChosen = false}) => SvgPicture.asset(
         iconPath,
         height: 23.0,
