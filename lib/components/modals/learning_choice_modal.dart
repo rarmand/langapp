@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:langapp/components/courses_list/course_box.dart';
 import 'package:langapp/components/courses_list/learn_block.dart';

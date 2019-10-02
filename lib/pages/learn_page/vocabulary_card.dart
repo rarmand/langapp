@@ -4,12 +4,16 @@ import 'package:langapp/styles/colors.dart';
 class VocabularyCard extends StatelessWidget {
   final String vocabulary;
   final String translation;
-  bool isKnown;
+  final bool isKnown;
+  final bool isRepeated;
+  final bool isIgnored;
 
   VocabularyCard({
     @required this.vocabulary,
     @required this.translation,
-    @required this.isKnown,
+    this.isKnown = false,
+    this.isRepeated = false,
+    this.isIgnored = false,
   });
 
   @override

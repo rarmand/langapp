@@ -47,16 +47,13 @@ class _CourseBoxState extends State<CourseBox> {
       });
 
       if (!this.widget.isNewCourse) {
-        String userId = ScopedModel.of<UserModel>(context).userId;
-        DocumentSnapshot dsUserCourse = await Firestore.instance.collection('users').document(userId).get();
+        Map userCourses = ScopedModel.of<UserModel>(context).courses;
         if (!this.mounted) return;
 
-        if (dsUserCourse.exists) {
-          Map userCourseData = dsUserCourse.data['courses'][this.widget.index];
-
+        if (userCourses.containsKey(this.widget.index)) {
           setState(() {
-            this._learntWordsNumber = userCourseData['learnt_words'];
-            this._wordsToRepeatNumber = userCourseData['words_to_repeat'];
+            this._learntWordsNumber = userCourses[this.widget.index]['words_learnt'].length;
+            this._wordsToRepeatNumber = userCourses[this.widget.index]['words_to_repeat'].length;
           });
         }
       }
@@ -65,7 +62,7 @@ class _CourseBoxState extends State<CourseBox> {
 
   void _onTap(BuildContext context) {
     ScopedModel.of<UserModel>(context).courseIndex = this.widget.index;
-    ScopedModel.of<UserModel>(context).setSkillset(index: this.widget.index);
+    ScopedModel.of<UserModel>(context).setChosenCourse(index: this.widget.index);
 
     if (this.widget.isNewCourse) {
       Navigator.of(context).push(PageRouteBuilder(
@@ -73,6 +70,7 @@ class _CourseBoxState extends State<CourseBox> {
         pageBuilder: (BuildContext context, _, __) => NewCourseStartModal(),
       ));
     } else {
+      ScopedModel.of<UserModel>(context).setSkillset(index: this.widget.index);
       Navigator.of(context).push(PageRouteBuilder(
         opaque: false,
         pageBuilder: (BuildContext context, _, __) => LearningChoiceModal(),

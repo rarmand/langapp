@@ -49,7 +49,6 @@ class SkillBlock extends StatelessWidget {
               ? SmallInputField(
                   text: this.title,
                   label: this.subtitle,
-                  // onSaved: this._onSaved,
                 )
               : Text(
                   this.title.toString(),

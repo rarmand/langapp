@@ -15,14 +15,6 @@ class LearningSettingsEditionModal extends StatefulWidget {
 class _LearningSettingsEditionModalState extends State<LearningSettingsEditionModal> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  Map _skillset = {};
-
-  @override
-  void initState() {
-    super.initState();
-    this._skillset = ScopedModel.of<UserModel>(context).skillsetUser;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,7 +40,7 @@ class _LearningSettingsEditionModalState extends State<LearningSettingsEditionMo
                     ),
                   ),
                   const SizedBox(height: 24.0),
-                  DiagnosedSkillsBlocks(isAutoType: false, editMode: true),
+                  DiagnosedSkillsBlocks(isAutoMethod: false, editMode: true),
                   const SizedBox(height: 40.0),
                   ButtonFilled(
                     btnText: "Save",
@@ -68,12 +60,7 @@ class _LearningSettingsEditionModalState extends State<LearningSettingsEditionMo
     final form = this._formKey.currentState;
     if (form.validate()) {
       form.save();
-      Map newSkillset = ScopedModel.of<UserModel>(context).skillsetUser;
-      print("new skillset " + newSkillset.toString());
-      print("Validate and Save: " + this._skillset.toString());
-      // ScopedModel.of<UserModel>(context).setSkillsetUser(skillset: this._skillset);
 
-      // ScopedModel.of<UserModel>(context).setEditedCourseSkillsetIndex(index: '');
       Navigator.pop(context);
     }
   }

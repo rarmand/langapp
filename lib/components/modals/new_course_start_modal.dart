@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:langapp/components/button_filled/button_filled.dart';
 import 'package:langapp/components/courses_list/course_box.dart';
@@ -15,38 +14,10 @@ class NewCourseStartModal extends StatefulWidget {
 }
 
 class _NewCourseStartModalState extends State<NewCourseStartModal> {
-  Future _setNewCourse() async {
-    String userId = ScopedModel.of<UserModel>(context).userId;
-    DocumentSnapshot ds = await Firestore.instance.collection('users').document(userId).get();
-
-    if (ds.exists) {
-      Map courses = ds.data['courses'];
-      String courseIndex = ScopedModel.of<UserModel>(context).courseIndex;
-
-      courses[courseIndex] = {
-        'points': 0,
-        'learnt_words': 0,
-        'words_to_repeat': 0,
-        'skills': {
-          "auto": false,
-          "listening": 25,
-          "listening_auto": 25,
-          "speaking": 25,
-          "speaking_auto": 25,
-          "reading": 25,
-          "reading_auto": 25,
-          "writing": 25,
-          "writing_auto": 25,
-        },
-      };
-
-      Firestore.instance.collection("users").document(userId).updateData({"courses": courses});
-    }
-  }
-
   void _onPressed() async {
     // dodać nowy kurs do bazy danych
-    await this._setNewCourse();
+    await ScopedModel.of<UserModel>(context).setNewCourse();
+    ScopedModel.of<UserModel>(context).setSkillset(index: ScopedModel.of<UserModel>(context).courseIndex);
 
     Navigator.pushNamedAndRemoveUntil(context, "/", (Route<dynamic> route) => false);
     Navigator.of(context).push(PageRouteBuilder(

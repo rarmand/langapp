@@ -13,8 +13,6 @@ class NewCourseChoicePage extends StatefulWidget {
 }
 
 class _NewCourseChoicePageState extends State<NewCourseChoicePage> {
-  List _userCoursesKeys;
-
   final List<TextSpan> _title = <TextSpan>[
     TextSpan(
       text: "Choose \n",
@@ -35,23 +33,9 @@ class _NewCourseChoicePageState extends State<NewCourseChoicePage> {
   ];
 
   @override
-  void initState() {
-    super.initState();
-    this._getUserData();
-  }
-
-  void _getUserData() async {
-    String userId = ScopedModel.of<UserModel>(context).userId;
-    DocumentSnapshot ds = await Firestore.instance.collection('users').document(userId).get();
-    if (ds.exists) {
-      setState(() {
-        this._userCoursesKeys = ds.data['courses'].keys.toList();
-      });
-    }
-  }
-
-  @override
   Widget build(BuildContext context) {
+    List userCoursesKeys = ScopedModel.of<UserModel>(context).courses.keys.toList();
+
     return WelcomeFrame(
       onPressedNext: () => Navigator.pushNamed(context, "/"),
       onPressedBack: () => Navigator.pop(context),
@@ -62,7 +46,7 @@ class _NewCourseChoicePageState extends State<NewCourseChoicePage> {
           StreamBuilder(
             stream: Firestore.instance.collection("courses").snapshots(),
             builder: (context, snapshot) {
-              if (!snapshot.hasData || this._userCoursesKeys == null) return const Text("Loading...");
+              if (!snapshot.hasData || userCoursesKeys == null) return const Text("Loading...");
 
               String language = ScopedModel.of<UserModel>(context).language.toLowerCase();
               QuerySnapshot courses = snapshot.data;
@@ -70,7 +54,7 @@ class _NewCourseChoicePageState extends State<NewCourseChoicePage> {
               return Wrap(
                 runSpacing: 24.0,
                 children: courses.documents
-                    .where((doc) => !this._userCoursesKeys.contains(doc.documentID) && doc.data['language'] == language)
+                    .where((doc) => !userCoursesKeys.contains(doc.documentID) && doc.data['language'] == language)
                     .map(
                   (doc) {
                     return CourseBox(

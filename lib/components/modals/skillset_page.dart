@@ -20,28 +20,28 @@ class SkillsetPage extends StatefulWidget {
 // TODO: do skonczenia
 
 class _SkillsetPageState extends State<SkillsetPage> {
-  bool _diagnosedMethod;
+  bool _autoMethod;
 
   @override
   void initState() {
     super.initState();
     ScopedModel.of<UserModel>(context).setSkillset(index: this.widget.index);
     setState(() {
-      this._diagnosedMethod = ScopedModel.of<UserModel>(context).autoSkillset;
+      this._autoMethod = ScopedModel.of<UserModel>(context).autoSkillset;
     });
   }
 
   void _onChosenMethodChange(bool change) async {
     setState(() {
-      this._diagnosedMethod = !this._diagnosedMethod;
+      this._autoMethod = !this._autoMethod;
     });
     // update bazy w ScopedModel
     ScopedModel.of<UserModel>(context, rebuildOnChange: true)
-        .setAutoMethod(isAuto: this._diagnosedMethod, index: this.widget.index);
+        .setAutoMethod(isAuto: this._autoMethod, index: this.widget.index);
   }
 
   void _onEditPressed() {
-    if (!this._diagnosedMethod) {
+    if (!this._autoMethod) {
       ScopedModel.of<UserModel>(context).setEditedCourseSkillsetIndex(index: this.widget.index);
       Navigator.of(context).push(
         PageRouteBuilder(
@@ -75,26 +75,27 @@ class _SkillsetPageState extends State<SkillsetPage> {
                   subtitle:
                       "Diagnosed method of learning with the application algorithm.\n\nPresented values inform which skill works better in learning process.",
                   element: DiagnosedSkillsBlocks(
-                    isChosen: this._diagnosedMethod,
-                    isAutoType: true,
+                    isChosen: this._autoMethod,
+                    isAutoMethod: true,
                   ),
                 ),
                 ElementCheckbox(
                   name: "Choose your method of learning",
-                  isChecked: !this._diagnosedMethod,
+                  isChecked: !this._autoMethod,
                   onChanged: this._onChosenMethodChange,
                 ),
                 ElementButton(
                   name: "Edit my method",
                   buttonIcon: Icons.edit,
-                  disabled: this._diagnosedMethod,
+                  disabled: this._autoMethod,
                   onPressed: this._onEditPressed,
                 ),
+                //
                 ElementContent(
                   subtitle: "The method of learning set by the user.",
                   element: DiagnosedSkillsBlocks(
-                    isChosen: !this._diagnosedMethod,
-                    isAutoType: false,
+                    isChosen: !this._autoMethod,
+                    isAutoMethod: false,
                   ),
                 ),
               ],

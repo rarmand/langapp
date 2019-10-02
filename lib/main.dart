@@ -40,7 +40,6 @@ class MyApp extends StatelessWidget {
           '/choose_language': (context) => LanguagePage(),
           '/choose_daily_goal': (context) => DailyGoalPage(),
           '/choose_new_course': (context) => NewCourseChoicePage(),
-          // TODO: poprawne ścieżki odpowiednio dla kursów
           "/theory": (context) => TheoryPage(),
           "/test": (context) => SpeedTestMenuTest(),
           "/session": (context) => LearnPageController(),

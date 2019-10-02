@@ -7,13 +7,13 @@ import 'package:scoped_model/scoped_model.dart';
 class DiagnosedSkillsBlocks extends StatelessWidget {
   final bool isChosen;
   final bool editMode;
-  final bool isAutoType;
+  final bool isAutoMethod;
 
-  DiagnosedSkillsBlocks({this.isChosen = true, @required this.isAutoType, this.editMode = false});
+  DiagnosedSkillsBlocks({this.isChosen = true, @required this.isAutoMethod, this.editMode = false});
 
   @override
   Widget build(BuildContext context) {
-    Map skillset = (isAutoType
+    Map skillset = (isAutoMethod
         ? ScopedModel.of<UserModel>(context, rebuildOnChange: true).skillsetDiagnosed
         : ScopedModel.of<UserModel>(context, rebuildOnChange: true).skillsetUser);
 

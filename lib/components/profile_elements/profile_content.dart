@@ -16,7 +16,7 @@ class _ProfileContentState extends State<ProfileContent> {
   Widget build(BuildContext context) {
     String username = ScopedModel.of<UserModel>(context, rebuildOnChange: true).username;
     int longestStrike = ScopedModel.of<UserModel>(context, rebuildOnChange: true).longestStrike;
-    int speedTestStrike = ScopedModel.of<UserModel>(context, rebuildOnChange: true).speedTestsStrike;
+    int speedTestStrike = ScopedModel.of<UserModel>(context, rebuildOnChange: true).speedTestStrike;
     int challengesCount = ScopedModel.of<UserModel>(context, rebuildOnChange: true).userChallenges.length;
     int points = ScopedModel.of<UserModel>(context, rebuildOnChange: true).points;
 
