@@ -10,9 +10,9 @@ class AppBarUpper extends StatelessWidget implements PreferredSizeWidget {
   final bool isCourseAppBar;
 
   AppBarUpper({
-    @required this.title,
-    @required this.onLogoTap,
-    @required this.onClosePressed,
+    @required this.title = "Session",
+    @required this.onLogoTap = null,
+    @required this.onClosePressed = null,
     this.isCourseAppBar = false,
   });
 

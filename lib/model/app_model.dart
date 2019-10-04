@@ -38,6 +38,7 @@ class UserModel extends Model {
   Map _courses = {};
   Map _chosenCourse = {};
   Map _chosenCourseWords = {};
+  Map _wordsToLearn = {};
 
 // ustalenie do którego kursu należy dany zestaw skilli
 // skillset assigned to _editedCourseIndex or _courseIndex
@@ -91,6 +92,8 @@ class UserModel extends Model {
   Map get wordsLearnt => this._courses[this._courseIndex]['words_learnt'];
   Map get wordsToRepeat => this._courses[this._courseIndex]['words_to_repeat'];
   Map get wordsIgnored => this._courses[this._courseIndex]['words_ignored'];
+
+  Map get wordsToLearn => this._wordsToLearn;
 
 ///////////////////////////
 // skills data of chosen course
@@ -259,6 +262,21 @@ class UserModel extends Model {
       this._courseIndex = '';
     }
     notifyListeners();
+  }
+
+///////////////////////////
+// set learning process
+///////////////////////////
+  ///
+  void setWordsToLearn({@required int amount = 4}) {
+    List keys = this._chosenCourseWords.keys.toList();
+    keys.shuffle();
+
+    for (int i = 0; i < amount; i++) {
+      this._wordsToLearn[keys[i]] = this._chosenCourseWords[keys[i]];
+      // zbieranie parametrów słowa dla zadań w session
+      this._wordsToLearn[keys[i]]['shown'] = false;
+    }
   }
 
 ///////////////////////////

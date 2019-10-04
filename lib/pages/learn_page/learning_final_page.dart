@@ -1,28 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:langapp/components/frame/learning_frame.dart';
+import 'package:langapp/model/app_model.dart';
 import 'package:langapp/pages/learn_page/vocabulary_card.dart';
 import 'package:langapp/styles/colors.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 class LearningFinalPage extends StatelessWidget {
-  final int points = 256999;
+  final int _points = 256999;
   final String iconPath;
-  Widget icon;
-
-  List<VocabularyCard> _vocabList = [
-    VocabularyCard(vocabulary: "a man", translation: "mężczyzna", isKnown: true),
-    VocabularyCard(vocabulary: "a man", translation: "mężczyzna", isKnown: true),
-    VocabularyCard(vocabulary: "a man", translation: "mężczyzna", isKnown: true),
-    VocabularyCard(vocabulary: "a man", translation: "mężczyzna", isKnown: true),
-    VocabularyCard(vocabulary: "a man", translation: "mężczyzna", isKnown: true),
-    VocabularyCard(vocabulary: "a man", translation: "mężczyzna", isKnown: true),
-    VocabularyCard(vocabulary: "a man", translation: "mężczyzna", isKnown: true),
-    VocabularyCard(vocabulary: "a man", translation: "mężczyzna", isKnown: true),
-    VocabularyCard(vocabulary: "a man", translation: "mężczyzna", isKnown: true),
-  ];
+  Widget _icon;
 
   LearningFinalPage({Key key, @required this.iconPath}) : super(key: key) {
-    this.icon = SvgPicture.asset(
+    this._icon = SvgPicture.asset(
       this.iconPath,
       color: GREEN_DARK,
       height: 104.0,
@@ -31,6 +21,16 @@ class LearningFinalPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Map words = ScopedModel.of<UserModel>(context, rebuildOnChange: true).wordsToLearn;
+    List<VocabularyCard> vocabList = [];
+    words.forEach((key, value) {
+      vocabList.add(VocabularyCard(
+        vocabulary: value['text'],
+        translation: value['translation'],
+        isKnown: true,
+      ));
+    });
+
     return Scaffold(
       body: Container(
         padding: EdgeInsets.fromLTRB(24, 0, 24, 0),
@@ -58,7 +58,7 @@ class LearningFinalPage extends StatelessWidget {
               ),
               SizedBox(height: 12.0),
               Text(
-                this.points.toString() + " points!",
+                this._points.toString() + " points!",
                 style: TextStyle(
                   fontFamily: "Roboto",
                   fontWeight: FontWeight.bold,
@@ -66,7 +66,7 @@ class LearningFinalPage extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 32.0),
-              this.icon,
+              this._icon,
               SizedBox(height: 32.0),
               Container(
                 alignment: Alignment.centerLeft,
@@ -75,7 +75,7 @@ class LearningFinalPage extends StatelessWidget {
               Column(
                 children: <Widget>[
                   SizedBox(height: 20.0),
-                  ...this._vocabList,
+                  ...vocabList,
                   SizedBox(height: 20.0),
                 ],
               )
