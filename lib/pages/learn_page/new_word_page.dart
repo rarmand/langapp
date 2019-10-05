@@ -5,36 +5,24 @@ import 'package:langapp/components/learning_process/image_box.dart';
 import 'package:langapp/components/learning_process/learning_word.dart';
 import 'package:langapp/components/learning_process/phonetic_word.dart';
 import 'package:langapp/components/learning_process/translation_word.dart';
-import 'package:langapp/model/app_model.dart';
-import 'package:scoped_model/scoped_model.dart';
 
 class NewWordPage extends StatelessWidget {
   final Widget _soundIcon = SvgPicture.asset("assets/learning/sound.svg");
   static int index = 0;
+  Map _word = {
+    'text': '',
+    'translation': '',
+    'phonetics': '',
+  };
 
   NewWordPage({Key key}) : super(key: key);
 
-// TODO: do naprawienia
-// kolejnosć słow się nie zgadza i przejście do kolejnego kursu tworzy problemy
-// page powinien dostawać słowo i wyświetlać - tyle. Żadnych operacji tutaj
-  Map _getWord(BuildContext context) {
-    List words = ScopedModel.of<UserModel>(context, rebuildOnChange: true).wordsToLearn.values.toList();
-    Map word = words[index];
-
-    if (index + 1 >= ScopedModel.of<UserModel>(context, rebuildOnChange: true).wordsToLearn.length)
-      index = 0;
-    else
-      index += 1;
-
-    print(word);
-    print(index);
-
-    return word;
+  void setWord(Map word) {
+    this._word = word;
   }
 
   @override
   Widget build(BuildContext context) {
-    Map word = this._getWord(context);
 
     return Scaffold(
       body: Container(
@@ -42,9 +30,9 @@ class NewWordPage extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
-              LearningWord(word: word['text']),
-              PhoneticWord(word: word['phonetics']),
-              TranslationWord(word: word['translation']),
+              LearningWord(word: this._word['text']),
+              PhoneticWord(word: this._word['phonetics']),
+              TranslationWord(word: this._word['translation']),
               ImageBox(),
               // button
               Row(

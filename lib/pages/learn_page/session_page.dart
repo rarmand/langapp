@@ -13,12 +13,12 @@ import 'package:langapp/pages/learn_page/text_task_speak_word.dart';
 import 'package:langapp/pages/learn_page/text_task_write_word.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-class LearnPageController extends StatefulWidget {
+class SessionPage extends StatefulWidget {
   @override
-  _LearnPageControllerState createState() => _LearnPageControllerState();
+  _SessionPageState createState() => _SessionPageState();
 }
 
-class _LearnPageControllerState extends State<LearnPageController> {
+class _SessionPageState extends State<SessionPage> {
   final List<Widget> _general = [
     NewWordPage(
       key: PageStorageKey("NewWordPage"),

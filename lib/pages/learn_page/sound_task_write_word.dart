@@ -1,17 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:langapp/components/button_filled/button_square.dart';
 import 'package:langapp/components/input_field/input_field.dart';
 import 'package:langapp/components/learning_process/points_label.dart';
+import 'package:langapp/components/learning_process/sound_button.dart';
 
 class SoundTaskWriteWord extends StatelessWidget {
-  // TODO: if clicked, it needs to change a color
-  // and add some shadow behind, if its not clicked
-  final Widget soundIcon = SvgPicture.asset(
-    "assets/learning/sound.svg",
-    height: 100.0,
-  );
-
   final String iconPath;
 
   SoundTaskWriteWord({Key key, @required this.iconPath}) : super(key: key);
@@ -25,9 +18,9 @@ class SoundTaskWriteWord extends StatelessWidget {
           child: Column(
             children: <Widget>[
               PointsLabel(points: 24500, iconPath: this.iconPath),
-              SizedBox(height: 64.0),
-              this.soundIcon,
-              SizedBox(height: 64.0),
+              const SizedBox(height: 64.0),
+              SoundButton(),
+              const SizedBox(height: 64.0),
               InputField(
                 label: "Write the translation",
               ),

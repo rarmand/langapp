@@ -1,15 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:langapp/components/courses_list/course_header.dart';
 import 'package:langapp/components/courses_list/course_skillset.dart';
+import 'package:langapp/components/courses_list/course_vocabulary_data.dart';
 import 'package:langapp/components/modals/learning_choice_modal.dart';
 import 'package:langapp/components/modals/new_course_start_modal.dart';
 import 'package:langapp/model/app_model.dart';
 import 'package:langapp/styles/colors.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-import 'course_header.dart';
-import 'course_vocabulary_data.dart';
+
 
 class CourseBox extends StatefulWidget {
   final String index; // nazwa kursu w db - key

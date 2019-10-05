@@ -16,7 +16,7 @@ class PhoneticWord extends StatelessWidget {
             child: Container(
               padding: EdgeInsets.fromLTRB(32.0, 0, 32.0, 0),
               child: Text(
-                this.word,
+                "/ $word /",
                 textAlign: TextAlign.center,
                 overflow: TextOverflow.clip,
                 style: TextStyle(

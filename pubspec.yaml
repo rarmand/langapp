@@ -18,7 +18,11 @@ environment:
 
 dependencies:
   cloud_firestore:
+  firebase_core:
   firebase_auth: ^0.14.0+5
+  firebase_storage: ^3.0.6
+
+  audioplayers: ^0.13.2
 
   flutter:
     sdk: flutter

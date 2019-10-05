@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:langapp/components/learning_process/sound_button.dart';
 import 'package:langapp/styles/colors.dart';
 
 class LearningWord extends StatelessWidget {
-  final Widget soundIcon = SvgPicture.asset("assets/learning/sound.svg");
   final String word;
   final bool isSoundIcon;
 
@@ -16,10 +15,10 @@ class LearningWord extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          (this.isSoundIcon ? this.soundIcon : SizedBox()),
+          (this.isSoundIcon ? SoundButton(height: 24) : SizedBox()),
           Expanded(
             child: Container(
-              padding: (this.isSoundIcon ? EdgeInsets.fromLTRB(12.0, 0, 32.0, 0) : null),
+              padding: (this.isSoundIcon ? EdgeInsets.only(top: 8.0, right: 40.0) : null),
               child: Text(
                 this.word,
                 textAlign: TextAlign.center,

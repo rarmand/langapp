@@ -5,6 +5,7 @@ import 'package:langapp/pages/home_menu_page/home_controller.dart';
 import 'package:langapp/pages/intro_page/intro_controller.dart';
 import 'package:langapp/pages/language_page/language_page.dart';
 import 'package:langapp/pages/learn_page/learn_page_controller.dart';
+import 'package:langapp/pages/learn_page/session_page.dart';
 import 'package:langapp/pages/learn_page/speed_test_menu_page.dart';
 import 'package:langapp/pages/learn_page/theory_page.dart';
 import 'package:langapp/pages/login_page/login_page.dart';
@@ -43,6 +44,7 @@ class MyApp extends StatelessWidget {
           "/theory": (context) => TheoryPage(),
           "/test": (context) => SpeedTestMenuTest(),
           "/session": (context) => LearnPageController(),
+          "/repetition": (context) => SessionPage(),
         },
         // sets theme for the entire app
         theme: ThemeData(
