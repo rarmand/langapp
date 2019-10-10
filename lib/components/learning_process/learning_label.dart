@@ -11,7 +11,8 @@ class LearningLabel extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Container(
+        AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
           height: 4.0,
           width: MediaQuery.of(context).size.width * this.point / this.points,
           color: GREEN_LIGHT,

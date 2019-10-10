@@ -18,7 +18,7 @@ class LearnBlock extends StatelessWidget {
     if (this.title == "Theory")
       _pagePath = '/theory';
     else if (this.title == "Test")
-      _pagePath = "/test";
+      _pagePath = "/speed_test";
     else if (this.title == "Session")
       _pagePath = "/session";
     else if (this.title == "Repetition") _pagePath = "/repetition";

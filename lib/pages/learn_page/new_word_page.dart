@@ -9,20 +9,21 @@ import 'package:langapp/components/learning_process/translation_word.dart';
 class NewWordPage extends StatelessWidget {
   final Widget _soundIcon = SvgPicture.asset("assets/learning/sound.svg");
   static int index = 0;
-  Map _word = {
-    'text': '',
-    'translation': '',
-    'phonetics': '',
-  };
+  Map word;
 
-  NewWordPage({Key key}) : super(key: key);
+  final Function(bool) onNext;
 
-  void setWord(Map word) {
-    this._word = word;
+  NewWordPage({Key key, @required this.word, @required this.onNext}) : super(key: key);
+
+  void next() {
+    // logika co sprawdza czy dobrze wykonane
+    // i na koncu
+    // onNext(false) jak zle zrobione lub onNext(true) jak dobrze
   }
 
   @override
   Widget build(BuildContext context) {
+    print(word);
 
     return Scaffold(
       body: Container(
@@ -30,9 +31,9 @@ class NewWordPage extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
-              LearningWord(word: this._word['text']),
-              PhoneticWord(word: this._word['phonetics']),
-              TranslationWord(word: this._word['translation']),
+              LearningWord(word: this.word['text']),
+              PhoneticWord(word: this.word['phonetics']),
+              TranslationWord(word: this.word['translation']),
               ImageBox(),
               // button
               Row(
@@ -52,30 +53,3 @@ class NewWordPage extends StatelessWidget {
     );
   }
 }
-
-// class NewWordPag extends StatelessWidget {
-//   NewWordPag({Key key}) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Column(
-//       children: <Widget>[
-//         LearningWord(word: "the word"),
-//         PhoneticWord(word: "/my mankhiohihio/"),
-//         TranslationWord(word: "tłumaczenie tego bardzo długiego słowa"),
-//         ImageBox(),
-//         // button
-//         Row(
-//           mainAxisAlignment: MainAxisAlignment.center,
-//           children: <Widget>[
-//             ButtonSquare(positive: false, onPressed: () {}),
-//             SizedBox(
-//               width: MediaQuery.of(context).size.width / 4,
-//             ),
-//             ButtonSquare(positive: true, onPressed: () {}),
-//           ],
-//         ),
-//       ],
-//     );
-//   }
-// }

@@ -1,26 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:langapp/components/frame/learning_frame.dart';
 import 'package:langapp/model/app_model.dart';
 import 'package:langapp/pages/learn_page/vocabulary_card.dart';
 import 'package:langapp/styles/colors.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class LearningFinalPage extends StatelessWidget {
-  final int _points = 256999;
-  final String iconPath;
-  Widget _icon;
-
-  LearningFinalPage({Key key, @required this.iconPath}) : super(key: key) {
-    this._icon = SvgPicture.asset(
-      this.iconPath,
-      color: GREEN_DARK,
-      height: 104.0,
-    );
-  }
+  LearningFinalPage({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    Widget icon = SvgPicture.asset(
+      ScopedModel.of<UserModel>(context, rebuildOnChange: true).iconProcessPath,
+      color: GREEN_DARK,
+      height: 104.0,
+    );
+
     Map words = ScopedModel.of<UserModel>(context, rebuildOnChange: true).wordsToLearn;
     List<VocabularyCard> vocabList = [];
     words.forEach((key, value) {
@@ -30,6 +25,8 @@ class LearningFinalPage extends StatelessWidget {
         isKnown: true,
       ));
     });
+
+    int points = ScopedModel.of<UserModel>(context, rebuildOnChange: true).processPoints;
 
     return Scaffold(
       body: Container(
@@ -58,7 +55,7 @@ class LearningFinalPage extends StatelessWidget {
               ),
               SizedBox(height: 12.0),
               Text(
-                this._points.toString() + " points!",
+                "$points points!",
                 style: TextStyle(
                   fontFamily: "Roboto",
                   fontWeight: FontWeight.bold,
@@ -66,7 +63,7 @@ class LearningFinalPage extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 32.0),
-              this._icon,
+              icon,
               SizedBox(height: 32.0),
               Container(
                 alignment: Alignment.centerLeft,

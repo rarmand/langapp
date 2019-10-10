@@ -6,7 +6,7 @@ import 'package:langapp/pages/intro_page/intro_controller.dart';
 import 'package:langapp/pages/language_page/language_page.dart';
 import 'package:langapp/pages/learn_page/learn_page_controller.dart';
 import 'package:langapp/pages/learn_page/session_page.dart';
-import 'package:langapp/pages/learn_page/speed_test_menu_page.dart';
+import 'package:langapp/pages/learn_page/speed_test_page_controller.dart';
 import 'package:langapp/pages/learn_page/theory_page.dart';
 import 'package:langapp/pages/login_page/login_page.dart';
 import 'package:langapp/pages/new_course_choice_page/new_course_choice_page.dart';
@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
           '/choose_daily_goal': (context) => DailyGoalPage(),
           '/choose_new_course': (context) => NewCourseChoicePage(),
           "/theory": (context) => TheoryPage(),
-          "/test": (context) => SpeedTestMenuTest(),
+          "/speed_test": (context) => SpeedTestPageController(),
           "/session": (context) => LearnPageController(),
           "/repetition": (context) => SessionPage(),
         },

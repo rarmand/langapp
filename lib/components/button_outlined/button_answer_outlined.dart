@@ -13,7 +13,7 @@ class ButtonAnswerOutlined extends StatelessWidget {
     return Container(
       margin: EdgeInsets.all(4.0),
       width: BTN_WIDTH,
-      height: BTN_HEIGHT + 12,
+      height: BTN_HEIGHT + 20,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(BTN_RADIUS / 2)),
         border: Border.all(

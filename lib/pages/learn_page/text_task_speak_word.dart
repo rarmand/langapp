@@ -13,10 +13,16 @@ class TextTaskSpeakWord extends StatelessWidget {
     color: BROWN_DARK,
     height: 100.0,
   );
+  final Map word;
+  final Function(bool) onNext;
 
-  final String iconPath;
+  TextTaskSpeakWord({Key key, @required this.word, @required this.onNext}) : super(key: key);
 
-  TextTaskSpeakWord({Key key, @required this.iconPath}) : super(key: key);
+  void next() {
+    // logika co sprawdza czy dobrze wykonane
+    // i na koncu
+    // onNext(false) jak zle zrobione lub onNext(true) jak dobrze
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,24 +32,22 @@ class TextTaskSpeakWord extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
-              PointsLabel(points: 24500, iconPath: this.iconPath),
-              SizedBox(height: 40.0),
-              LearningWord(word: "słowo", isSoundIcon: false),
-              SizedBox(
-                height: 32.0,
-              ),
+              PointsLabel(),
+              const SizedBox(height: 24.0),
+              LearningWord(word: this.word['text'], isSoundIcon: false),
+              const SizedBox(height: 40.0),
               Text(
                 "Tap the microphone icon and record your speaking of the word.",
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: 32.0),
+              const SizedBox(height: 40.0),
               // Inkwell ? klikalne ? jako ikonka nagrywania
 
               InkWell(child: this.microphoneIcon, onTap: () => print("hey")),
-              SizedBox(height: 72.0),
+              const SizedBox(height: 72.0),
               // to raczej do stacka
               ButtonFilledBig(onPressed: () {}),
-              SizedBox(height: 24.0),
+              const SizedBox(height: 24.0),
             ],
           ),
         ),

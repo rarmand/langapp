@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:langapp/components/button_filled/button_square.dart';
+import 'package:langapp/components/button_filled/button_filled_big.dart';
 import 'package:langapp/components/button_outlined/button_letter.dart';
 import 'package:langapp/components/input_field/input_one_letter_field.dart';
 import 'package:langapp/components/learning_process/points_label.dart';
@@ -8,21 +8,29 @@ import 'package:langapp/components/learning_process/translation_word.dart';
 class TextTaskAssembleWord extends StatelessWidget {
   // TODO: do naprawy ogólne działanie i sens zadania
 
-  final String iconPath;
+  final Map word;
+  final Function(bool) onNext;
 
-  TextTaskAssembleWord({Key key, @required this.iconPath}) : super(key: key);
+  TextTaskAssembleWord({Key key, @required this.word, @required this.onNext}) : super(key: key);
+
+  void next() {
+    // logika co sprawdza czy dobrze wykonane
+    // i na koncu
+    // onNext(false) jak zle zrobione lub onNext(true) jak dobrze
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        padding: EdgeInsets.fromLTRB(24, 0, 24, 0),
+        padding: EdgeInsets.symmetric(horizontal: 24.0),
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
-              PointsLabel(points: 24500, iconPath: this.iconPath),
-              SizedBox(height: 64.0),
-              TranslationWord(word: "słowo"), SizedBox(height: 12.0),
+              PointsLabel(),
+              const SizedBox(height: 48.0),
+              TranslationWord(word: this.word['translation']),
+              const SizedBox(height: 24.0),
               Wrap(
                 alignment: WrapAlignment.center,
                 spacing: 4.0,
@@ -56,17 +64,9 @@ class TextTaskAssembleWord extends StatelessWidget {
                   ButtonLetter(character: "E"),
                 ],
               ),
-              SizedBox(height: 36.0),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  ButtonSquare(positive: false, onPressed: () {}),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width / 4,
-                  ),
-                  ButtonSquare(positive: true, onPressed: () {}),
-                ],
-              ),
+              const SizedBox(height: 36.0),
+              ButtonFilledBig(onPressed: () {}),
+              const SizedBox(height: 24.0),
             ],
           ),
         ),

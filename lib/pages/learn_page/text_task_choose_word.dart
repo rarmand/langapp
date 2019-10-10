@@ -23,24 +23,30 @@ class TextTaskChooseWord extends StatelessWidget {
       onPressed: () {},
     )
   ];
+  final Map word;
+  final Function(bool) onNext;
 
-  final String iconPath;
+  TextTaskChooseWord({Key key, @required this.word, @required this.onNext}) : super(key: key);
 
-  TextTaskChooseWord({Key key, @required this.iconPath}) : super(key: key);
+  void next() {
+    // logika co sprawdza czy dobrze wykonane
+    // i na koncu
+    // onNext(false) jak zle zrobione lub onNext(true) jak dobrze
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        padding: EdgeInsets.fromLTRB(24, 0, 24, 0),
+        padding: EdgeInsets.symmetric(horizontal: 24.0),
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
-              PointsLabel(points: 24500, iconPath: this.iconPath),
-              SizedBox(height: 40.0),
-              LearningWord(word: "the word"),
-              PhoneticWord(word: "/my mankhiohihio/"),
-              SizedBox(height: 48.0),
+              PointsLabel(),
+              const SizedBox(height: 16.0),
+              LearningWord(word: this.word['text']),
+              PhoneticWord(word: this.word['phonetics']),
+              const SizedBox(height: 24.0),
               Column(
                 children: this.answers,
               ),

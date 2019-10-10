@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:langapp/components/button_filled/button_square.dart';
+import 'package:langapp/components/button_filled/button_filled_big.dart';
 import 'package:langapp/components/input_field/input_field.dart';
 import 'package:langapp/components/learning_process/points_label.dart';
 import 'package:langapp/components/learning_process/sound_button.dart';
 
 class SoundTaskWriteWord extends StatelessWidget {
-  final String iconPath;
+  final Map word;
+  final Function(bool) onNext;
 
-  SoundTaskWriteWord({Key key, @required this.iconPath}) : super(key: key);
+  SoundTaskWriteWord({Key key, @required this.word, @required this.onNext}) : super(key: key);
+
+  void next() {
+    // logika co sprawdza czy dobrze wykonane
+    // i na koncu
+    // onNext(false) jak zle zrobione lub onNext(true) jak dobrze
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,24 +24,16 @@ class SoundTaskWriteWord extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
-              PointsLabel(points: 24500, iconPath: this.iconPath),
-              const SizedBox(height: 64.0),
+              PointsLabel(),
+              const SizedBox(height: 24.0),
               SoundButton(),
-              const SizedBox(height: 64.0),
+              const SizedBox(height: 80.0),
               InputField(
                 label: "Write the translation",
               ),
               SizedBox(height: MediaQuery.of(context).size.height / 6),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  ButtonSquare(positive: false, onPressed: () {}),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width / 4,
-                  ),
-                  ButtonSquare(positive: true, onPressed: () {}),
-                ],
-              ),
+              ButtonFilledBig(onPressed: () {}),
+              const SizedBox(height: 24.0),
             ],
           ),
         ),

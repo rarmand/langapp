@@ -20,51 +20,25 @@ class SessionPage extends StatefulWidget {
 
 class _SessionPageState extends State<SessionPage> {
   final List<Widget> _general = [
-    NewWordPage(
-      key: PageStorageKey("NewWordPage"),
-    ),
-    LearningFinalPage(
-      key: PageStorageKey("LearningFinalPage"),
-      iconPath: "assets/course/test.svg",
-    ),
+    NewWordPage(),
+    LearningFinalPage(),
   ];
 
   final Map<String, List<Widget>> _learningTasks = {
     'speaking': [
-      TextTaskSpeakWord(
-        key: PageStorageKey("TextTaskSpeakWord"),
-        iconPath: "assets/course/test.svg",
-      ),
+      TextTaskSpeakWord(),
     ],
     'listening': [
-      TextTaskChooseSound(
-        key: PageStorageKey("TextTaskChooseSound"),
-        iconPath: "assets/course/test.svg",
-      ),
-      SoundTaskChooseWord(
-        key: PageStorageKey("SoundTaskChooseWord"),
-        iconPath: "assets/course/test.svg",
-      ),
+      TextTaskChooseSound(),
+      SoundTaskChooseWord(),
     ],
     'reading': [
-      TextTaskAssembleWord(
-        key: PageStorageKey("TextTaskAssembleWord"),
-        iconPath: "assets/course/test.svg",
-      ),
-      TextTaskChooseWord(
-        key: PageStorageKey("TextTaskChooseWord"),
-        iconPath: "assets/course/test.svg",
-      ),
+      TextTaskAssembleWord(),
+      TextTaskChooseWord(),
     ],
     'writing': [
-      SoundTaskWriteWord(
-        key: PageStorageKey("SoundTaskWriteWord"),
-        iconPath: "assets/course/test.svg",
-      ),
-      TextTaskWriteWord(
-        key: PageStorageKey("TextTaskWriteWord"),
-        iconPath: "assets/course/test.svg",
-      ),
+      SoundTaskWriteWord(),
+      TextTaskWriteWord(),
     ],
   };
   final int _numberOfWords = 3;
@@ -108,9 +82,8 @@ class _SessionPageState extends State<SessionPage> {
     // dodawanie słów do nauki
     for (int i = 0; i < this._numberOfWords; i++) {
       // może da sie lepiej
-      NewWordPage page = NewWordPage();
+      NewWordPage page = NewWordPage(word: {});
       List words = ScopedModel.of<UserModel>(context).wordsToLearn.values.toList();
-      page.setWord(words[i]);
       this._finalTasks.add(page);
     }
   }

@@ -10,8 +10,6 @@ import 'package:langapp/model/app_model.dart';
 import 'package:langapp/styles/colors.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-
-
 class CourseBox extends StatefulWidget {
   final String index; // nazwa kursu w db - key
   final bool isNewCourse;

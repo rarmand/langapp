@@ -5,9 +5,16 @@ import 'package:langapp/components/learning_process/points_label.dart';
 import 'package:langapp/components/learning_process/sound_button.dart';
 
 class TextTaskChooseSound extends StatelessWidget {
-  final String iconPath;
+  final Map word;
+  final Function(bool) onNext;
 
-  TextTaskChooseSound({Key key, @required this.iconPath}) : super(key: key);
+  TextTaskChooseSound({Key key, @required this.word, @required this.onNext}) : super(key: key);
+
+  void next() {
+    // logika co sprawdza czy dobrze wykonane
+    // i na koncu
+    // onNext(false) jak zle zrobione lub onNext(true) jak dobrze
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,12 +24,12 @@ class TextTaskChooseSound extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
-              PointsLabel(points: 24500, iconPath: this.iconPath),
-              const SizedBox(height: 40.0),
-              LearningWord(word: "the word", isSoundIcon: false),
-              const SizedBox(height: 32.0),
+              PointsLabel(),
+              const SizedBox(height: 24.0),
+              LearningWord(word: this.word['text'], isSoundIcon: false),
+              const SizedBox(height: 48.0),
               Text("Choose a right sound answer."),
-              const SizedBox(height: 64.0),
+              const SizedBox(height: 80.0),
               Wrap(
                 spacing: 32.0,
                 children: <Widget>[

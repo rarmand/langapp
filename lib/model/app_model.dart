@@ -39,6 +39,8 @@ class UserModel extends Model {
   Map _chosenCourse = {};
   Map _chosenCourseWords = {};
   Map _wordsToLearn = {};
+  String _iconProcessPath = '';
+  int _processPoints = 0;
 
 // ustalenie do którego kursu należy dany zestaw skilli
 // skillset assigned to _editedCourseIndex or _courseIndex
@@ -94,7 +96,8 @@ class UserModel extends Model {
   Map get wordsIgnored => this._courses[this._courseIndex]['words_ignored'];
 
   Map get wordsToLearn => this._wordsToLearn;
-
+  String get iconProcessPath => this._iconProcessPath;
+  int get processPoints => this._processPoints;
 ///////////////////////////
 // skills data of chosen course
 ///////////////////////////
@@ -277,6 +280,16 @@ class UserModel extends Model {
       // zbieranie parametrów słowa dla zadań w session
       this._wordsToLearn[keys[i]]['shown'] = false;
     }
+  }
+
+  set iconProcessPath(String iconPath) {
+    this._iconProcessPath = iconPath;
+    notifyListeners();
+  }
+
+  set addToProcessPoints(int points) {
+    this._processPoints += points;
+    notifyListeners();
   }
 
 ///////////////////////////
