@@ -10,10 +10,15 @@ class SoundTaskWriteWord extends StatelessWidget {
 
   SoundTaskWriteWord({Key key, @required this.word, @required this.onNext}) : super(key: key);
 
-  void next() {
+  void _next(bool goodAnswer) {
     // logika co sprawdza czy dobrze wykonane
     // i na koncu
     // onNext(false) jak zle zrobione lub onNext(true) jak dobrze
+    if (!goodAnswer) {
+      this.onNext(false);
+    } else {
+      this.onNext(true);
+    }
   }
 
   @override
@@ -26,13 +31,13 @@ class SoundTaskWriteWord extends StatelessWidget {
             children: <Widget>[
               PointsLabel(),
               const SizedBox(height: 24.0),
-              SoundButton(),
+              SoundButton(audioUrl: this.word['audio_url']),
               const SizedBox(height: 80.0),
               InputField(
                 label: "Write the translation",
               ),
               SizedBox(height: MediaQuery.of(context).size.height / 6),
-              ButtonFilledBig(onPressed: () {}),
+              ButtonFilledBig(onPressed: () => this._next(true)),
               const SizedBox(height: 24.0),
             ],
           ),

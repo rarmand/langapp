@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:langapp/components/button_outlined/button_answer_outlined.dart';
 import 'package:langapp/components/learning_process/points_label.dart';
 import 'package:langapp/components/learning_process/sound_button.dart';
-import 'package:langapp/styles/colors.dart';
 
 class SoundTaskChooseWord extends StatelessWidget {
   final Map word;
@@ -10,30 +9,35 @@ class SoundTaskChooseWord extends StatelessWidget {
 
   SoundTaskChooseWord({Key key, @required this.word, @required this.onNext}) : super(key: key);
 
-  void next() {
+  void _next(bool goodAnswer) {
     // logika co sprawdza czy dobrze wykonane
     // i na koncu
     // onNext(false) jak zle zrobione lub onNext(true) jak dobrze
+    if (!goodAnswer) {
+      this.onNext(false);
+    } else {
+      this.onNext(true);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     List<ButtonAnswerOutlined> answers = [
       ButtonAnswerOutlined(
-        btnText: "Text number 1",
-        onPressed: () {},
+        btnText: this.word['text'],
+        onPressed: () => this._next(true),
       ),
       ButtonAnswerOutlined(
-        btnText: "Text number 2",
-        onPressed: () {},
+        btnText: this.word['text'],
+        onPressed: () => this._next(false),
       ),
       ButtonAnswerOutlined(
-        btnText: "Text number 3",
-        onPressed: () {},
+        btnText: this.word['text'],
+        onPressed: () => this._next(false),
       ),
       ButtonAnswerOutlined(
-        btnText: "Text number 4",
-        onPressed: () {},
+        btnText: this.word['text'],
+        onPressed: () => this._next(false),
       )
     ];
     return Scaffold(
@@ -44,7 +48,7 @@ class SoundTaskChooseWord extends StatelessWidget {
             children: <Widget>[
               PointsLabel(),
               const SizedBox(height: 24.0),
-              SoundButton(),
+              SoundButton(audioUrl: this.word['audio_url']),
               const SizedBox(height: 40.0),
               Column(
                 children: answers,

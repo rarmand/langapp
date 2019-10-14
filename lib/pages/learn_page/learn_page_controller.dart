@@ -30,9 +30,8 @@ class _LearnPageControllerState extends State<LearnPageController> {
   // points to collect during one session
   // points are on the end added to UserModel points
   int _points = 0;
-
   // list to collect initialized objects of pages
-  List<Widget> _finalTasks = [];
+  Map<String, List<Widget>> _finalTasks = {};
 
   // page controller needed for BUILD function to create a VIEW
   PageController pageController = PageController();
@@ -143,7 +142,7 @@ class _LearnPageControllerState extends State<LearnPageController> {
 
   void _nextPage(bool successed) async {
     if (successed) {
-      ScopedModel.of<UserModel>(context).addToProcessPoints = 50;
+      ScopedModel.of<UserModel>(context).addToProcessPoints(50);
     } else {
       // nie wiem co, nie daj punktu
     }
@@ -154,38 +153,66 @@ class _LearnPageControllerState extends State<LearnPageController> {
     //////////////////////////////////////////////////////////////////////////////
 
     Map skillset = this._getSkillset();
-    List words = ScopedModel.of<UserModel>(context).wordsToLearn.values.toList();
+    Map wordsToLearn = ScopedModel.of<UserModel>(context).wordsToLearn;
 
     //////////////////////////////////////////////////////////////////////////////
     // pobieranie slow do nauki z modelu kursu
     // wstawianie do taskow wyswietlania nowych slowek
-    for (int i = 0; i < this._numberOfWords; i++) {
-      this._finalTasks.add(NewWordPage(
-            word: words[i],
-            onNext: this._nextPage,
-          ));
-    }
+    print(wordsToLearn);
+
+    wordsToLearn.forEach((key, word) {
+      this._finalTasks[key] = [
+        NewWordPage(
+          wordKey: key,
+          word: word,
+          onNext: this._nextPage,
+        )
+      ];
+    });
 
     //////////////////////////////////////////////////////////////////////////////
     // dobieranie ilości zadań zależnie od parametrów skilli
+
+    // do naprawy !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    // List words = ScopedModel.of<UserModel>(context).wordsToLearn.values.toList();
+
+    print("Random words to learn - Learn Page Controller");
+    // print(words);
+
+    List keys = wordsToLearn.keys.toList();
     skillset.forEach((skill, value) {
       int x = (value / this._numberOfTasks).round();
 
       for (int i = 0; i < x; i++) {
-        final int rand = Random().nextInt(words.length);
-        this._finalTasks.add(this._getLearningTask(skill, words[rand]));
+        final int rand = Random().nextInt(keys.length);
+        final key = keys[rand];
+
+        if (this._finalTasks.containsKey(key)) {
+          this._finalTasks[key].add(this._getLearningTask(skill, wordsToLearn[key]));
+        } else {
+          this._finalTasks[key] = [this._getLearningTask(skill, wordsToLearn[key])];
+        }
       }
     });
 
     //////////////////////////////////////////////////////////////////////////////
     // wszystkie taski zebrane do listy
-    this._finalTasks.add(LearningFinalPage());
+    this._finalTasks['final'] = [LearningFinalPage()];
     //////////////////////////////////////////////////////////////////////////////
   }
 
   @override
   Widget build(BuildContext context) {
     String courseTitle = ScopedModel.of<UserModel>(context, rebuildOnChange: true).chosenCourse['title'];
+    Map wordsToLearn = ScopedModel.of<UserModel>(context).wordsToLearn;
+
+    final pages = [];
+    this._finalTasks.forEach((key, value) {
+      if (wordsToLearn.containsKey(key)) {
+        pages.addAll(value);
+      }
+    });
+    pages.add(this._finalTasks['final'][0]);
 
     return Scaffold(
       appBar: AppBarUpper(
@@ -197,13 +224,13 @@ class _LearnPageControllerState extends State<LearnPageController> {
       body: Container(
         child: Column(
           children: <Widget>[
-            LearningLabel(point: this._selectedIndex, points: this._finalTasks.length - 1),
+            LearningLabel(point: this._selectedIndex, points: pages.length - 1),
             Expanded(
               child: PageView.builder(
-                itemCount: this._finalTasks.length,
+                itemCount: pages.length,
                 controller: pageController,
                 onPageChanged: (index) => setState(() => this._selectedIndex = index),
-                itemBuilder: (context, index) => this._finalTasks[index],
+                itemBuilder: (context, index) => pages[index],
                 // physics: const NeverScrollableScrollPhysics(),
               ),
             ),

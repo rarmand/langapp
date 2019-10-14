@@ -39,6 +39,10 @@ class UserModel extends Model {
   Map _chosenCourse = {};
   Map _chosenCourseWords = {};
   Map _wordsToLearn = {};
+  List _wordsIgnored = [];
+  Map _wordsLearnt = {};
+  Map _wordsToRepeat = {};
+
   String _iconProcessPath = '';
   int _processPoints = 0;
 
@@ -91,10 +95,9 @@ class UserModel extends Model {
   Map get chosenCourse => this._chosenCourse;
   Map get chosenCourseWords => this._chosenCourseWords;
 
-  Map get wordsLearnt => this._courses[this._courseIndex]['words_learnt'];
-  Map get wordsToRepeat => this._courses[this._courseIndex]['words_to_repeat'];
-  Map get wordsIgnored => this._courses[this._courseIndex]['words_ignored'];
-
+  Map get wordsLearnt => this._wordsToLearn;
+  Map get wordsToRepeat => this._wordsToRepeat;
+  List get wordsIgnored => this._wordsIgnored;
   Map get wordsToLearn => this._wordsToLearn;
   String get iconProcessPath => this._iconProcessPath;
   int get processPoints => this._processPoints;
@@ -233,9 +236,10 @@ class UserModel extends Model {
   // update in UserModel _courses and UserDB
   void setNewCourse() async {
     this._courses[this._courseIndex] = {
+      'words_to_learn': {},
       'words_learnt': {},
       'words_to_repeat': {},
-      'words_ignored': {},
+      'words_ignored': [],
       'skills_auto': {
         "listening": 25,
         "speaking": 25,
@@ -270,16 +274,71 @@ class UserModel extends Model {
 ///////////////////////////
 // set learning process
 ///////////////////////////
-  ///
-  void setWordsToLearn({@required int amount = 4}) {
-    List keys = this._chosenCourseWords.keys.toList();
-    keys.shuffle();
 
-    for (int i = 0; i < amount; i++) {
-      this._wordsToLearn[keys[i]] = this._chosenCourseWords[keys[i]];
-      // zbieranie parametrów słowa dla zadań w session
-      this._wordsToLearn[keys[i]]['shown'] = false;
+  void setLearningWords({String index = ''}) async {
+    if (index.isEmpty) index = this._courseIndex;
+
+    DocumentSnapshot ds = await Firestore.instance.collection("users").document(userId).get();
+
+    if (ds.exists) {
+      this._wordsLearnt = ds.data['courses'][index]['words_learnt'];
+      this._wordsIgnored = [...ds.data['courses'][index]['words_ignored']];
+      this._wordsToLearn = ds.data['courses'][index]['words_to_learn'];
+      this._wordsToRepeat = ds.data['courses'][index]['words_to_repeat'];
     }
+
+    notifyListeners();
+  }
+
+  void ignoreWordToLearn(String key) async {
+    this._wordsToLearn.remove(key);
+    this._wordsIgnored.add(key);
+    notifyListeners();
+
+    this._courses[this._courseIndex]['words_ignored'] = this._wordsIgnored;
+    this._courses[this._courseIndex]['words_to_learn'] = this._wordsToLearn;
+    await Firestore.instance.collection("users").document(userId).updateData({"courses": this._courses});
+  }
+
+  void setWordsToLearn({int amount = 4}) async {
+    this._wordsToLearn = this._courses[this._courseIndex]['words_to_learn'];
+    var wordsToAdd = amount - this._wordsToLearn.length;
+
+    if (wordsToAdd == 0) {
+      return;
+    }
+
+    List keys = this._chosenCourseWords.keys.toList();
+
+    List remainingWordsToLearnKeys = keys.where((key) {
+      return !this._wordsIgnored.contains(key) &&
+          !this._wordsToRepeat.containsKey(key) &&
+          !this._wordsToLearn.containsKey(key) &&
+          !this._wordsLearnt.containsKey(key);
+    }).toList();
+
+    remainingWordsToLearnKeys.shuffle();
+
+    if (remainingWordsToLearnKeys.length > 0) {
+      for (int i = 0; i < remainingWordsToLearnKeys.length; i++) {
+        final key = remainingWordsToLearnKeys[i];
+        this._wordsToLearn[key] = this._chosenCourseWords[key];
+        this._wordsToLearn[key]['good_answers_number'] = 0;
+
+        wordsToAdd--;
+        if (wordsToAdd == 0) {
+          break;
+        }
+      }
+    }
+
+    print(this._wordsToLearn);
+    print(this._wordsIgnored);
+
+    // update do bazy danych
+    this._courses[this._courseIndex]['words_to_learn'] = this._wordsToLearn;
+    notifyListeners();
+    await Firestore.instance.collection("users").document(userId).updateData({"courses": this._courses});
   }
 
   set iconProcessPath(String iconPath) {
@@ -287,7 +346,7 @@ class UserModel extends Model {
     notifyListeners();
   }
 
-  set addToProcessPoints(int points) {
+  void addToProcessPoints(int points) {
     this._processPoints += points;
     notifyListeners();
   }

@@ -11,10 +11,15 @@ class TextTaskWriteWord extends StatelessWidget {
 
   TextTaskWriteWord({Key key, @required this.word, @required this.onNext}) : super(key: key);
 
-  void _next() {
+  void _next(bool goodAnswer) {
     // logika co sprawdza czy dobrze wykonane
     // i na koncu
     // onNext(false) jak zle zrobione lub onNext(true) jak dobrze
+    if (!goodAnswer) {
+      this.onNext(false);
+    } else {
+      this.onNext(true);
+    }
   }
 
   @override
@@ -27,12 +32,15 @@ class TextTaskWriteWord extends StatelessWidget {
             children: <Widget>[
               PointsLabel(),
               const SizedBox(height: 18.0),
-              LearningWord(word: this.word['text']),
+              LearningWord(
+                word: this.word['text'],
+                audioUrl: this.word['audio_url'],
+              ),
               PhoneticWord(word: this.word['phonetics']),
               const SizedBox(height: 64.0),
               InputField(label: "Write the translation"),
               SizedBox(height: MediaQuery.of(context).size.height / 6),
-              ButtonFilledBig(onPressed: this._next),
+              ButtonFilledBig(onPressed: () => this._next(false)),
               const SizedBox(height: 24.0),
             ],
           ),

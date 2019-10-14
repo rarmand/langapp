@@ -6,8 +6,9 @@ class SoundButton extends StatelessWidget {
   // TODO: if clicked, it needs to change a color
   // and add some shadow behind, if its not clicked
   Widget _soundIcon;
+  final String audioUrl;
 
-  SoundButton({double height = 100.0}) {
+  SoundButton({double height = 100.0, @required this.audioUrl}) {
     this._soundIcon = SvgPicture.asset(
       "assets/learning/sound.svg",
       height: height,
@@ -15,10 +16,8 @@ class SoundButton extends StatelessWidget {
   }
 
   void _playSound() async {
-    String url =
-        'https://firebasestorage.googleapis.com/v0/b/langapp-760c9.appspot.com/o/jobs_vocabulary%2Fartisan.mp3?alt=media&token=a5affe0c-b96c-42ed-bbc7-8346052a845c';
     AudioPlayer audioPlayer = AudioPlayer();
-    int result = await audioPlayer.play(url);
+    int result = await audioPlayer.play(this.audioUrl);
     if (result == 1) {}
   }
 

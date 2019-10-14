@@ -18,10 +18,15 @@ class TextTaskSpeakWord extends StatelessWidget {
 
   TextTaskSpeakWord({Key key, @required this.word, @required this.onNext}) : super(key: key);
 
-  void next() {
+  void _next(bool goodAnswer) {
     // logika co sprawdza czy dobrze wykonane
     // i na koncu
     // onNext(false) jak zle zrobione lub onNext(true) jak dobrze
+    if (!goodAnswer) {
+      this.onNext(false);
+    } else {
+      this.onNext(true);
+    }
   }
 
   @override
@@ -34,7 +39,7 @@ class TextTaskSpeakWord extends StatelessWidget {
             children: <Widget>[
               PointsLabel(),
               const SizedBox(height: 24.0),
-              LearningWord(word: this.word['text'], isSoundIcon: false),
+              LearningWord(word: this.word['text'], isSoundIcon: false, audioUrl: ''),
               const SizedBox(height: 40.0),
               Text(
                 "Tap the microphone icon and record your speaking of the word.",
@@ -46,7 +51,7 @@ class TextTaskSpeakWord extends StatelessWidget {
               InkWell(child: this.microphoneIcon, onTap: () => print("hey")),
               const SizedBox(height: 72.0),
               // to raczej do stacka
-              ButtonFilledBig(onPressed: () {}),
+              ButtonFilledBig(onPressed: () => this._next(false)),
               const SizedBox(height: 24.0),
             ],
           ),

@@ -5,8 +5,9 @@ import 'package:langapp/styles/colors.dart';
 class LearningWord extends StatelessWidget {
   final String word;
   final bool isSoundIcon;
+  final String audioUrl;
 
-  LearningWord({@required this.word, this.isSoundIcon = true});
+  LearningWord({@required this.word, @required this.audioUrl, this.isSoundIcon = true});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +16,12 @@ class LearningWord extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          (this.isSoundIcon ? SoundButton(height: 24) : SizedBox()),
+          (this.isSoundIcon
+              ? SoundButton(
+                  height: 24,
+                  audioUrl: this.audioUrl,
+                )
+              : SizedBox()),
           Expanded(
             child: Container(
               padding: (this.isSoundIcon ? EdgeInsets.only(top: 8.0, right: 40.0) : null),

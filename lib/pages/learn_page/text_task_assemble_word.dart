@@ -13,10 +13,15 @@ class TextTaskAssembleWord extends StatelessWidget {
 
   TextTaskAssembleWord({Key key, @required this.word, @required this.onNext}) : super(key: key);
 
-  void next() {
+  void _next(bool goodAnswer) {
     // logika co sprawdza czy dobrze wykonane
     // i na koncu
     // onNext(false) jak zle zrobione lub onNext(true) jak dobrze
+    if (!goodAnswer) {
+      this.onNext(false);
+    } else {
+      this.onNext(true);
+    }
   }
 
   @override
@@ -65,7 +70,7 @@ class TextTaskAssembleWord extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 36.0),
-              ButtonFilledBig(onPressed: () {}),
+              ButtonFilledBig(onPressed: () => this._next(true)),
               const SizedBox(height: 24.0),
             ],
           ),

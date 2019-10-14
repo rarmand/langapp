@@ -13,17 +13,20 @@ class PanelPoints extends StatefulWidget {
 class _PanelPointsState extends State<PanelPoints> {
   bool _isPanelExpanded = false;
 
-  // TODO: zwijanie animacja
-  // do naprawy setState
   void onPressedArrow() {
     setState(() => this._isPanelExpanded = !this._isPanelExpanded);
   }
 
   @override
   Widget build(BuildContext context) {
-    var points = ScopedModel.of<UserModel>(context, rebuildOnChange: true).points;
-
     return Container(
+      child: AnimatedCrossFade(
+        firstChild: this._buildOpenWidget(),
+        secondChild: this._buildClosedWidget(),
+        secondCurve: Curves.easeInBack,
+        duration: Duration(milliseconds: 300),
+        crossFadeState: this._isPanelExpanded ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+      ),
       decoration: BoxDecoration(
         color: WHITE,
         borderRadius: BorderRadius.only(
@@ -39,34 +42,39 @@ class _PanelPointsState extends State<PanelPoints> {
         ],
       ),
       padding: EdgeInsets.only(bottom: BTN_RADIUS),
-      child: (this._isPanelExpanded
-          ? Container(
-              margin: EdgeInsets.only(left: 16, right: 16),
-              child: Column(
-                children: <Widget>[
-                  BlockPoints(points: points),
-                  Text("Choose a course, repeat material and win more points."),
-                  ButtonsCourse(),
-                  IconButton(
-                    icon: Icon(Icons.keyboard_arrow_up, color: BROWN_DARK),
-                    onPressed: this.onPressedArrow,
-                  ),
-                ],
-              ),
-            )
-          : Container(
-              margin: EdgeInsets.fromLTRB(16.0, 28.0, 16.0, 0.0),
-              child: Column(
-                children: [
-                  Text("Choose a course, repeat material and win more points."),
-                  const SizedBox(height: 20.0),
-                  IconButton(
-                    icon: Icon(Icons.keyboard_arrow_down, color: BROWN_DARK),
-                    onPressed: this.onPressedArrow,
-                  ),
-                ],
-              ),
-            )),
+    );
+  }
+
+  Widget _buildClosedWidget() {
+    return Container(
+      margin: EdgeInsets.fromLTRB(16.0, 28.0, 16.0, 0.0),
+      child: Column(
+        children: [
+          Text("Choose a course, repeat material and win more points."),
+          const SizedBox(height: 20.0),
+          IconButton(
+            icon: Icon(Icons.keyboard_arrow_down, color: BROWN_DARK),
+            onPressed: this.onPressedArrow,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildOpenWidget() {
+    return Container(
+      margin: EdgeInsets.only(left: 16, right: 16),
+      child: Column(
+        children: <Widget>[
+          BlockPoints(points: ScopedModel.of<UserModel>(context, rebuildOnChange: true).points),
+          Text("Choose a course, repeat material and win more points."),
+          ButtonsCourse(),
+          IconButton(
+            icon: Icon(Icons.keyboard_arrow_up, color: BROWN_DARK),
+            onPressed: this.onPressedArrow,
+          ),
+        ],
+      ),
     );
   }
 }
