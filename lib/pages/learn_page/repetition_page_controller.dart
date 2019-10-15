@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:langapp/components/appbar_upper/appbar_upper.dart';
 import 'package:langapp/components/learning_process/learning_label.dart';
-import 'package:langapp/components/learning_process/points_label.dart';
+import 'package:langapp/components/modals/learning_choice_modal.dart';
 import 'package:langapp/model/app_model.dart';
 import 'package:langapp/pages/learn_page/learning_final_page.dart';
 import 'package:langapp/pages/learn_page/new_word_page.dart';
@@ -16,12 +16,12 @@ import 'package:langapp/pages/learn_page/text_task_speak_word.dart';
 import 'package:langapp/pages/learn_page/text_task_write_word.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-class LearnPageController extends StatefulWidget {
+class RepetitionPageController extends StatefulWidget {
   @override
-  _LearnPageControllerState createState() => _LearnPageControllerState();
+  _RepetitionPageControllerState createState() => _RepetitionPageControllerState();
 }
 
-class _LearnPageControllerState extends State<LearnPageController> {
+class _RepetitionPageControllerState extends State<RepetitionPageController> {
   // EXAMPLE SETUP
   // number of words to learn for this session
   final int _numberOfWords = 3;
@@ -145,6 +145,7 @@ class _LearnPageControllerState extends State<LearnPageController> {
       ScopedModel.of<UserModel>(context).addToProcessPoints(50);
     } else {
       // nie wiem co, nie daj punktu
+      // wyswietlac strone NewWordPage
     }
     pageController.nextPage(duration: const Duration(milliseconds: 250), curve: Curves.easeIn);
   }
@@ -155,10 +156,15 @@ class _LearnPageControllerState extends State<LearnPageController> {
     Map skillset = this._getSkillset();
     Map wordsToLearn = ScopedModel.of<UserModel>(context).wordsToLearn;
 
+    // gdy nie ma już słów do nauki
+    if (wordsToLearn.length == 0) {
+      this._finalTasks['final'] = [LearningFinalPage(noWordsToLearn: true)];
+      return;
+    }
+
     //////////////////////////////////////////////////////////////////////////////
     // pobieranie slow do nauki z modelu kursu
     // wstawianie do taskow wyswietlania nowych slowek
-    print(wordsToLearn);
 
     wordsToLearn.forEach((key, word) {
       this._finalTasks[key] = [
@@ -173,13 +179,8 @@ class _LearnPageControllerState extends State<LearnPageController> {
     //////////////////////////////////////////////////////////////////////////////
     // dobieranie ilości zadań zależnie od parametrów skilli
 
-    // do naprawy !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    // List words = ScopedModel.of<UserModel>(context).wordsToLearn.values.toList();
-
-    print("Random words to learn - Learn Page Controller");
-    // print(words);
-
     List keys = wordsToLearn.keys.toList();
+
     skillset.forEach((skill, value) {
       int x = (value / this._numberOfTasks).round();
 
@@ -195,18 +196,17 @@ class _LearnPageControllerState extends State<LearnPageController> {
       }
     });
 
-    //////////////////////////////////////////////////////////////////////////////
-    // wszystkie taski zebrane do listy
     this._finalTasks['final'] = [LearningFinalPage()];
-    //////////////////////////////////////////////////////////////////////////////
   }
 
   @override
   Widget build(BuildContext context) {
     String courseTitle = ScopedModel.of<UserModel>(context, rebuildOnChange: true).chosenCourse['title'];
-    Map wordsToLearn = ScopedModel.of<UserModel>(context).wordsToLearn;
+    if (courseTitle == null) courseTitle = "Course Title";
 
-    final pages = [];
+    Map wordsToLearn = ScopedModel.of<UserModel>(context, rebuildOnChange: true).wordsToLearn;
+
+    final List pages = [];
     this._finalTasks.forEach((key, value) {
       if (wordsToLearn.containsKey(key)) {
         pages.addAll(value);
@@ -219,7 +219,13 @@ class _LearnPageControllerState extends State<LearnPageController> {
         title: courseTitle,
         isCourseAppBar: true,
         onLogoTap: () => Navigator.pushNamedAndRemoveUntil(context, "/", (Route<dynamic> route) => false),
-        onClosePressed: () => Navigator.pushNamedAndRemoveUntil(context, "/", (Route<dynamic> route) => false),
+        onClosePressed: () {
+          Navigator.pushNamedAndRemoveUntil(context, "/", (Route<dynamic> route) => false);
+          Navigator.of(context).push(PageRouteBuilder(
+            opaque: false,
+            pageBuilder: (BuildContext context, _, __) => LearningChoiceModal(),
+          ));
+        },
       ),
       body: Container(
         child: Column(

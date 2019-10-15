@@ -164,8 +164,8 @@ class _ProfileEditionModalState extends State<ProfileEditionModal> {
     form.save();
 
     if (form.validate()) {
-      print(
-          "Form is valid. Email: $_email, password: $_password, username: $_username, pass: $_password, new: $_newPassword, conf: $_confirmNewPassword");
+      // print(
+      //     "Form is valid. Email: $_email, password: $_password, username: $_username, pass: $_password, new: $_newPassword, conf: $_confirmNewPassword");
 
       try {
         String oldEmail = ScopedModel.of<UserModel>(context).email;
@@ -174,8 +174,6 @@ class _ProfileEditionModalState extends State<ProfileEditionModal> {
         // authentication
         AuthResult result =
             await FirebaseAuth.instance.signInWithEmailAndPassword(email: oldEmail, password: this._password);
-
-        print(result.user.isEmailVerified);
 
         // zmiana emaila
         if (oldEmail != this._email) {

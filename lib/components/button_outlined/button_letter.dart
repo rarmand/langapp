@@ -2,16 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:langapp/styles/colors.dart';
 
 class ButtonLetter extends StatelessWidget {
-  String character;
-
-  ButtonLetter({@required this.character});
+  final String character;
+  final Function onTap;
+  ButtonLetter({@required this.character, @required this.onTap});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      onTap: this.onTap,
       child: Container(
+        width: 44.0,
         child: Text(
           this.character,
+          textAlign: TextAlign.center,
           style: TextStyle(
             color: BROWN_DARK,
             fontSize: 22.0,

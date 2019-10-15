@@ -265,10 +265,23 @@ class UserModel extends Model {
   void deleteCourse() async {
     if (this._courses.containsKey(this._courseIndex)) {
       this._courses.remove(this._courseIndex);
-      await Firestore.instance.collection("users").document(userId).updateData({"courses": this._courses});
+
       this._courseIndex = '';
+      this._chosenCourse = {};
+      this._chosenCourseWords = {};
+
+      this._wordsToLearn = {};
+      this._wordsIgnored = [];
+      this._wordsLearnt = {};
+      this._wordsToRepeat = {};
+
+      this._skillsetUser = {'speaking': 0, 'listening': 0, 'writing': 0, 'reading': 0};
+      this._skillsetDiagnosed = {'speaking': 25, 'listening': 25, 'writing': 25, 'reading': 25};
+      this._editedCourseIndex = '';
+      notifyListeners();
+
+      await Firestore.instance.collection("users").document(userId).updateData({"courses": this._courses});
     }
-    notifyListeners();
   }
 
 ///////////////////////////
@@ -332,10 +345,22 @@ class UserModel extends Model {
       }
     }
 
-    print(this._wordsToLearn);
-    print(this._wordsIgnored);
-
     // update do bazy danych
+    this._courses[this._courseIndex]['words_to_learn'] = this._wordsToLearn;
+    notifyListeners();
+    await Firestore.instance.collection("users").document(userId).updateData({"courses": this._courses});
+  }
+
+  void addGoodAnswer({@required String wordKey}) async {
+    this._wordsToLearn[wordKey]['good_answers_number'] += 1;
+
+    if (this._wordsToLearn[wordKey]['good_answers_number'] == 20) {
+      print(wordKey + " " + this._wordsToLearn[wordKey]['good_answers_number'].toString());
+      this._wordsLearnt[wordKey] = "Haha";
+      this._wordsToLearn.remove(wordKey);
+    }
+
+    this._courses[this._courseIndex]['words_learnt'] = this._wordsLearnt;
     this._courses[this._courseIndex]['words_to_learn'] = this._wordsToLearn;
     notifyListeners();
     await Firestore.instance.collection("users").document(userId).updateData({"courses": this._courses});

@@ -58,18 +58,21 @@ class LearningChoiceModal extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 28.0),
+                const SizedBox(height: 20.0),
                 InkWell(
                   onTap: () => this._onDeleteCourse(context),
-                  child: Text(
-                    "Resign from the course",
-                    style: TextStyle(
-                      fontSize: 12,
-                      decoration: TextDecoration.underline,
+                  child: Container(
+                    padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 24.0),
+                    child: Text(
+                      "Resign from the course",
+                      style: TextStyle(
+                        fontSize: 12,
+                        decoration: TextDecoration.underline,
+                      ),
                     ),
                   ),
                 ),
-                const SizedBox(height: 12.0),
+                const SizedBox(height: 4.0),
               ],
             ),
           ),

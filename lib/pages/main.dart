@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:langapp/pages/home_menu_page/home_controller.dart';
-import 'package:langapp/pages/learn_page/learn_page_controller.dart';
 
 class IntroPagesView extends StatefulWidget {
   _IntroPagesView createState() {
@@ -16,7 +15,6 @@ class _IntroPagesView extends State<IntroPagesView> {
       body: PageView(
         children: <Widget>[
           HomeController(),
-          LearnPageController(),
           // SpeedTestMenuTest(),
           // TextTaskChooseSound(courseTitle: "Course Title"),
           // TextTaskSpeakWord(courseTitle: "Course Title"),

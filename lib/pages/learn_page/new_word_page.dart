@@ -14,14 +14,27 @@ class NewWordPage extends StatelessWidget {
 
   NewWordPage({@required this.wordKey, @required this.word, @required this.onNext});
 
+  // ustala czy słowo ma być do uczenia czy do ignorowania
+  // pojawia się na start każdego procesu uczenia słowa
+
   void _next(BuildContext context, bool isChosen) {
     if (!isChosen) {
       ScopedModel.of<UserModel>(context).ignoreWordToLearn(this.wordKey);
     } else {
-      // this.word['count_seen'] += 1;
       this.onNext(true);
     }
   }
+
+  // tutaj określić obrazek lub tekst wspomagający
+  //
+  // strona ma się pojawiać jeśli user popełni błąd
+  // ma być wyświetlony tekst , fonetyka, tłumaczenie i element wspomagający
+  // trzeba nadać możliwość zmiany obrazka, gdzieś z boku
+  //
+  // strona ma się pojawiać po kliku na słówko w TheoryPage
+  // bez appbaru
+
+  // czy dodać tu mic z wymową usera w kolejnym procesie uczenia?
 
   @override
   Widget build(BuildContext context) {

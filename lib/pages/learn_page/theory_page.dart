@@ -8,6 +8,8 @@ class TheoryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String courseTitle = ScopedModel.of<UserModel>(context, rebuildOnChange: true).chosenCourse['title'];
+    if (courseTitle == null) courseTitle = "";
+
     Map wordsMap = ScopedModel.of<UserModel>(context, rebuildOnChange: true).chosenCourseWords;
     Map wordsLearnt = ScopedModel.of<UserModel>(context, rebuildOnChange: true).wordsLearnt;
 
@@ -17,13 +19,23 @@ class TheoryPage extends StatelessWidget {
       bool isKnown = false;
       if (wordsLearnt.containsKey(key)) {
         isKnown = true;
+        wordsList.insert(
+          0,
+          VocabularyCard(
+            vocabulary: word['text'],
+            translation: word['translation'],
+            isKnown: isKnown,
+          ),
+        );
+      } else {
+        wordsList.add(
+          VocabularyCard(
+            vocabulary: word['text'],
+            translation: word['translation'],
+            isKnown: isKnown,
+          ),
+        );
       }
-
-      wordsList.add(VocabularyCard(
-        vocabulary: word['text'],
-        translation: word['translation'],
-        isKnown: isKnown,
-      ));
     });
 
     // sortowanie listy w zależności czy isKnown, isIgnored na końcu, repetition na początek
@@ -32,14 +44,15 @@ class TheoryPage extends StatelessWidget {
       title: courseTitle,
       point: 0,
       child: Container(
+        padding: EdgeInsets.symmetric(vertical: 24.0),
         child: Column(
           children: <Widget>[
+            Text("Vocabulary to learn in this course:"),
             const SizedBox(height: 24.0),
             Wrap(
               runSpacing: 8.0,
               children: wordsList,
             ),
-            const SizedBox(height: 24.0),
           ],
         ),
       ),

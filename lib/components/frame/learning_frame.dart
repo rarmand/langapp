@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:langapp/components/appbar_upper/appbar_upper.dart';
 import 'package:langapp/components/learning_process/learning_label.dart';
+import 'package:langapp/components/modals/learning_choice_modal.dart';
 
 class LearningFrame extends StatelessWidget {
   final Widget child;
@@ -9,8 +10,15 @@ class LearningFrame extends StatelessWidget {
 
   LearningFrame({@required this.child, this.point = 4, @required this.title});
 
-  void _onClose(BuildContext context) {
+  void _onLogoTap(BuildContext context) =>
+      Navigator.pushNamedAndRemoveUntil(context, "/", (Route<dynamic> route) => false);
+
+  void _onClosePressed(BuildContext context) {
     Navigator.pushNamedAndRemoveUntil(context, "/", (Route<dynamic> route) => false);
+    Navigator.of(context).push(PageRouteBuilder(
+      opaque: false,
+      pageBuilder: (BuildContext context, _, __) => LearningChoiceModal(),
+    ));
   }
 
   @override
@@ -19,8 +27,8 @@ class LearningFrame extends StatelessWidget {
       appBar: AppBarUpper(
         title: this.title,
         isCourseAppBar: true,
-        onLogoTap: () => this._onClose(context),
-        onClosePressed: () => this._onClose(context),
+        onLogoTap: () => this._onLogoTap(context),
+        onClosePressed: () => this._onClosePressed(context),
       ),
       body: Container(
         child: SingleChildScrollView(

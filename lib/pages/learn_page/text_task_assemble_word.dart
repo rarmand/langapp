@@ -1,31 +1,143 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:langapp/components/button_filled/button_filled_big.dart';
 import 'package:langapp/components/button_outlined/button_letter.dart';
 import 'package:langapp/components/input_field/input_one_letter_field.dart';
 import 'package:langapp/components/learning_process/points_label.dart';
 import 'package:langapp/components/learning_process/translation_word.dart';
+import 'package:langapp/model/app_model.dart';
+import 'package:langapp/styles/colors.dart';
+import 'package:scoped_model/scoped_model.dart';
 
-class TextTaskAssembleWord extends StatelessWidget {
+class TextTaskAssembleWord extends StatefulWidget {
   // TODO: do naprawy ogólne działanie i sens zadania
-
+  final String wordKey;
   final Map word;
   final Function(bool) onNext;
 
-  TextTaskAssembleWord({Key key, @required this.word, @required this.onNext}) : super(key: key);
+  TextTaskAssembleWord({Key key, @required this.wordKey, @required this.word, @required this.onNext}) : super(key: key);
 
-  void _next(bool goodAnswer) {
-    // logika co sprawdza czy dobrze wykonane
-    // i na koncu
-    // onNext(false) jak zle zrobione lub onNext(true) jak dobrze
+  @override
+  _TextTaskAssembleWordState createState() => _TextTaskAssembleWordState();
+}
+
+class _TextTaskAssembleWordState extends State<TextTaskAssembleWord> {
+  int _index = 0;
+  List<String> _expectedLetters = [];
+  List<String> _clickedLetters = [];
+  final int _buttonsNumber = 5;
+  List<String> _letters = [];
+
+  @override
+  void initState() {
+    super.initState();
+
+    String text = this.widget.word['text'];
+    text = text.split(' ').join('');
+    this._expectedLetters = text.split('');
+    this._clickedLetters = List.filled(text.length, " ");
+
+    this._letters = this._getRandomLetters(number: _buttonsNumber);
+
+    // print(this._expectedLetters.length);
+    // print(this._clickedLetters.length);
+    // print(this._letters);
+  }
+
+  void _next() {
+    bool goodAnswer = true;
+    for (int i = 0; i < this._expectedLetters.length; i++) {
+      if (this._expectedLetters[i] != this._clickedLetters[i]) goodAnswer = false;
+    }
+
     if (!goodAnswer) {
-      this.onNext(false);
+      this.widget.onNext(false);
     } else {
-      this.onNext(true);
+      // błąd
+      // nie dodanie pktów
+      // wyświetlić błędy???
+      // wyświetlić NewWordPage ??
+      ScopedModel.of<UserModel>(context).addGoodAnswer(wordKey: this.widget.wordKey);
+      this.widget.onNext(true);
+    }
+  }
+
+  List<String> _getRandomLetters({@required int number}) {
+    List<String> letters = [];
+    // print(this._index);
+    letters.add(this._expectedLetters[this._index]);
+    // print("Here $letters");
+
+    List<String> randomLetters = ['a', 'd', 'i', 'e', 'R'];
+
+    while (letters.length < number) {
+      int rand = Random().nextInt(this._expectedLetters.length);
+
+      if (!letters.contains(this._expectedLetters[rand])) {
+        letters.add(this._expectedLetters[rand]);
+      } else {
+        rand = Random().nextInt(randomLetters.length);
+        letters.add(randomLetters[rand]);
+      }
+    }
+
+    letters.shuffle();
+
+    // print(letters);
+    return letters;
+  }
+
+  void _onButtonLetterTap(String chosenLetter) {
+    setState(() {
+      this._clickedLetters[this._index] = chosenLetter;
+      this._index += 1;
+      if (this._index < this._clickedLetters.length) {
+        this._letters = this._getRandomLetters(number: _buttonsNumber);
+      }
+    });
+  }
+
+  void _onBackspaceTap() {
+    if (this._index > 0) {
+      setState(() {
+        this._index--;
+        this._clickedLetters[this._index] = " ";
+        this._letters = this._getRandomLetters(number: _buttonsNumber);
+      });
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    // creating list of fields to fill by buttons
+    List<Widget> listOfFields = [];
+
+    this._clickedLetters.forEach((letter) {
+      listOfFields.add(
+        InputOneLetterField(chosenLetter: letter),
+      );
+    });
+
+    listOfFields.add(
+      IconButton(
+        icon: Icon(Icons.backspace, size: 22.0, color: BROWN_DARK),
+        onPressed: this._onBackspaceTap,
+      ),
+    );
+
+    // created list of buttons
+    List<Widget> listOfButtons = [];
+    this._letters.forEach((letter) {
+      listOfButtons.add(
+        ButtonLetter(
+          character: letter,
+          onTap: () => this._onButtonLetterTap(letter),
+        ),
+      );
+    });
+
+    // returned build of view
     return Scaffold(
       body: Container(
         padding: EdgeInsets.symmetric(horizontal: 24.0),
@@ -34,43 +146,21 @@ class TextTaskAssembleWord extends StatelessWidget {
             children: <Widget>[
               PointsLabel(),
               const SizedBox(height: 48.0),
-              TranslationWord(word: this.word['translation']),
+              TranslationWord(word: this.widget.word['translation']),
               const SizedBox(height: 24.0),
               Wrap(
                 alignment: WrapAlignment.center,
                 spacing: 4.0,
-                children: <Widget>[
-                  // do naprawy, zablokowanie możliwości własnoręcznego wpisywania
-                  InputOneLetterField(),
-                  InputOneLetterField(),
-                  InputOneLetterField(),
-                  InputOneLetterField(),
-                  InputOneLetterField(),
-                  InputOneLetterField(),
-                  InputOneLetterField(),
-                  InputOneLetterField(),
-                  InputOneLetterField(),
-                  InputOneLetterField(),
-                ],
+                children: listOfFields,
               ),
-              // TODO: jak rozstawić odpowiednie spaces pomiędzy elementami?
-              SizedBox(height: MediaQuery.of(context).size.height / 8),
+              const SizedBox(height: 64.0),
               Wrap(
                 alignment: WrapAlignment.center,
-                spacing: 16.0,
-                children: <Widget>[
-                  // TODO: mają zmieniać się losowo, zależnie od kliknięcia literki
-                  // przekaz z InkWell do Input
-                  // pytanie czy ten button pasuje
-                  ButtonLetter(character: "A"),
-                  ButtonLetter(character: "B"),
-                  ButtonLetter(character: "C"),
-                  ButtonLetter(character: "D"),
-                  ButtonLetter(character: "E"),
-                ],
+                spacing: 12.0,
+                children: listOfButtons,
               ),
-              const SizedBox(height: 36.0),
-              ButtonFilledBig(onPressed: () => this._next(true)),
+              const SizedBox(height: 48.0),
+              ButtonFilledBig(onPressed: this._next),
               const SizedBox(height: 24.0),
             ],
           ),

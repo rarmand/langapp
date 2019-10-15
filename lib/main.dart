@@ -4,8 +4,8 @@ import 'package:langapp/pages/daily_goal_page/daily_goal_page.dart';
 import 'package:langapp/pages/home_menu_page/home_controller.dart';
 import 'package:langapp/pages/intro_page/intro_controller.dart';
 import 'package:langapp/pages/language_page/language_page.dart';
-import 'package:langapp/pages/learn_page/learn_page_controller.dart';
-import 'package:langapp/pages/learn_page/session_page.dart';
+import 'package:langapp/pages/learn_page/repetition_page_controller.dart';
+import 'package:langapp/pages/learn_page/session_page_controller.dart';
 import 'package:langapp/pages/learn_page/speed_test_page_controller.dart';
 import 'package:langapp/pages/learn_page/theory_page.dart';
 import 'package:langapp/pages/login_page/login_page.dart';
@@ -43,8 +43,8 @@ class MyApp extends StatelessWidget {
           '/choose_new_course': (context) => NewCourseChoicePage(),
           "/theory": (context) => TheoryPage(),
           "/speed_test": (context) => SpeedTestPageController(),
-          "/session": (context) => LearnPageController(),
-          "/repetition": (context) => SessionPage(),
+          "/session": (context) => SessionPageController(),
+          "/repetition": (context) => RepetitionPageController(),
         },
         // sets theme for the entire app
         theme: ThemeData(

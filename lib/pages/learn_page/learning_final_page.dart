@@ -6,7 +6,9 @@ import 'package:langapp/styles/colors.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class LearningFinalPage extends StatelessWidget {
-  LearningFinalPage({Key key}) : super(key: key);
+  final bool noWordsToLearn;
+
+  LearningFinalPage({Key key, this.noWordsToLearn = false}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +29,44 @@ class LearningFinalPage extends StatelessWidget {
     });
 
     int points = ScopedModel.of<UserModel>(context, rebuildOnChange: true).processPoints;
+
+    if (this.noWordsToLearn) {
+      return Scaffold(
+        body: Container(
+          padding: EdgeInsets.fromLTRB(24, 0, 24, 0),
+          child: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                Container(
+                  padding: EdgeInsets.only(top: 64.0, bottom: 40.0),
+                  alignment: Alignment.center,
+                  child: Text(
+                    "Session accomplished!",
+                    style: TextStyle(
+                      color: GREEN_LIGHT,
+                      fontSize: 22.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                icon,
+                Container(
+                  padding: EdgeInsets.only(top: 64.0, bottom: 24.0),
+                  alignment: Alignment.center,
+                  child: Text(
+                    "You have no more words to learn",
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      color: BROWN_DARK,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
 
     return Scaffold(
       body: Container(
