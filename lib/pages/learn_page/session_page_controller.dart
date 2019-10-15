@@ -96,8 +96,7 @@ class _SessionPageControllerState extends State<SessionPageController> {
           Widget result;
           if (rand == 0)
             result = TextTaskChooseSound(
-                            wordKey: wordKey,
-
+              wordKey: wordKey,
               word: word,
               onNext: this._nextPage,
             );
@@ -133,11 +132,13 @@ class _SessionPageControllerState extends State<SessionPageController> {
           Widget result;
           if (rand == 0)
             result = SoundTaskWriteWord(
+              wordKey: wordKey,
               word: word,
               onNext: this._nextPage,
             );
           else
             result = TextTaskWriteWord(
+              wordKey: wordKey,
               word: word,
               onNext: this._nextPage,
             );
@@ -210,7 +211,7 @@ class _SessionPageControllerState extends State<SessionPageController> {
 
       if (this._finalTasks.containsKey(key)) {
         this._finalTasks[key].add(
-              TextTaskChooseSound(
+              TextTaskWriteWord(
                 wordKey: key,
                 word: wordsToLearn[key],
                 onNext: this._nextPage,
@@ -218,7 +219,7 @@ class _SessionPageControllerState extends State<SessionPageController> {
             );
       } else {
         this._finalTasks[key] = [
-          TextTaskChooseSound(
+          TextTaskWriteWord(
             wordKey: key,
             word: wordsToLearn[key],
             onNext: this._nextPage,

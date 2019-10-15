@@ -13,7 +13,7 @@ class TextTaskChooseSound extends StatefulWidget {
   final Map word;
   final Function(bool) onNext;
 
-  TextTaskChooseSound({Key key, @required this.wordKey, @required this.word, @required this.onNext}) : super(key: key);
+  TextTaskChooseSound({@required this.wordKey, @required this.word, @required this.onNext});
 
   @override
   _TextTaskChooseSoundState createState() => _TextTaskChooseSoundState();

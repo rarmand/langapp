@@ -12,7 +12,7 @@ class SoundTaskChooseWord extends StatefulWidget {
   final Map word;
   final Function(bool) onNext;
 
-  SoundTaskChooseWord({Key key, @required this.wordKey, @required this.word, @required this.onNext}) : super(key: key);
+  SoundTaskChooseWord({@required this.wordKey, @required this.word, @required this.onNext});
 
   @override
   _SoundTaskChooseWordState createState() => _SoundTaskChooseWordState();

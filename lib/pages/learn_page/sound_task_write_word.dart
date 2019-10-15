@@ -3,22 +3,41 @@ import 'package:langapp/components/button_filled/button_filled_big.dart';
 import 'package:langapp/components/input_field/input_field.dart';
 import 'package:langapp/components/learning_process/points_label.dart';
 import 'package:langapp/components/learning_process/sound_button.dart';
+import 'package:langapp/model/app_model.dart';
+import 'package:scoped_model/scoped_model.dart';
 
-class SoundTaskWriteWord extends StatelessWidget {
+class SoundTaskWriteWord extends StatefulWidget {
+  final String wordKey;
   final Map word;
   final Function(bool) onNext;
 
-  SoundTaskWriteWord({Key key, @required this.word, @required this.onNext}) : super(key: key);
+  SoundTaskWriteWord({
+    @required this.wordKey,
+    @required this.word,
+    @required this.onNext,
+  });
 
-  void _next(bool goodAnswer) {
-    // logika co sprawdza czy dobrze wykonane
-    // i na koncu
-    // onNext(false) jak zle zrobione lub onNext(true) jak dobrze
-    if (!goodAnswer) {
-      this.onNext(false);
+  @override
+  _SoundTaskWriteWordState createState() => _SoundTaskWriteWordState();
+}
+
+class _SoundTaskWriteWordState extends State<SoundTaskWriteWord> {
+  final TextEditingController _controller = TextEditingController();
+
+  void _next() {
+    if (this._controller.text == this.widget.word['translation']) {
+      ScopedModel.of<UserModel>(context).addGoodAnswer(wordKey: this.widget.wordKey);
+      this.widget.onNext(true);
     } else {
-      this.onNext(true);
+      this.widget.onNext(false);
     }
+  }
+
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is disposed.
+    this._controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -31,13 +50,14 @@ class SoundTaskWriteWord extends StatelessWidget {
             children: <Widget>[
               PointsLabel(),
               const SizedBox(height: 24.0),
-              SoundButton(audioUrl: this.word['audio_url']),
+              SoundButton(audioUrl: this.widget.word['audio_url']),
               const SizedBox(height: 80.0),
               InputField(
                 label: "Write the translation",
+                controller: this._controller,
               ),
-              SizedBox(height: MediaQuery.of(context).size.height / 6),
-              ButtonFilledBig(onPressed: () => this._next(true)),
+              const SizedBox(height: 80.0),
+              ButtonFilledBig(onPressed: this._next),
               const SizedBox(height: 24.0),
             ],
           ),

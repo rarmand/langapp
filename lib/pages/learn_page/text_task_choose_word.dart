@@ -13,7 +13,7 @@ class TextTaskChooseWord extends StatefulWidget {
   final Map word;
   final Function(bool) onNext;
 
-  TextTaskChooseWord({Key key, @required this.wordKey, @required this.word, @required this.onNext}) : super(key: key);
+  TextTaskChooseWord({@required this.wordKey, @required this.word, @required this.onNext});
 
   @override
   _TextTaskChooseWordState createState() => _TextTaskChooseWordState();

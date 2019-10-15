@@ -21,7 +21,7 @@ class NewWordPage extends StatelessWidget {
     if (!isChosen) {
       ScopedModel.of<UserModel>(context).ignoreWordToLearn(this.wordKey);
     } else {
-      this.onNext(true);
+      this.onNext(false);
     }
   }
 

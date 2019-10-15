@@ -5,16 +5,18 @@ class InputField extends StatelessWidget {
   final String label;
   final bool isPassword;
 
-  String existingText;
-  Function onSaved;
-  Function validator;
+  final String existingText;
+  final Function onSaved;
+  final Function validator;
+  final TextEditingController controller;
 
   InputField({
     @required this.label,
     this.isPassword = false,
-    this.existingText = "",
+    this.existingText,
     this.validator,
     this.onSaved,
+    this.controller,
   });
 
   @override
@@ -25,6 +27,7 @@ class InputField extends StatelessWidget {
       child: TextFormField(
         initialValue: this.existingText,
         validator: this.validator,
+        controller: this.controller,
         onSaved: this.onSaved,
         //
         style: TextStyle(color: BLACK),

@@ -16,7 +16,7 @@ class TextTaskAssembleWord extends StatefulWidget {
   final Map word;
   final Function(bool) onNext;
 
-  TextTaskAssembleWord({Key key, @required this.wordKey, @required this.word, @required this.onNext}) : super(key: key);
+  TextTaskAssembleWord({@required this.wordKey, @required this.word, @required this.onNext});
 
   @override
   _TextTaskAssembleWordState createState() => _TextTaskAssembleWordState();

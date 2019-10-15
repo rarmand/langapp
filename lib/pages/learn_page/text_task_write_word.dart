@@ -4,22 +4,37 @@ import 'package:langapp/components/input_field/input_field.dart';
 import 'package:langapp/components/learning_process/learning_word.dart';
 import 'package:langapp/components/learning_process/phonetic_word.dart';
 import 'package:langapp/components/learning_process/points_label.dart';
+import 'package:langapp/model/app_model.dart';
+import 'package:scoped_model/scoped_model.dart';
 
-class TextTaskWriteWord extends StatelessWidget {
+class TextTaskWriteWord extends StatefulWidget {
+  final String wordKey;
   final Map word;
   final Function(bool) onNext;
 
-  TextTaskWriteWord({Key key, @required this.word, @required this.onNext}) : super(key: key);
+  TextTaskWriteWord({Key key, @required this.wordKey, @required this.word, @required this.onNext}) : super(key: key);
 
-  void _next(bool goodAnswer) {
-    // logika co sprawdza czy dobrze wykonane
-    // i na koncu
-    // onNext(false) jak zle zrobione lub onNext(true) jak dobrze
-    if (!goodAnswer) {
-      this.onNext(false);
+  @override
+  _TextTaskWriteWordState createState() => _TextTaskWriteWordState();
+}
+
+class _TextTaskWriteWordState extends State<TextTaskWriteWord> {
+  final TextEditingController _controller = TextEditingController();
+
+  void _next() {
+    if (this._controller.text == this.widget.word['text']) {
+      ScopedModel.of<UserModel>(context).addGoodAnswer(wordKey: this.widget.wordKey);
+      this.widget.onNext(true);
     } else {
-      this.onNext(true);
+      this.widget.onNext(false);
     }
+  }
+
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is disposed.
+    this._controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -33,14 +48,17 @@ class TextTaskWriteWord extends StatelessWidget {
               PointsLabel(),
               const SizedBox(height: 18.0),
               LearningWord(
-                word: this.word['text'],
-                audioUrl: this.word['audio_url'],
+                word: this.widget.word['translation'],
+                isSoundIcon: false,
+                audioUrl: "",
               ),
-              PhoneticWord(word: this.word['phonetics']),
-              const SizedBox(height: 64.0),
-              InputField(label: "Write the translation"),
-              SizedBox(height: MediaQuery.of(context).size.height / 6),
-              ButtonFilledBig(onPressed: () => this._next(false)),
+              const SizedBox(height: 80.0),
+              InputField(
+                label: "Write the word",
+                controller: this._controller,
+              ),
+              const SizedBox(height: 80.0),
+              ButtonFilledBig(onPressed: this._next),
               const SizedBox(height: 24.0),
             ],
           ),
