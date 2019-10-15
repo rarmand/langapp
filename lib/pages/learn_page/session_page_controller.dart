@@ -24,7 +24,7 @@ class SessionPageController extends StatefulWidget {
 class _SessionPageControllerState extends State<SessionPageController> {
   // EXAMPLE SETUP
   // number of words to learn for this session
-  final int _numberOfWords = 3;
+  final int _numberOfWords = 4;
   // number of tasks to do for this session
   final int _numberOfTasks = 10;
 
@@ -101,6 +101,7 @@ class _SessionPageControllerState extends State<SessionPageController> {
             );
           else
             result = SoundTaskChooseWord(
+              wordKey: wordKey,
               word: word,
               onNext: this._nextPage,
             );
@@ -118,6 +119,7 @@ class _SessionPageControllerState extends State<SessionPageController> {
             );
           else
             result = TextTaskChooseWord(
+              wordKey: wordKey,
               word: word,
               onNext: this._nextPage,
             );
@@ -206,7 +208,7 @@ class _SessionPageControllerState extends State<SessionPageController> {
 
       if (this._finalTasks.containsKey(key)) {
         this._finalTasks[key].add(
-              TextTaskAssembleWord(
+              SoundTaskChooseWord(
                 wordKey: key,
                 word: wordsToLearn[key],
                 onNext: this._nextPage,
@@ -214,7 +216,7 @@ class _SessionPageControllerState extends State<SessionPageController> {
             );
       } else {
         this._finalTasks[key] = [
-          TextTaskAssembleWord(
+          SoundTaskChooseWord(
             wordKey: key,
             word: wordsToLearn[key],
             onNext: this._nextPage,

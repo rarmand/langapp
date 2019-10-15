@@ -54,10 +54,6 @@ class _TextTaskAssembleWordState extends State<TextTaskAssembleWord> {
     if (!goodAnswer) {
       this.widget.onNext(false);
     } else {
-      // błąd
-      // nie dodanie pktów
-      // wyświetlić błędy???
-      // wyświetlić NewWordPage ??
       ScopedModel.of<UserModel>(context).addGoodAnswer(wordKey: this.widget.wordKey);
       this.widget.onNext(true);
     }
@@ -69,6 +65,7 @@ class _TextTaskAssembleWordState extends State<TextTaskAssembleWord> {
     letters.add(this._expectedLetters[this._index]);
     // print("Here $letters");
 
+    // wymyslec inny sposob - co jesli jezyk nie stosuje takiego alfabetu
     List<String> randomLetters = ['a', 'd', 'i', 'e', 'R'];
 
     while (letters.length < number) {
