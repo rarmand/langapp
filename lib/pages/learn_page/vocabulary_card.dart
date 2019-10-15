@@ -19,7 +19,7 @@ class VocabularyCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 5.0),
+      margin: EdgeInsets.symmetric(vertical: 4.0),
       decoration: BoxDecoration(
         border: Border.all(
           color: BROWN_DARK,
@@ -50,11 +50,10 @@ class VocabularyCard extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(width: 10.0),
-          // if the vocab is known by the user
-          // if yes - checked
-          // if no - no check
-          (isKnown ? Icon(Icons.check, color: GREEN_LIGHT) : SizedBox()),
+          SizedBox(width: 8.0),
+          (isIgnored ? Icon(Icons.block, color: GRAY) : SizedBox()),
+          (isRepeated ? Icon(Icons.access_time, color: BROWN_DARK) : SizedBox()),
+          (isKnown ? Icon(Icons.check_circle_outline, color: GREEN_LIGHT) : SizedBox()),
         ],
       ),
     );

@@ -6,7 +6,6 @@ import 'package:langapp/components/learning_process/learning_label.dart';
 import 'package:langapp/components/modals/learning_choice_modal.dart';
 import 'package:langapp/model/app_model.dart';
 import 'package:langapp/pages/learn_page/learning_final_page.dart';
-import 'package:langapp/pages/learn_page/new_word_page.dart';
 import 'package:langapp/pages/learn_page/sound_task_choose_word.dart';
 import 'package:langapp/pages/learn_page/sound_task_write_word.dart';
 import 'package:langapp/pages/learn_page/text_task_assemble_word.dart';
@@ -22,45 +21,25 @@ class RepetitionPageController extends StatefulWidget {
 }
 
 class _RepetitionPageControllerState extends State<RepetitionPageController> {
-  // EXAMPLE SETUP
-  // number of words to learn for this session
-  final int _numberOfWords = 3;
-  // number of tasks to do for this session
+  final int _numberOfWords = 4;
   final int _numberOfTasks = 10;
-  // points to collect during one session
-  // points are on the end added to UserModel points
-  int _points = 0;
-  // list to collect initialized objects of pages
-  Map<String, List<Widget>> _finalTasks = {};
 
-  // page controller needed for BUILD function to create a VIEW
+  Map<String, List<Widget>> _finalTasks = {};
   PageController pageController = PageController();
-  // index for BUILD
   int _selectedIndex = 0;
 
   @override
   void initState() {
     super.initState();
     // prepared words to learn
-    ScopedModel.of<UserModel>(context).iconProcessPath = "assets/course/add.svg";
+    ScopedModel.of<UserModel>(context).iconProcessPath = "assets/course/review_vocab.svg";
+    ScopedModel.of<UserModel>(context).processPoints = 0;
     ScopedModel.of<UserModel>(context).setWordsToLearn(amount: this._numberOfWords);
 
-    // wybrany kurs (usermodel - chosenCourse)
-    // na start lista wszystkich słów dla danego kursu (typ Map w UserModel - chosenCourseWords)
-    // lista słow już widzianych (learntWords - typ Map)
-    // lista słow do powtórzenia (wordsToRepeat - typ Map)
-    // lista słow zignorowanych (wordsIgnored)
-    // pobieranie słow do nauki (wordsToLearn)
-    // skillset (skillsetUser , skillsetDiagnosed, czy jest auto : skillsetDiagnosed )
-
-    // generated list of tasks for one session
     this._generateTasks();
   }
 
   Map _getSkillset() {
-    // EXAMPLE
-    // 10 tasks for one session
-    // 4 for image and translation of new word
     Map skillset = {'reading': 30, 'listening': 30, 'writing': 30, 'speaking': 10};
 
     if (ScopedModel.of<UserModel>(context).autoSkillset) {
@@ -80,10 +59,11 @@ class _RepetitionPageControllerState extends State<RepetitionPageController> {
     return skillset;
   }
 
-  Widget _getLearningTask(String type, Map word) {
+  Widget _getLearningTask(String type, String wordKey, Map word) {
     switch (type) {
       case 'speaking':
         return TextTaskSpeakWord(
+          wordKey: wordKey,
           word: word,
           onNext: this._nextPage,
         );
@@ -93,11 +73,13 @@ class _RepetitionPageControllerState extends State<RepetitionPageController> {
           Widget result;
           if (rand == 0)
             result = TextTaskChooseSound(
+              wordKey: wordKey,
               word: word,
               onNext: this._nextPage,
             );
           else
             result = SoundTaskChooseWord(
+              wordKey: wordKey,
               word: word,
               onNext: this._nextPage,
             );
@@ -109,11 +91,13 @@ class _RepetitionPageControllerState extends State<RepetitionPageController> {
           Widget result;
           if (rand == 0)
             result = TextTaskAssembleWord(
+              wordKey: wordKey,
               word: word,
               onNext: this._nextPage,
             );
           else
             result = TextTaskChooseWord(
+              wordKey: wordKey,
               word: word,
               onNext: this._nextPage,
             );
@@ -125,11 +109,13 @@ class _RepetitionPageControllerState extends State<RepetitionPageController> {
           Widget result;
           if (rand == 0)
             result = SoundTaskWriteWord(
+              wordKey: wordKey,
               word: word,
               onNext: this._nextPage,
             );
           else
             result = TextTaskWriteWord(
+              wordKey: wordKey,
               word: word,
               onNext: this._nextPage,
             );
@@ -154,6 +140,7 @@ class _RepetitionPageControllerState extends State<RepetitionPageController> {
     //////////////////////////////////////////////////////////////////////////////
 
     Map skillset = this._getSkillset();
+    // skad pobrac dane
     Map wordsToLearn = ScopedModel.of<UserModel>(context).wordsToLearn;
 
     // gdy nie ma już słów do nauki
@@ -161,20 +148,6 @@ class _RepetitionPageControllerState extends State<RepetitionPageController> {
       this._finalTasks['final'] = [LearningFinalPage(noWordsToLearn: true)];
       return;
     }
-
-    //////////////////////////////////////////////////////////////////////////////
-    // pobieranie slow do nauki z modelu kursu
-    // wstawianie do taskow wyswietlania nowych slowek
-
-    wordsToLearn.forEach((key, word) {
-      this._finalTasks[key] = [
-        NewWordPage(
-          wordKey: key,
-          word: word,
-          onNext: this._nextPage,
-        )
-      ];
-    });
 
     //////////////////////////////////////////////////////////////////////////////
     // dobieranie ilości zadań zależnie od parametrów skilli
@@ -189,14 +162,37 @@ class _RepetitionPageControllerState extends State<RepetitionPageController> {
         final key = keys[rand];
 
         if (this._finalTasks.containsKey(key)) {
-          this._finalTasks[key].add(this._getLearningTask(skill, wordsToLearn[key]));
+          this._finalTasks[key].add(this._getLearningTask(
+                skill,
+                key,
+                wordsToLearn[key],
+              ));
         } else {
-          this._finalTasks[key] = [this._getLearningTask(skill, wordsToLearn[key])];
+          this._finalTasks[key] = [
+            this._getLearningTask(
+              skill,
+              key,
+              wordsToLearn[key],
+            )
+          ];
         }
       }
     });
 
     this._finalTasks['final'] = [LearningFinalPage()];
+  }
+
+  // app bar actions
+  void _onClosePressed() {
+    Navigator.pushNamedAndRemoveUntil(context, "/", (Route<dynamic> route) => false);
+    Navigator.of(context).push(PageRouteBuilder(
+      opaque: false,
+      pageBuilder: (BuildContext context, _, __) => LearningChoiceModal(),
+    ));
+  }
+
+  void _onLogoTap() {
+    Navigator.pushNamedAndRemoveUntil(context, "/", (Route<dynamic> route) => false);
   }
 
   @override
@@ -218,14 +214,8 @@ class _RepetitionPageControllerState extends State<RepetitionPageController> {
       appBar: AppBarUpper(
         title: courseTitle,
         isCourseAppBar: true,
-        onLogoTap: () => Navigator.pushNamedAndRemoveUntil(context, "/", (Route<dynamic> route) => false),
-        onClosePressed: () {
-          Navigator.pushNamedAndRemoveUntil(context, "/", (Route<dynamic> route) => false);
-          Navigator.of(context).push(PageRouteBuilder(
-            opaque: false,
-            pageBuilder: (BuildContext context, _, __) => LearningChoiceModal(),
-          ));
-        },
+        onLogoTap: this._onLogoTap,
+        onClosePressed: this._onClosePressed,
       ),
       body: Container(
         child: Column(

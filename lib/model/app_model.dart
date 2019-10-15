@@ -95,7 +95,7 @@ class UserModel extends Model {
   Map get chosenCourse => this._chosenCourse;
   Map get chosenCourseWords => this._chosenCourseWords;
 
-  Map get wordsLearnt => this._wordsToLearn;
+  Map get wordsLearnt => this._wordsLearnt;
   Map get wordsToRepeat => this._wordsToRepeat;
   List get wordsIgnored => this._wordsIgnored;
   Map get wordsToLearn => this._wordsToLearn;
@@ -354,8 +354,9 @@ class UserModel extends Model {
   void addGoodAnswer({@required String wordKey}) async {
     this._wordsToLearn[wordKey]['good_answers_number'] += 1;
 
-    if (this._wordsToLearn[wordKey]['good_answers_number'] == 20) {
+    if (this._wordsToLearn[wordKey]['good_answers_number'] >= 10) {
       print(wordKey + " " + this._wordsToLearn[wordKey]['good_answers_number'].toString());
+      // dodać date kiedy nast razem powtorzyc
       this._wordsLearnt[wordKey] = "Haha";
       this._wordsToLearn.remove(wordKey);
     }
@@ -371,9 +372,24 @@ class UserModel extends Model {
     notifyListeners();
   }
 
+  set processPoints(int points) {
+    this._processPoints = points;
+    notifyListeners();
+  }
+
   void addToProcessPoints(int points) {
     this._processPoints += points;
     notifyListeners();
+  }
+
+  void pushProcessPointsToDb() async {
+    print(this._processPoints);
+    if (this._processPoints > 0) {
+      this._points += this._processPoints;
+      await Firestore.instance.collection("users").document(userId).updateData({"points": this._points});
+
+      notifyListeners();
+    }
   }
 
 ///////////////////////////

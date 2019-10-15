@@ -8,7 +8,10 @@ import 'package:scoped_model/scoped_model.dart';
 class LearningFinalPage extends StatelessWidget {
   final bool noWordsToLearn;
 
-  LearningFinalPage({Key key, this.noWordsToLearn = false}) : super(key: key);
+  LearningFinalPage({this.noWordsToLearn = false});
+
+  // check daily GoAL
+  // dodanie pktów do bazy dla usera
 
   @override
   Widget build(BuildContext context) {
@@ -21,11 +24,13 @@ class LearningFinalPage extends StatelessWidget {
     Map words = ScopedModel.of<UserModel>(context, rebuildOnChange: true).wordsToLearn;
     List<VocabularyCard> vocabList = [];
     words.forEach((key, value) {
-      vocabList.add(VocabularyCard(
-        vocabulary: value['text'],
-        translation: value['translation'],
-        isKnown: true,
-      ));
+      vocabList.add(
+        VocabularyCard(
+          vocabulary: value['text'],
+          translation: value['translation'],
+          isKnown: true,
+        ),
+      );
     });
 
     int points = ScopedModel.of<UserModel>(context, rebuildOnChange: true).processPoints;

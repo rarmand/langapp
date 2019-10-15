@@ -12,12 +12,15 @@ class TheoryPage extends StatelessWidget {
 
     Map wordsMap = ScopedModel.of<UserModel>(context, rebuildOnChange: true).chosenCourseWords;
     Map wordsLearnt = ScopedModel.of<UserModel>(context, rebuildOnChange: true).wordsLearnt;
+    Map wordsToLearn = ScopedModel.of<UserModel>(context, rebuildOnChange: true).wordsToLearn;
+    Map wordsToRepeat = ScopedModel.of<UserModel>(context, rebuildOnChange: true).wordsToRepeat;
+    List wordsIgnored = ScopedModel.of<UserModel>(context, rebuildOnChange: true).wordsIgnored;
 
     List<Widget> wordsList = [];
 
     wordsMap.forEach((key, word) {
       bool isKnown = false;
-      if (wordsLearnt.containsKey(key)) {
+      if (wordsLearnt.containsKey(key) || wordsToLearn.containsKey(key)) {
         isKnown = true;
         wordsList.insert(
           0,
@@ -25,6 +28,23 @@ class TheoryPage extends StatelessWidget {
             vocabulary: word['text'],
             translation: word['translation'],
             isKnown: isKnown,
+          ),
+        );
+      } else if (wordsToRepeat.containsKey(key)) {
+        wordsList.insert(
+          0,
+          VocabularyCard(
+            vocabulary: word['text'],
+            translation: word['translation'],
+            isRepeated: true,
+          ),
+        );
+      } else if (wordsIgnored.contains(key)) {
+        wordsList.add(
+          VocabularyCard(
+            vocabulary: word['text'],
+            translation: word['translation'],
+            isIgnored: true,
           ),
         );
       } else {

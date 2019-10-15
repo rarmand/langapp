@@ -3,29 +3,34 @@ import 'package:flutter_svg/svg.dart';
 import 'package:langapp/components/button_filled/button_filled_big.dart';
 import 'package:langapp/components/learning_process/learning_word.dart';
 import 'package:langapp/components/learning_process/points_label.dart';
+import 'package:langapp/model/app_model.dart';
 import 'package:langapp/styles/colors.dart';
+import 'package:scoped_model/scoped_model.dart';
 
-class TextTaskSpeakWord extends StatelessWidget {
-  // TODO: if clicked, it needs to change a color
-  // and add some shadow behind, if its not clicked
+class TextTaskSpeakWord extends StatefulWidget {
+  final String wordKey;
+  final Map word;
+  final Function(bool) onNext;
+
+  TextTaskSpeakWord({@required this.wordKey, @required this.word, @required this.onNext});
+
+  @override
+  _TextTaskSpeakWordState createState() => _TextTaskSpeakWordState();
+}
+
+class _TextTaskSpeakWordState extends State<TextTaskSpeakWord> {
   final Widget microphoneIcon = SvgPicture.asset(
     "assets/learning/microphone.svg",
     color: BROWN_DARK,
     height: 100.0,
   );
-  final Map word;
-  final Function(bool) onNext;
-
-  TextTaskSpeakWord({Key key, @required this.word, @required this.onNext}) : super(key: key);
 
   void _next(bool goodAnswer) {
-    // logika co sprawdza czy dobrze wykonane
-    // i na koncu
-    // onNext(false) jak zle zrobione lub onNext(true) jak dobrze
     if (!goodAnswer) {
-      this.onNext(false);
+      this.widget.onNext(false);
     } else {
-      this.onNext(true);
+      ScopedModel.of<UserModel>(context).addGoodAnswer(wordKey: this.widget.wordKey);
+      this.widget.onNext(true);
     }
   }
 
@@ -39,7 +44,7 @@ class TextTaskSpeakWord extends StatelessWidget {
             children: <Widget>[
               PointsLabel(),
               const SizedBox(height: 24.0),
-              LearningWord(word: this.word['text'], isSoundIcon: false, audioUrl: ''),
+              LearningWord(word: this.widget.word['text'], isSoundIcon: false, audioUrl: ''),
               const SizedBox(height: 40.0),
               Text(
                 "Tap the microphone icon and record your speaking of the word.",
@@ -49,7 +54,7 @@ class TextTaskSpeakWord extends StatelessWidget {
               // Inkwell ? klikalne ? jako ikonka nagrywania
 
               InkWell(child: this.microphoneIcon, onTap: () => print("hey")),
-              const SizedBox(height: 72.0),
+              const SizedBox(height: 64.0),
               // to raczej do stacka
               ButtonFilledBig(onPressed: () => this._next(false)),
               const SizedBox(height: 24.0),

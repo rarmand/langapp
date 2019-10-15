@@ -28,10 +28,6 @@ class _SessionPageControllerState extends State<SessionPageController> {
   // number of tasks to do for this session
   final int _numberOfTasks = 10;
 
-  // points to collect during one session
-  // points are on the end added to UserModel points
-  int _points = 0;
-
   // list to collect initialized objects of pages
   Map<String, List<Widget>> _finalTasks = {};
 
@@ -46,6 +42,7 @@ class _SessionPageControllerState extends State<SessionPageController> {
     super.initState();
     // prepared words to learn
     ScopedModel.of<UserModel>(context).iconProcessPath = "assets/course/add.svg";
+    ScopedModel.of<UserModel>(context).processPoints = 0;
     ScopedModel.of<UserModel>(context).setWordsToLearn(amount: this._numberOfWords);
 
     // wybrany kurs (usermodel - chosenCourse)
@@ -87,6 +84,7 @@ class _SessionPageControllerState extends State<SessionPageController> {
     switch (type) {
       case 'speaking':
         return TextTaskSpeakWord(
+          wordKey: wordKey,
           word: word,
           onNext: this._nextPage,
         );
@@ -190,47 +188,71 @@ class _SessionPageControllerState extends State<SessionPageController> {
 
     List keys = wordsToLearn.keys.toList();
 
-    // skillset.forEach((skill, value) {
-    //   int x = (value / this._numberOfTasks).round();
+    skillset.forEach((skill, value) {
+      int x = (value / this._numberOfTasks).round();
 
-    //   for (int i = 0; i < x; i++) {
-    //     final int rand = Random().nextInt(keys.length);
-    //     final key = keys[rand];
+      for (int i = 0; i < x; i++) {
+        final int rand = Random().nextInt(keys.length);
+        final key = keys[rand];
 
-    // if (this._finalTasks.containsKey(key)) {
-    //   this._finalTasks[key].add(this._getLearningTask(skill, wordsToLearn[key]));
-    // } else {
-    //   this._finalTasks[key] = [this._getLearningTask(skill, wordsToLearn[key])];
-    // }
-    //   }
-    // });
-
-    for (int i = 0; i < 10; i++) {
-      final int rand = Random().nextInt(keys.length);
-      final key = keys[rand];
-
-      if (this._finalTasks.containsKey(key)) {
-        this._finalTasks[key].add(
-              TextTaskWriteWord(
-                wordKey: key,
-                word: wordsToLearn[key],
-                onNext: this._nextPage,
-              ),
-            );
-      } else {
-        this._finalTasks[key] = [
-          TextTaskWriteWord(
-            wordKey: key,
-            word: wordsToLearn[key],
-            onNext: this._nextPage,
-          )
-        ];
+        if (this._finalTasks.containsKey(key)) {
+          this._finalTasks[key].add(this._getLearningTask(
+                skill,
+                key,
+                wordsToLearn[key],
+              ));
+        } else {
+          this._finalTasks[key] = [
+            this._getLearningTask(
+              skill,
+              key,
+              wordsToLearn[key],
+            )
+          ];
+        }
       }
-    }
+    });
+
+    // for (int i = 0; i < 10; i++) {
+    //   final int rand = Random().nextInt(keys.length);
+    //   final key = keys[rand];
+
+    //   if (this._finalTasks.containsKey(key)) {
+    //     this._finalTasks[key].add(
+    //           TextTaskSpeakWord(
+    //             wordKey: key,
+    //             word: wordsToLearn[key],
+    //             onNext: this._nextPage,
+    //           ),
+    //         );
+    //   } else {
+    //     this._finalTasks[key] = [
+    //       TextTaskSpeakWord(
+    //         wordKey: key,
+    //         word: wordsToLearn[key],
+    //         onNext: this._nextPage,
+    //       )
+    //     ];
+    //   }
+    // }
 
     this._finalTasks['final'] = [LearningFinalPage()];
   }
 
+  // app bar actions
+  void _onClosePressed() {
+    Navigator.pushNamedAndRemoveUntil(context, "/", (Route<dynamic> route) => false);
+    Navigator.of(context).push(PageRouteBuilder(
+      opaque: false,
+      pageBuilder: (BuildContext context, _, __) => LearningChoiceModal(),
+    ));
+  }
+
+  void _onLogoTap() {
+    Navigator.pushNamedAndRemoveUntil(context, "/", (Route<dynamic> route) => false);
+  }
+
+  // build
   @override
   Widget build(BuildContext context) {
     String courseTitle = ScopedModel.of<UserModel>(context, rebuildOnChange: true).chosenCourse['title'];
@@ -250,14 +272,8 @@ class _SessionPageControllerState extends State<SessionPageController> {
       appBar: AppBarUpper(
         title: courseTitle,
         isCourseAppBar: true,
-        onLogoTap: () => Navigator.pushNamedAndRemoveUntil(context, "/", (Route<dynamic> route) => false),
-        onClosePressed: () {
-          Navigator.pushNamedAndRemoveUntil(context, "/", (Route<dynamic> route) => false);
-          Navigator.of(context).push(PageRouteBuilder(
-            opaque: false,
-            pageBuilder: (BuildContext context, _, __) => LearningChoiceModal(),
-          ));
-        },
+        onLogoTap: this._onLogoTap,
+        onClosePressed: this._onClosePressed,
       ),
       body: Container(
         child: Column(
