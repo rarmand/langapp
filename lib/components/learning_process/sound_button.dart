@@ -7,8 +7,9 @@ class SoundButton extends StatelessWidget {
   // and add some shadow behind, if its not clicked
   Widget _soundIcon;
   final String audioUrl;
+  Function(String) onChooseSoundTap;
 
-  SoundButton({double height = 100.0, @required this.audioUrl}) {
+  SoundButton({double height = 100.0, @required this.audioUrl, this.onChooseSoundTap}) {
     this._soundIcon = SvgPicture.asset(
       "assets/learning/sound.svg",
       height: height,
@@ -24,11 +25,13 @@ class SoundButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      child: Container(
-        padding: EdgeInsets.all(8.0),
-        child: this._soundIcon,
-      ),
-      onTap: this._playSound,
-    );
+        child: Container(
+          padding: EdgeInsets.all(8.0),
+          child: this._soundIcon,
+        ),
+        onTap: () {
+          if (this.onChooseSoundTap != null) this.onChooseSoundTap(this.audioUrl);
+          this._playSound();
+        });
   }
 }

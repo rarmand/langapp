@@ -25,10 +25,10 @@ class _SoundTaskChooseWordState extends State<SoundTaskChooseWord> {
   @override
   void initState() {
     super.initState();
-    this._setRandomWords();
+    this._setAnswers();
   }
 
-  void _setRandomWords() {
+  void _setAnswers() {
     this._answersList.add(this.widget.word['translation']);
     List allCourseWords = ScopedModel.of<UserModel>(context).chosenCourseWords.values.toList();
 
