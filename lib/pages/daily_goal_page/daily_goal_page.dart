@@ -9,42 +9,34 @@ import 'package:langapp/styles/colors.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class DailyGoalPage extends StatelessWidget {
-  final List<int> _timestamps = [10, 25, 40, 50];
-
-  final List<TextSpan> _title = <TextSpan>[
-    TextSpan(
-      text: "Choose your\n",
-      style: TextStyle(
-        color: BROWN_DARK,
-        fontWeight: FontWeight.bold,
-        fontSize: 22,
-      ),
-    ),
-    TextSpan(
-      text: "daily goal",
-      style: TextStyle(
-        color: GREEN_LIGHT,
-        fontWeight: FontWeight.bold,
-        fontSize: 22,
-      ),
-    ),
-  ];
-
   @override
   Widget build(BuildContext context) {
-    // TODO: zapytac czy to dobry pomysł
-    //
+    List<int> timestamps = ScopedModel.of<UserModel>(context, rebuildOnChange: true).dailyGoalsList;
+
+    // text to put on Daily Goal Card
+    List<TextSpan> title = [
+      TextSpan(
+        text: "Choose your\n",
+        style: TextStyle(color: BROWN_DARK, fontWeight: FontWeight.bold, fontSize: 22),
+      ),
+      TextSpan(
+        text: "daily goal",
+        style: TextStyle(color: GREEN_LIGHT, fontWeight: FontWeight.bold, fontSize: 22),
+      ),
+    ];
+
+    // generate a list of Daily Goals
     List<Widget> dailyGoalItems = List.generate(
-      this._timestamps.length,
+      timestamps.length,
       (int index) {
         return WelcomeCard(
           title: "words per day",
           img: DailyGoalImg(
-            timestamp: this._timestamps[index],
+            timestamp: timestamps[index],
           ),
           onTap: () {
             ScopedModel.of<UserModel>(context).setDailyGoal(
-              dailyGoal: this._timestamps[index],
+              dailyGoal: timestamps[index],
             );
             Navigator.pushNamed(context, "/choose_language");
           },
@@ -55,7 +47,7 @@ class DailyGoalPage extends StatelessWidget {
     return WelcomeFrame(
       onPressedNext: () => Navigator.pushNamed(context, "/"),
       onPressedBack: () => Navigator.pop(context),
-      title: RichTextWidget(textLines: this._title),
+      title: RichTextWidget(textLines: title),
       child: Container(
         margin: EdgeInsets.only(top: 60.0),
         child: Carousel(items: dailyGoalItems),

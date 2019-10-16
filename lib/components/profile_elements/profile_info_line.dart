@@ -16,19 +16,21 @@ class ProfileInfoLine extends StatelessWidget {
         children: <Widget>[
           // TODO: tu może być problem: zapytać
           Container(
-            width: MediaQuery.of(context).size.width / 3,
+            width: 140.0,
             child: Text(
               this.text,
               style: TextStyle(),
             ),
           ),
-          Container(
-            // TODO: blokada na długość tekstu albo jakiś WrAP
-            width: MediaQuery.of(context).size.width / 3,
-            child: Text(
-              this.value,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
+          Flexible(
+            child: Container(
+              child: Text(
+                this.value,
+                overflow: TextOverflow.fade,
+                softWrap: true,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ),

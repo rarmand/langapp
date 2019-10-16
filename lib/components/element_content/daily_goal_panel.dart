@@ -10,7 +10,6 @@ class DailyGoalPanel extends StatefulWidget {
 }
 
 class _DailyGoalPanelState extends State<DailyGoalPanel> {
-  List<int> _goalsNumbers = [10, 25, 40, 50];
 
   void _onDailyGoalChoose(int value) {
     ScopedModel.of<UserModel>(context).setDailyGoal(dailyGoal: value);
@@ -22,6 +21,7 @@ class _DailyGoalPanelState extends State<DailyGoalPanel> {
 
   @override
   Widget build(BuildContext context) {
+    List<int> goalsNumbers = ScopedModel.of<UserModel>(context, rebuildOnChange: true).dailyGoalsList;
     var chosenGoal = ScopedModel.of<UserModel>(context, rebuildOnChange: true).dailyGoal;
 
     return Container(
@@ -29,9 +29,7 @@ class _DailyGoalPanelState extends State<DailyGoalPanel> {
       margin: EdgeInsets.only(top: 20.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: this
-            ._goalsNumbers
-            .map((goal) => DailyGoalValue(
+        children: goalsNumbers.map((goal) => DailyGoalValue(
                   value: goal,
                   onChoose: this._onDailyGoalChoose,
                   isChosen: goal == chosenGoal,

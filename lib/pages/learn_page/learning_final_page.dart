@@ -5,13 +5,24 @@ import 'package:langapp/pages/learn_page/vocabulary_card.dart';
 import 'package:langapp/styles/colors.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-class LearningFinalPage extends StatelessWidget {
+class LearningFinalPage extends StatefulWidget {
   final bool noWordsToLearn;
 
   LearningFinalPage({this.noWordsToLearn = false});
 
-  // check daily GoAL
-  // dodanie pktów do bazy dla usera
+  @override
+  _LearningFinalPageState createState() => _LearningFinalPageState();
+}
+
+class _LearningFinalPageState extends State<LearningFinalPage> {
+  int points = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    points = ScopedModel.of<UserModel>(context).processPoints;
+    ScopedModel.of<UserModel>(context).pushProcessPointsToDb();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,9 +44,7 @@ class LearningFinalPage extends StatelessWidget {
       );
     });
 
-    int points = ScopedModel.of<UserModel>(context, rebuildOnChange: true).processPoints;
-
-    if (this.noWordsToLearn) {
+    if (this.widget.noWordsToLearn) {
       return Scaffold(
         body: Container(
           padding: EdgeInsets.fromLTRB(24, 0, 24, 0),

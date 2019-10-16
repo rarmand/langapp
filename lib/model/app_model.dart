@@ -16,11 +16,12 @@ class UserModel extends Model {
   String _email = '';
   String _language = 'french';
 
-  int _points = 555;
+  int _points = 0;
   int _longestStrike;
   int _speedTestStrike;
 
   int _dailyGoal = 10;
+  List<int> _dailyGoalsList = [5, 10, 15, 20];
   List _dailyGoalHistory = [];
 
 ///////////////////////////
@@ -72,6 +73,7 @@ class UserModel extends Model {
   int get speedTestStrike => _speedTestStrike;
 
   int get dailyGoal => _dailyGoal;
+  List get dailyGoalsList => _dailyGoalsList;
   List get dailyGoalHistory => _dailyGoalHistory;
 
 ///////////////////////////
@@ -383,10 +385,10 @@ class UserModel extends Model {
   }
 
   void pushProcessPointsToDb() async {
-    print(this._processPoints);
     if (this._processPoints > 0) {
       this._points += this._processPoints;
       await Firestore.instance.collection("users").document(userId).updateData({"points": this._points});
+      this._processPoints = 0;
 
       notifyListeners();
     }

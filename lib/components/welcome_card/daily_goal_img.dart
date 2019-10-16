@@ -3,15 +3,16 @@ import 'package:flutter_svg/svg.dart';
 import 'package:langapp/styles/colors.dart';
 
 class DailyGoalImg extends StatelessWidget {
-  final Widget roundup = SvgPicture.asset('assets/intro/round_up.svg');
   final int timestamp;
   final Color backgroundColor;
   final Color textColor;
 
-  DailyGoalImg({@required int this.timestamp, this.backgroundColor = GREEN_DARK, this.textColor = WHITE});
+  DailyGoalImg({@required this.timestamp, this.backgroundColor = GREEN_DARK, this.textColor = WHITE});
 
   @override
   Widget build(BuildContext context) {
+    Widget roundup = SvgPicture.asset('assets/intro/round_up.svg');
+
     return Column(
       children: <Widget>[
         const SizedBox(height: 36),
@@ -48,7 +49,7 @@ class DailyGoalImg extends StatelessWidget {
             ),
             Transform.scale(
               scale: 0.9,
-              child: this.roundup,
+              child: roundup,
             ),
           ],
         ),
