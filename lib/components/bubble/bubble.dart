@@ -15,6 +15,7 @@ class Bubble extends StatelessWidget {
         this.title,
         style: TextStyle(
           fontFamily: "Roboto",
+          color: WHITE,
           fontSize: this.fontSize,
           fontWeight: FontWeight.bold,
         ),
@@ -22,7 +23,7 @@ class Bubble extends StatelessWidget {
       height: this.radius * 2,
       width: this.radius * 2,
       decoration: BoxDecoration(
-        color: WHITE,
+        color: GREEN_DARK,
         borderRadius: BorderRadius.all(
           Radius.circular(this.radius),
         ),

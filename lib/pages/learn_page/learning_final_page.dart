@@ -7,21 +7,32 @@ import 'package:scoped_model/scoped_model.dart';
 
 class LearningFinalPage extends StatefulWidget {
   final bool noWordsToLearn;
+  final bool isSpeedTest;
 
-  LearningFinalPage({this.noWordsToLearn = false});
+  LearningFinalPage({this.noWordsToLearn = false, this.isSpeedTest = false});
 
   @override
   _LearningFinalPageState createState() => _LearningFinalPageState();
 }
 
 class _LearningFinalPageState extends State<LearningFinalPage> {
-  int points = 0;
+  int _points = 0;
 
   @override
   void initState() {
     super.initState();
-    points = ScopedModel.of<UserModel>(context).processPoints;
-    ScopedModel.of<UserModel>(context).pushProcessPointsToDb();
+
+    if (this.widget.noWordsToLearn) {
+      return;
+    }
+
+    if (this.widget.isSpeedTest) {
+      bool isRecordAchieved = ScopedModel.of<UserModel>(context).checkSpeedTestStrike();
+      print(isRecordAchieved);
+    }
+
+    this._points = ScopedModel.of<UserModel>(context).processPoints;
+    ScopedModel.of<UserModel>(context).pushPointsToDb(this._points);
   }
 
   @override
@@ -39,7 +50,7 @@ class _LearningFinalPageState extends State<LearningFinalPage> {
         VocabularyCard(
           vocabulary: value['text'],
           translation: value['translation'],
-          isKnown: true,
+          isKnown: (!this.widget.isSpeedTest),
         ),
       );
     });
@@ -55,7 +66,8 @@ class _LearningFinalPageState extends State<LearningFinalPage> {
                   padding: EdgeInsets.only(top: 64.0, bottom: 40.0),
                   alignment: Alignment.center,
                   child: Text(
-                    "Session accomplished!",
+                    "Learning process accomplished!",
+                    textAlign: TextAlign.center,
                     style: TextStyle(
                       color: GREEN_LIGHT,
                       fontSize: 22.0,
@@ -92,7 +104,8 @@ class _LearningFinalPageState extends State<LearningFinalPage> {
                 padding: EdgeInsets.only(top: 64.0, bottom: 40.0),
                 alignment: Alignment.center,
                 child: Text(
-                  "Session accomplished!",
+                  "Learning session accomplished!",
+                  textAlign: TextAlign.center,
                   style: TextStyle(
                     color: GREEN_LIGHT,
                     fontSize: 22.0,
@@ -109,7 +122,7 @@ class _LearningFinalPageState extends State<LearningFinalPage> {
               ),
               SizedBox(height: 12.0),
               Text(
-                "$points points!",
+                this._points.toString() + " points!",
                 style: TextStyle(
                   fontFamily: "Roboto",
                   fontWeight: FontWeight.bold,

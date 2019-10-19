@@ -44,6 +44,10 @@ class UserModel extends Model {
   Map _wordsLearnt = {};
   Map _wordsToRepeat = {};
 
+  Map _wordsSpeedTest = {};
+  int _counterSpeedTestStrike = 0;
+  int _revives = 3;
+
   String _iconProcessPath = '';
   int _processPoints = 0;
 
@@ -101,6 +105,11 @@ class UserModel extends Model {
   Map get wordsToRepeat => this._wordsToRepeat;
   List get wordsIgnored => this._wordsIgnored;
   Map get wordsToLearn => this._wordsToLearn;
+
+  Map get wordsSpeedTest => this._wordsSpeedTest;
+  int get counterSpeedTestStrike => this._counterSpeedTestStrike;
+  int get revives => this._revives;
+
   String get iconProcessPath => this._iconProcessPath;
   int get processPoints => this._processPoints;
 ///////////////////////////
@@ -212,6 +221,11 @@ class UserModel extends Model {
   // sets two: Map and List of info about the course from CoursesDB and UserDB
   void setChosenCourse({String index = ''}) async {
     if (index.isEmpty) index = this._courseIndex;
+
+    this._wordsToLearn = {};
+    this._wordsIgnored = [];
+    this._wordsLearnt = {};
+    this._wordsToRepeat = {};
 
     DocumentSnapshot dsCourse = await Firestore.instance.collection('courses').document(index).get();
 
@@ -365,6 +379,7 @@ class UserModel extends Model {
 
     this._courses[this._courseIndex]['words_learnt'] = this._wordsLearnt;
     this._courses[this._courseIndex]['words_to_learn'] = this._wordsToLearn;
+
     notifyListeners();
     await Firestore.instance.collection("users").document(userId).updateData({"courses": this._courses});
   }
@@ -384,14 +399,54 @@ class UserModel extends Model {
     notifyListeners();
   }
 
-  void pushProcessPointsToDb() async {
-    if (this._processPoints > 0) {
-      this._points += this._processPoints;
+  void pushPointsToDb(int points) async {
+    if (points > 0) {
+      this._points += points;
       await Firestore.instance.collection("users").document(userId).updateData({"points": this._points});
       this._processPoints = 0;
+      this._counterSpeedTestStrike = 0;
 
       notifyListeners();
     }
+  }
+
+  void setSpeedTestRevives({int revives = 3}) {
+    this._revives = revives;
+    notifyListeners();
+  }
+
+  set counterSpeedTestStrike(int strike) {
+    this._counterSpeedTestStrike = strike;
+    notifyListeners();
+  }
+
+  bool checkSpeedTestStrike() {
+    if (this._counterSpeedTestStrike > this._speedTestStrike) {
+      this.setSpeedTestStrike(strike: this._counterSpeedTestStrike);
+      notifyListeners();
+      return true;
+    }
+    return false;
+  }
+
+  void setWordsForSpeedTest() {
+    if (this._wordsLearnt.length > 0) {
+      this.wordsLearnt.forEach((wordKey, date) {
+        this._wordsSpeedTest[wordKey] = this._chosenCourseWords[wordKey];
+      });
+    }
+    if (this._wordsToRepeat.length > 0) {
+      this._wordsToRepeat.forEach((wordKey, date) {
+        this._wordsSpeedTest[wordKey] = this._chosenCourseWords[wordKey];
+      });
+    }
+    if (this._wordsToLearn.length > 0) {
+      this._wordsToLearn.forEach((wordKey, word) {
+        this._wordsSpeedTest[wordKey] = this._chosenCourseWords[wordKey];
+      });
+    }
+
+    notifyListeners();
   }
 
 ///////////////////////////

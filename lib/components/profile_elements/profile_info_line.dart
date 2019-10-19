@@ -14,13 +14,9 @@ class ProfileInfoLine extends StatelessWidget {
       margin: EdgeInsets.fromLTRB(0, 12, 0, 12),
       child: Row(
         children: <Widget>[
-          // TODO: tu może być problem: zapytać
           Container(
             width: 140.0,
-            child: Text(
-              this.text,
-              style: TextStyle(),
-            ),
+            child: Text(this.text),
           ),
           Flexible(
             child: Container(

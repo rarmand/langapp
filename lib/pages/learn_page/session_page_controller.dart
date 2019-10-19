@@ -27,9 +27,15 @@ class _SessionPageControllerState extends State<SessionPageController> {
   final int _numberOfWords = 4;
   // number of tasks to do for this session
   final int _numberOfTasks = 10;
+  final int _pointsForTask = 15;
+
+  int _strike = 0;
 
   // list to collect initialized objects of pages
   Map<String, List<Widget>> _finalTasks = {};
+
+  // list of pages
+  List _pages = [];
 
   // page controller needed for BUILD function to create a VIEW
   PageController pageController = PageController();
@@ -55,6 +61,7 @@ class _SessionPageControllerState extends State<SessionPageController> {
 
     // generated list of tasks for one session
     this._generateTasks();
+    this._setPages();
   }
 
   Map _getSkillset() {
@@ -149,7 +156,7 @@ class _SessionPageControllerState extends State<SessionPageController> {
 
   void _nextPage(bool successed) async {
     if (successed) {
-      ScopedModel.of<UserModel>(context).addToProcessPoints(50);
+      ScopedModel.of<UserModel>(context).addToProcessPoints(this._pointsForTask);
     } else {
       // nie wiem co, nie daj punktu
       // wyswietlac strone NewWordPage
@@ -239,6 +246,17 @@ class _SessionPageControllerState extends State<SessionPageController> {
     this._finalTasks['final'] = [LearningFinalPage()];
   }
 
+  void _setPages() {
+    Map wordsToLearn = ScopedModel.of<UserModel>(context).wordsToLearn;
+
+    this._finalTasks.forEach((key, value) {
+      if (wordsToLearn.containsKey(key)) {
+        this._pages.addAll(value);
+      }
+    });
+    this._pages.add(this._finalTasks['final'][0]);
+  }
+
   // app bar actions
   void _onClosePressed() {
     Navigator.pushNamedAndRemoveUntil(context, "/", (Route<dynamic> route) => false);
@@ -258,16 +276,6 @@ class _SessionPageControllerState extends State<SessionPageController> {
     String courseTitle = ScopedModel.of<UserModel>(context, rebuildOnChange: true).chosenCourse['title'];
     if (courseTitle == null) courseTitle = "Course Title";
 
-    Map wordsToLearn = ScopedModel.of<UserModel>(context, rebuildOnChange: true).wordsToLearn;
-
-    final List pages = [];
-    this._finalTasks.forEach((key, value) {
-      if (wordsToLearn.containsKey(key)) {
-        pages.addAll(value);
-      }
-    });
-    pages.add(this._finalTasks['final'][0]);
-
     return Scaffold(
       appBar: AppBarUpper(
         title: courseTitle,
@@ -278,13 +286,13 @@ class _SessionPageControllerState extends State<SessionPageController> {
       body: Container(
         child: Column(
           children: <Widget>[
-            LearningLabel(point: this._selectedIndex, points: pages.length - 1),
+            LearningLabel(point: this._selectedIndex, points: this._pages.length - 1),
             Expanded(
               child: PageView.builder(
-                itemCount: pages.length,
+                itemCount: this._pages.length,
                 controller: pageController,
                 onPageChanged: (index) => setState(() => this._selectedIndex = index),
-                itemBuilder: (context, index) => pages[index],
+                itemBuilder: (context, index) => this._pages[index],
                 // physics: const NeverScrollableScrollPhysics(),
               ),
             ),

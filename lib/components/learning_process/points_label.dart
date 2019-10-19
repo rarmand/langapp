@@ -5,10 +5,17 @@ import 'package:langapp/styles/colors.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class PointsLabel extends StatelessWidget {
+  final bool isSpeedTest;
+
+  PointsLabel({this.isSpeedTest = false});
+
   @override
   Widget build(BuildContext context) {
     int points = ScopedModel.of<UserModel>(context, rebuildOnChange: true).processPoints;
     String iconPath = ScopedModel.of<UserModel>(context, rebuildOnChange: true).iconProcessPath;
+    if(this.isSpeedTest) {
+      points = ScopedModel.of<UserModel>(context, rebuildOnChange: true).revives;
+    }
 
     Widget icon = SvgPicture.asset(
       iconPath,
