@@ -145,7 +145,7 @@ class _RepetitionPageControllerState extends State<RepetitionPageController> {
 
     // gdy nie ma już słów do nauki
     if (wordsToLearn.length == 0) {
-      this._finalTasks['final'] = [LearningFinalPage(noWordsToLearn: true)];
+      this._finalTasks['final'] = [LearningFinalPage(noWordsToLearn: true, type: "repetition")];
       return;
     }
 
@@ -179,7 +179,7 @@ class _RepetitionPageControllerState extends State<RepetitionPageController> {
       }
     });
 
-    this._finalTasks['final'] = [LearningFinalPage()];
+    this._finalTasks['final'] = [LearningFinalPage(type: "repetition")];
   }
 
   // app bar actions
@@ -227,7 +227,7 @@ class _RepetitionPageControllerState extends State<RepetitionPageController> {
                 controller: pageController,
                 onPageChanged: (index) => setState(() => this._selectedIndex = index),
                 itemBuilder: (context, index) => pages[index],
-                // physics: const NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
               ),
             ),
           ],

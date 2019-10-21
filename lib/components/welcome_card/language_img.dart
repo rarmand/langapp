@@ -3,18 +3,18 @@ import 'package:flutter_svg/svg.dart';
 import 'package:langapp/styles/colors.dart';
 
 class LanguageImg extends StatelessWidget {
-  Widget flag;
+  final String flagImgPath;
+  
+  LanguageImg({@required this.flagImgPath});
 
-  LanguageImg({@required String flagImgPath}) {
-    flag = SvgPicture.asset(
+  @override
+  Widget build(BuildContext context) {
+    Widget flag = SvgPicture.asset(
       flagImgPath,
       width: 83,
       height: 83,
     );
-  }
 
-  @override
-  Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
         const SizedBox(height: 45),
@@ -37,7 +37,7 @@ class LanguageImg extends StatelessWidget {
             ),
             Transform.scale(
               scale: 1.5,
-              child: this.flag,
+              child: flag,
             ),
           ],
         ),

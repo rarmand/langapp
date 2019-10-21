@@ -8,7 +8,7 @@ class DailyGoalMarks extends StatelessWidget {
   Widget build(BuildContext context) {
     List<Mark> goals = [];
     ScopedModel.of<UserModel>(context, rebuildOnChange: true)
-        .dailyGoalHistory
+        .dailyGoalStamps
         .forEach((goal) => goals.add(Mark(isMarked: goal)));
 
     return Container(

@@ -34,7 +34,6 @@ class _SpeedTestPageControllerState extends State<SpeedTestPageController> {
 
     ScopedModel.of<UserModel>(context).setSpeedTestRevives(revives: this._revives);
     ScopedModel.of<UserModel>(context).setWordsForSpeedTest();
-
     this._generateTasks();
   }
 
@@ -62,10 +61,7 @@ class _SpeedTestPageControllerState extends State<SpeedTestPageController> {
 
     // gdy nie ma już słów do nauki
     if (wordsSpeedTest.length == 0) {
-      this._finalTasks['final'] = LearningFinalPage(
-        noWordsToLearn: true,
-        isSpeedTest: true,
-      );
+      this._finalTasks['final'] = LearningFinalPage(noWordsToLearn: true, type: "test");
       this._pages = this._finalTasks.values.toList();
       return;
     }
@@ -81,7 +77,7 @@ class _SpeedTestPageControllerState extends State<SpeedTestPageController> {
     final List pages = this._finalTasks.values.toList();
     pages.shuffle();
 
-    pages.add(LearningFinalPage(isSpeedTest: true));
+    pages.add(LearningFinalPage(type: "test"));
     this._pages = pages;
   }
 

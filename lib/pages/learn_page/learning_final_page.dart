@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:langapp/components/modals/daily_goal_achieved_modal.dart';
 import 'package:langapp/model/app_model.dart';
 import 'package:langapp/pages/learn_page/vocabulary_card.dart';
 import 'package:langapp/styles/colors.dart';
@@ -7,9 +10,9 @@ import 'package:scoped_model/scoped_model.dart';
 
 class LearningFinalPage extends StatefulWidget {
   final bool noWordsToLearn;
-  final bool isSpeedTest;
+  final String type; // expected: theory, session, repetition, test
 
-  LearningFinalPage({this.noWordsToLearn = false, this.isSpeedTest = false});
+  LearningFinalPage({this.noWordsToLearn = false, @required this.type});
 
   @override
   _LearningFinalPageState createState() => _LearningFinalPageState();
@@ -21,18 +24,34 @@ class _LearningFinalPageState extends State<LearningFinalPage> {
   @override
   void initState() {
     super.initState();
-
     if (this.widget.noWordsToLearn) {
       return;
     }
 
-    if (this.widget.isSpeedTest) {
+    if (this.widget.type == "test") {
       bool isRecordAchieved = ScopedModel.of<UserModel>(context).checkSpeedTestStrike();
-      print(isRecordAchieved);
+      if (isRecordAchieved) {
+        // _showAlertRecordAchieved();
+      }
     }
 
     this._points = ScopedModel.of<UserModel>(context).processPoints;
     ScopedModel.of<UserModel>(context).pushPointsToDb(this._points);
+
+    if (this.widget.type == "session" || this.widget.type == "repetition") {
+      ScopedModel.of<UserModel>(context).addPractisedWord(type: this.widget.type);
+      ScopedModel.of<UserModel>(context).checkLearningRecordAchieved();
+
+      ScopedModel.of<UserModel>(context).checkDailyGoalAchieved();
+      if (ScopedModel.of<UserModel>(context).dailyGoalAchieved) {
+        Timer.run(() {
+          showDialog(
+            context: context,
+            builder: (context) => DailyGoalAchievedModal(),
+          );
+        });
+      }
+    }
   }
 
   @override
@@ -50,7 +69,7 @@ class _LearningFinalPageState extends State<LearningFinalPage> {
         VocabularyCard(
           vocabulary: value['text'],
           translation: value['translation'],
-          isKnown: (!this.widget.isSpeedTest),
+          isKnown: (this.widget.type == "test" ? false : true),
         ),
       );
     });

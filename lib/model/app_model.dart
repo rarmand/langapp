@@ -17,12 +17,15 @@ class UserModel extends Model {
   String _language = 'french';
 
   int _points = 0;
+  Timestamp _lastLearningTimestamp = null;
   int _longestStrike;
   int _speedTestStrike;
 
-  int _dailyGoal = 10;
+  int _dailyGoal = 5;
+  bool _dailyGoalAchieved = false;
   List<int> _dailyGoalsList = [5, 10, 15, 20];
   List _dailyGoalHistory = [];
+  List<bool> _dailyGoalStamps = List.generate(7, (index) => false);
 
 ///////////////////////////
 // challenges data - needs some changes in DB and here
@@ -44,12 +47,17 @@ class UserModel extends Model {
   Map _wordsLearnt = {};
   Map _wordsToRepeat = {};
 
+  // learning process
+  String _iconProcessPath = '';
+  int _processPoints = 0;
+
+  // speed test
   Map _wordsSpeedTest = {};
   int _counterSpeedTestStrike = 0;
   int _revives = 3;
 
-  String _iconProcessPath = '';
-  int _processPoints = 0;
+  // daily goal
+  int _dailyLearntWordsNumber = 0;
 
 // ustalenie do którego kursu należy dany zestaw skilli
 // skillset assigned to _editedCourseIndex or _courseIndex
@@ -74,12 +82,14 @@ class UserModel extends Model {
 
   int get points => _points;
   int get longestStrike => _longestStrike;
+  Timestamp get lastLearningTimestamp => _lastLearningTimestamp;
   int get speedTestStrike => _speedTestStrike;
 
   int get dailyGoal => _dailyGoal;
+  bool get dailyGoalAchieved => _dailyGoalAchieved;
   List get dailyGoalsList => _dailyGoalsList;
-  List get dailyGoalHistory => _dailyGoalHistory;
-
+  List<dynamic> get dailyGoalHistory => _dailyGoalHistory;
+  List<bool> get dailyGoalStamps => _dailyGoalStamps;
 ///////////////////////////
 // challenges data
 ///////////////////////////
@@ -106,12 +116,17 @@ class UserModel extends Model {
   List get wordsIgnored => this._wordsIgnored;
   Map get wordsToLearn => this._wordsToLearn;
 
+  String get iconProcessPath => this._iconProcessPath;
+  int get processPoints => this._processPoints;
+
+  // seed test
   Map get wordsSpeedTest => this._wordsSpeedTest;
   int get counterSpeedTestStrike => this._counterSpeedTestStrike;
   int get revives => this._revives;
 
-  String get iconProcessPath => this._iconProcessPath;
-  int get processPoints => this._processPoints;
+  // daily goal and longest strike
+  int get dailyLearntWordsNumber => this._dailyLearntWordsNumber;
+
 ///////////////////////////
 // skills data of chosen course
 ///////////////////////////
@@ -158,6 +173,30 @@ class UserModel extends Model {
     notifyListeners();
   }
 
+  void setDailyGoalHistory({List<Timestamp> history}) async {
+    this._dailyGoalHistory = history;
+
+    await Firestore.instance
+        .collection("users")
+        .document(this._userId)
+        .updateData({'daily_goal_history': this._dailyGoalHistory});
+    notifyListeners();
+  }
+
+  set dailyGoalAchieved(bool isAchieved) {
+    this._dailyGoalAchieved = isAchieved;
+    notifyListeners();
+  }
+
+  void setDailyLearntWordsNumber({int number}) async {
+    this._dailyLearntWordsNumber = number;
+    await Firestore.instance
+        .collection("users")
+        .document(this._userId)
+        .updateData({'daily_learnt_words_number': number});
+    notifyListeners();
+  }
+
   void setPoints({int points}) async {
     this._points = points;
     await Firestore.instance.collection("users").document(this._userId).updateData({"points": points});
@@ -184,6 +223,15 @@ class UserModel extends Model {
     notifyListeners();
   }
 
+  void setLastLearningTimestamp({Timestamp timestamp}) async {
+    this._lastLearningTimestamp = timestamp;
+    await Firestore.instance
+        .collection("users")
+        .document(this._userId)
+        .updateData({"last_learning_timestamp": this._lastLearningTimestamp});
+
+    notifyListeners();
+  }
 ///////////////////////////
 // challenges data
 ///////////////////////////
@@ -371,10 +419,8 @@ class UserModel extends Model {
     this._wordsToLearn[wordKey]['good_answers_number'] += 1;
 
     if (this._wordsToLearn[wordKey]['good_answers_number'] >= 10) {
-      print(wordKey + " " + this._wordsToLearn[wordKey]['good_answers_number'].toString());
       // dodać date kiedy nast razem powtorzyc
-      this._wordsLearnt[wordKey] = "Haha";
-      this._wordsToLearn.remove(wordKey);
+      this._wordsLearnt[wordKey] = Timestamp.now();
     }
 
     this._courses[this._courseIndex]['words_learnt'] = this._wordsLearnt;
@@ -409,6 +455,8 @@ class UserModel extends Model {
       notifyListeners();
     }
   }
+
+  // speed test
 
   void setSpeedTestRevives({int revives = 3}) {
     this._revives = revives;
@@ -447,6 +495,73 @@ class UserModel extends Model {
     }
 
     notifyListeners();
+  }
+
+  // daily goal and the longest strike
+  void addPractisedWord({@required String type}) {
+    Timestamp learntWordsTimestamp = Timestamp.now();
+
+    DateTime lastLearningDateTime = this._lastLearningTimestamp.toDate();
+    DateTime learntWordsDateTime = learntWordsTimestamp.toDate();
+    // print("add practised words");
+    // print(lastLearningTimestamp.toDate());
+    // print(learntWordsDateTime);
+
+    if (lastLearningDateTime.day != learntWordsDateTime.day) {
+      this._dailyLearntWordsNumber = 0;
+    }
+
+    if (type == "repetition") {
+      setDailyLearntWordsNumber(number: this._dailyLearntWordsNumber + this._wordsToRepeat.length);
+    } else if (type == "session") {
+      setDailyLearntWordsNumber(number: this._dailyLearntWordsNumber + this._wordsToLearn.length);
+    }
+
+    print(this._dailyLearntWordsNumber);
+
+    setLastLearningTimestamp(timestamp: learntWordsTimestamp);
+    // print(this._dailyLearntWordsNumber);
+    // print("-------");
+    notifyListeners();
+  }
+
+  void checkLearningRecordAchieved() {
+    // print("Check record learning");
+    // print(this._longestStrike);
+    if (this._dailyLearntWordsNumber > this._longestStrike) {
+      // print(this._dailyLearntWordsNumber);
+      setLongestStrike(strike: this._dailyLearntWordsNumber);
+      notifyListeners();
+    }
+    // print(this._longestStrike);
+    // print("-------");
+  }
+
+  void setDailyGoalStamps() {
+    DateTime today = DateTime.now();
+    List<Timestamp> newDailyGoalHistory = [];
+    int maxSize = 6; // 0 - 6 indexing
+
+    this._dailyGoalHistory.forEach((timestamp) {
+      int differenceInDays = today.difference(timestamp.toDate()).inDays;
+      if (differenceInDays <= maxSize) {
+        this._dailyGoalStamps[maxSize - differenceInDays] = true;
+        newDailyGoalHistory.add(timestamp);
+      }
+    });
+
+    // sort descending
+    newDailyGoalHistory.sort();
+    this.setDailyGoalHistory(history: newDailyGoalHistory);
+  }
+
+  void checkDailyGoalAchieved() {
+    if (this._dailyLearntWordsNumber >= this._dailyGoal && !this._dailyGoalAchieved) {
+      Timestamp goal = Timestamp.now();
+      this.dailyGoalAchieved = true;
+      this.dailyGoalHistory.add(goal);
+      this.setDailyGoalStamps();
+    }
   }
 
 ///////////////////////////
@@ -511,15 +626,20 @@ class UserModel extends Model {
       this._username = data['username'];
       this._longestStrike = data['longest_strike'];
       this._speedTestStrike = data['speed_test_strike'];
+      this._lastLearningTimestamp = data['last_learning_timestamp'];
       this._points = data['points'];
 
       this._dailyGoal = data['daily_goal'];
       this._dailyGoalHistory = data['daily_goal_history'];
+      this._dailyLearntWordsNumber = data['daily_learnt_words_number'];
+      this._dailyGoalAchieved = false;
 
       this._userChallenges = data['challenges'];
       this._courses = data['courses'];
       this._challenge = {'challenge_id': data["challenge_id"]};
     }
+
+    this.setDailyGoalStamps();
 
     notifyListeners();
   }
@@ -536,9 +656,14 @@ class UserModel extends Model {
     this._points = 0;
     this._longestStrike = 0;
     this._speedTestStrike = 0;
+    // TODO: im not sure
+    this._lastLearningTimestamp = Timestamp.now();
+    this._dailyLearntWordsNumber = 0;
 
     this._dailyGoal = 10;
-    this._dailyGoalHistory = List<bool>.generate(7, (int index) => false);
+    this._dailyGoalHistory = [];
+    this._dailyGoalAchieved = false;
+    this._dailyGoalStamps = List.generate(7, (index) => false);
 
     this._challenge = {};
     this._courses = {};
@@ -548,6 +673,9 @@ class UserModel extends Model {
       'email': email,
       'longest_strike': 0,
       'speed_test_strike': 0,
+      // TODO: im not sure
+      'last_learning_timestamp': this._lastLearningTimestamp,
+      'daily_learnt_words_number': this._dailyLearntWordsNumber,
       'points': 0,
       'courses': {},
       'daily_goal': this._dailyGoal,
@@ -571,9 +699,12 @@ class UserModel extends Model {
     this._points = 0;
     this._longestStrike = 0;
     this._speedTestStrike = 0;
+    this._lastLearningTimestamp = null;
 
     this._dailyGoal = 10;
     this._dailyGoalHistory = [];
+    this._dailyGoalStamps = List.generate(7, (index) => false);
+    this._dailyGoalAchieved = false;
 
     this._challenge = {};
     this._userChallenges = {};
@@ -582,6 +713,13 @@ class UserModel extends Model {
     this._courseIndex = '';
     this._chosenCourse = {};
     this._chosenCourseWords = {};
+
+    this._processPoints = 0;
+    this._revives = 3;
+    this._counterSpeedTestStrike = 0;
+    this._dailyLearntWordsNumber = 0;
+    this._editedCourseIndex = "";
+    this._iconProcessPath = "";
 
     this._autoSkillset = false;
     this._skillsetUser = {'speaking': 0, 'listening': 0, 'writing': 0, 'reading': 0};

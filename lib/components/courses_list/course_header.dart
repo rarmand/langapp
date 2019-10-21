@@ -4,11 +4,11 @@ import 'package:langapp/components/courses_list/course_title.dart';
 import 'package:langapp/components/courses_list/course_type.dart';
 
 class CourseHeader extends StatelessWidget {
-  String title = '';
-  String type = '';
-  String language = '';
+  final String title;
+  final String type;
+  final String language;
 
-  CourseHeader({@required this.title, this.type, this.language});
+  CourseHeader({@required this.title, this.type = '', this.language = ''});
 
   @override
   Widget build(BuildContext context) {

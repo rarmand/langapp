@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:langapp/components/appbar_upper/appbar_upper.dart';
 import 'package:langapp/components/learning_process/learning_label.dart';
@@ -50,6 +51,7 @@ class _SessionPageControllerState extends State<SessionPageController> {
     ScopedModel.of<UserModel>(context).iconProcessPath = "assets/course/add.svg";
     ScopedModel.of<UserModel>(context).processPoints = 0;
     ScopedModel.of<UserModel>(context).setWordsToLearn(amount: this._numberOfWords);
+    print(ScopedModel.of<UserModel>(context).dailyLearntWordsNumber);
 
     // wybrany kurs (usermodel - chosenCourse)
     // na start lista wszystkich słów dla danego kursu (typ Map w UserModel - chosenCourseWords)
@@ -172,7 +174,7 @@ class _SessionPageControllerState extends State<SessionPageController> {
 
     // gdy nie ma już słów do nauki
     if (wordsToLearn.length == 0) {
-      this._finalTasks['final'] = [LearningFinalPage(noWordsToLearn: true)];
+      this._finalTasks['final'] = [LearningFinalPage(noWordsToLearn: true, type: "session")];
       return;
     }
 
@@ -243,7 +245,7 @@ class _SessionPageControllerState extends State<SessionPageController> {
     //   }
     // }
 
-    this._finalTasks['final'] = [LearningFinalPage()];
+    this._finalTasks['final'] = [LearningFinalPage(type: "session")];
   }
 
   void _setPages() {
