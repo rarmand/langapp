@@ -31,6 +31,10 @@ class _CourseBoxState extends State<CourseBox> {
   void initState() {
     super.initState();
     this._getData();
+
+    if (!this.widget.isNewCourse) {
+      ScopedModel.of<UserModel>(context).setCourseWords(index: this.widget.index);
+    }
   }
 
   void _getData() async {
@@ -70,7 +74,7 @@ class _CourseBoxState extends State<CourseBox> {
       ));
     } else {
       ScopedModel.of<UserModel>(context).setSkillset(index: this.widget.index);
-      ScopedModel.of<UserModel>(context).setLearningWords(index: this.widget.index);
+      // ScopedModel.of<UserModel>(context).setCourseWords(index: this.widget.index);
       Navigator.of(context).push(PageRouteBuilder(
         opaque: false,
         pageBuilder: (BuildContext context, _, __) => LearningChoiceModal(),

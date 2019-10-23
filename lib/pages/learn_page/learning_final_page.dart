@@ -39,11 +39,12 @@ class _LearningFinalPageState extends State<LearningFinalPage> {
     ScopedModel.of<UserModel>(context).pushPointsToDb(this._points);
 
     if (this.widget.type == "session" || this.widget.type == "repetition") {
+      print(this.widget.type);
+
       ScopedModel.of<UserModel>(context).addPractisedWord(type: this.widget.type);
       ScopedModel.of<UserModel>(context).checkLearningRecordAchieved();
 
-      ScopedModel.of<UserModel>(context).checkDailyGoalAchieved();
-      if (ScopedModel.of<UserModel>(context).dailyGoalAchieved) {
+      if (ScopedModel.of<UserModel>(context).checkDailyGoalAchieved()) {
         Timer.run(() {
           showDialog(
             context: context,

@@ -23,9 +23,15 @@ class RepetitionPageController extends StatefulWidget {
 class _RepetitionPageControllerState extends State<RepetitionPageController> {
   final int _numberOfWords = 4;
   final int _numberOfTasks = 10;
+  final int _pointsForTask = 15;
 
+  // list to collect initialized objects of pages
   Map<String, List<Widget>> _finalTasks = {};
+  // list of pages
+  List _pages = [];
+  // page controller needed for BUILD function to create a VIEW
   PageController pageController = PageController();
+  // index for BUILD
   int _selectedIndex = 0;
 
   @override
@@ -35,8 +41,10 @@ class _RepetitionPageControllerState extends State<RepetitionPageController> {
     ScopedModel.of<UserModel>(context).iconProcessPath = "assets/course/review_vocab.svg";
     ScopedModel.of<UserModel>(context).processPoints = 0;
     ScopedModel.of<UserModel>(context).setWordsToLearn(amount: this._numberOfWords);
+    print("Repetition init state " + ScopedModel.of<UserModel>(context).dailyLearntWordsNumber.toString());
 
     this._generateTasks();
+    this._setPages();
   }
 
   Map _getSkillset() {
@@ -128,7 +136,7 @@ class _RepetitionPageControllerState extends State<RepetitionPageController> {
 
   void _nextPage(bool successed) async {
     if (successed) {
-      ScopedModel.of<UserModel>(context).addToProcessPoints(50);
+      ScopedModel.of<UserModel>(context).addToProcessPoints(this._pointsForTask);
     } else {
       // nie wiem co, nie daj punktu
       // wyswietlac strone NewWordPage
@@ -140,11 +148,11 @@ class _RepetitionPageControllerState extends State<RepetitionPageController> {
     //////////////////////////////////////////////////////////////////////////////
 
     Map skillset = this._getSkillset();
-    // skad pobrac dane
-    Map wordsToLearn = ScopedModel.of<UserModel>(context).wordsToLearn;
+    // words to repeat dla danego kursu
+    Map words = ScopedModel.of<UserModel>(context).wordsToRepeat;
 
     // gdy nie ma już słów do nauki
-    if (wordsToLearn.length == 0) {
+    if (words.length == 0) {
       this._finalTasks['final'] = [LearningFinalPage(noWordsToLearn: true, type: "repetition")];
       return;
     }
@@ -152,7 +160,7 @@ class _RepetitionPageControllerState extends State<RepetitionPageController> {
     //////////////////////////////////////////////////////////////////////////////
     // dobieranie ilości zadań zależnie od parametrów skilli
 
-    List keys = wordsToLearn.keys.toList();
+    List keys = words.keys.toList();
 
     skillset.forEach((skill, value) {
       int x = (value / this._numberOfTasks).round();
@@ -165,14 +173,14 @@ class _RepetitionPageControllerState extends State<RepetitionPageController> {
           this._finalTasks[key].add(this._getLearningTask(
                 skill,
                 key,
-                wordsToLearn[key],
+                words[key],
               ));
         } else {
           this._finalTasks[key] = [
             this._getLearningTask(
               skill,
               key,
-              wordsToLearn[key],
+              words[key],
             )
           ];
         }
@@ -180,6 +188,17 @@ class _RepetitionPageControllerState extends State<RepetitionPageController> {
     });
 
     this._finalTasks['final'] = [LearningFinalPage(type: "repetition")];
+  }
+
+  void _setPages() {
+    Map words = ScopedModel.of<UserModel>(context).wordsToRepeat;
+
+    this._finalTasks.forEach((key, value) {
+      if (words.containsKey(key)) {
+        this._pages.addAll(value);
+      }
+    });
+    this._pages.add(this._finalTasks['final'][0]);
   }
 
   // app bar actions
@@ -200,16 +219,6 @@ class _RepetitionPageControllerState extends State<RepetitionPageController> {
     String courseTitle = ScopedModel.of<UserModel>(context, rebuildOnChange: true).chosenCourse['title'];
     if (courseTitle == null) courseTitle = "Course Title";
 
-    Map wordsToLearn = ScopedModel.of<UserModel>(context, rebuildOnChange: true).wordsToLearn;
-
-    final List pages = [];
-    this._finalTasks.forEach((key, value) {
-      if (wordsToLearn.containsKey(key)) {
-        pages.addAll(value);
-      }
-    });
-    pages.add(this._finalTasks['final'][0]);
-
     return Scaffold(
       appBar: AppBarUpper(
         title: courseTitle,
@@ -220,13 +229,13 @@ class _RepetitionPageControllerState extends State<RepetitionPageController> {
       body: Container(
         child: Column(
           children: <Widget>[
-            LearningLabel(point: this._selectedIndex, points: pages.length - 1),
+            LearningLabel(point: this._selectedIndex, points: this._pages.length - 1),
             Expanded(
               child: PageView.builder(
-                itemCount: pages.length,
+                itemCount: this._pages.length,
                 controller: pageController,
                 onPageChanged: (index) => setState(() => this._selectedIndex = index),
-                itemBuilder: (context, index) => pages[index],
+                itemBuilder: (context, index) => this._pages[index],
                 physics: const NeverScrollableScrollPhysics(),
               ),
             ),

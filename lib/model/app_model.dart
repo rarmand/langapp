@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -17,12 +19,11 @@ class UserModel extends Model {
   String _language = 'french';
 
   int _points = 0;
-  Timestamp _lastLearningTimestamp = null;
+  Timestamp _lastLearningTimestamp = Timestamp(0, 0);
   int _longestStrike;
   int _speedTestStrike;
 
   int _dailyGoal = 5;
-  bool _dailyGoalAchieved = false;
   List<int> _dailyGoalsList = [5, 10, 15, 20];
   List _dailyGoalHistory = [];
   List<bool> _dailyGoalStamps = List.generate(7, (index) => false);
@@ -42,7 +43,8 @@ class UserModel extends Model {
   Map _courses = {};
   Map _chosenCourse = {};
   Map _chosenCourseWords = {};
-  Map _wordsToLearn = {};
+  Map _wordsToLearn = {}; // map of maps
+
   List _wordsIgnored = [];
   Map _wordsLearnt = {};
   Map _wordsToRepeat = {};
@@ -86,7 +88,6 @@ class UserModel extends Model {
   int get speedTestStrike => _speedTestStrike;
 
   int get dailyGoal => _dailyGoal;
-  bool get dailyGoalAchieved => _dailyGoalAchieved;
   List get dailyGoalsList => _dailyGoalsList;
   List<dynamic> get dailyGoalHistory => _dailyGoalHistory;
   List<bool> get dailyGoalStamps => _dailyGoalStamps;
@@ -184,7 +185,6 @@ class UserModel extends Model {
   }
 
   set dailyGoalAchieved(bool isAchieved) {
-    this._dailyGoalAchieved = isAchieved;
     notifyListeners();
   }
 
@@ -270,10 +270,10 @@ class UserModel extends Model {
   void setChosenCourse({String index = ''}) async {
     if (index.isEmpty) index = this._courseIndex;
 
-    this._wordsToLearn = {};
-    this._wordsIgnored = [];
-    this._wordsLearnt = {};
-    this._wordsToRepeat = {};
+    // this._wordsToLearn = {};
+    // this._wordsIgnored = [];
+    // this._wordsLearnt = {};
+    // this._wordsToRepeat = {};
 
     DocumentSnapshot dsCourse = await Firestore.instance.collection('courses').document(index).get();
 
@@ -352,8 +352,11 @@ class UserModel extends Model {
 // set learning process
 ///////////////////////////
 
-  void setLearningWords({String index = ''}) async {
-    if (index.isEmpty) index = this._courseIndex;
+  void setCourseWords({@required String index}) async {
+    this._wordsToLearn = {};
+    this._wordsIgnored = [];
+    this._wordsLearnt = {};
+    this._wordsToRepeat = {};
 
     DocumentSnapshot ds = await Firestore.instance.collection("users").document(userId).get();
 
@@ -362,6 +365,23 @@ class UserModel extends Model {
       this._wordsIgnored = [...ds.data['courses'][index]['words_ignored']];
       this._wordsToLearn = ds.data['courses'][index]['words_to_learn'];
       this._wordsToRepeat = ds.data['courses'][index]['words_to_repeat'];
+
+      // spr czy slowka w wordsToLearn sa juz nauczone
+      // czy zrobić to w coursebox
+
+      this._wordsLearnt.forEach((wordkey, worddata) {
+        if (this._wordsToLearn.containsKey(wordkey)) {
+          this._wordsToLearn.remove(wordkey);
+        }
+        if (DateTime.now().isAfter(worddata['timestamp'].toDate())) {
+          this._wordsToRepeat[wordkey] = worddata;
+        }
+      });
+
+      this._courses[index]['words_to_repeat'] = this._wordsToRepeat;
+      this._courses[index]['words_to_learn'] = this._wordsToLearn;
+
+      await Firestore.instance.collection("users").document(userId).updateData({"courses": this._courses});
     }
 
     notifyListeners();
@@ -374,6 +394,8 @@ class UserModel extends Model {
 
     this._courses[this._courseIndex]['words_ignored'] = this._wordsIgnored;
     this._courses[this._courseIndex]['words_to_learn'] = this._wordsToLearn;
+    print(this._wordsToLearn);
+
     await Firestore.instance.collection("users").document(userId).updateData({"courses": this._courses});
   }
 
@@ -387,6 +409,7 @@ class UserModel extends Model {
 
     List keys = this._chosenCourseWords.keys.toList();
 
+    // wyszukiwanie pozostalych niepoznanych jeszcze slow
     List remainingWordsToLearnKeys = keys.where((key) {
       return !this._wordsIgnored.contains(key) &&
           !this._wordsToRepeat.containsKey(key) &&
@@ -396,6 +419,7 @@ class UserModel extends Model {
 
     remainingWordsToLearnKeys.shuffle();
 
+    // wypelnianie listy jesli jeszcze sa jakies slowka do nauczenia
     if (remainingWordsToLearnKeys.length > 0) {
       for (int i = 0; i < remainingWordsToLearnKeys.length; i++) {
         final key = remainingWordsToLearnKeys[i];
@@ -418,9 +442,14 @@ class UserModel extends Model {
   void addGoodAnswer({@required String wordKey}) async {
     this._wordsToLearn[wordKey]['good_answers_number'] += 1;
 
+    print("Add good answers " + wordKey.toString());
     if (this._wordsToLearn[wordKey]['good_answers_number'] >= 10) {
-      // dodać date kiedy nast razem powtorzyc
-      this._wordsLearnt[wordKey] = Timestamp.now();
+      int level = 0;
+      // data nast powtórzenia
+      print(wordKey.toString() + " moved to wordsLearnt");
+      this._wordsLearnt[wordKey] = {};
+      this._wordsLearnt[wordKey]['timestamp'] = Timestamp.fromDate(DateTime.now().add(Duration(days: pow(2, level))));
+      this._wordsLearnt[wordKey]['level'] = level;
     }
 
     this._courses[this._courseIndex]['words_learnt'] = this._wordsLearnt;
@@ -517,7 +546,7 @@ class UserModel extends Model {
       setDailyLearntWordsNumber(number: this._dailyLearntWordsNumber + this._wordsToLearn.length);
     }
 
-    print(this._dailyLearntWordsNumber);
+    print("Add practised words " + this._dailyLearntWordsNumber.toString());
 
     setLastLearningTimestamp(timestamp: learntWordsTimestamp);
     // print(this._dailyLearntWordsNumber);
@@ -555,13 +584,17 @@ class UserModel extends Model {
     this.setDailyGoalHistory(history: newDailyGoalHistory);
   }
 
-  void checkDailyGoalAchieved() {
-    if (this._dailyLearntWordsNumber >= this._dailyGoal && !this._dailyGoalAchieved) {
+  bool checkDailyGoalAchieved() {
+    bool dailyGoalAchieved =
+        DateTime.now().difference(this._dailyGoalHistory[this._dailyGoalHistory.length - 1].toDate()).inDays == 0;
+
+    final bool achievedNow = this._dailyLearntWordsNumber >= this._dailyGoal && !dailyGoalAchieved;
+    if (achievedNow) {
       Timestamp goal = Timestamp.now();
-      this.dailyGoalAchieved = true;
       this.dailyGoalHistory.add(goal);
       this.setDailyGoalStamps();
     }
+    return achievedNow;
   }
 
 ///////////////////////////
@@ -632,7 +665,6 @@ class UserModel extends Model {
       this._dailyGoal = data['daily_goal'];
       this._dailyGoalHistory = data['daily_goal_history'];
       this._dailyLearntWordsNumber = data['daily_learnt_words_number'];
-      this._dailyGoalAchieved = false;
 
       this._userChallenges = data['challenges'];
       this._courses = data['courses'];
@@ -640,7 +672,7 @@ class UserModel extends Model {
     }
 
     this.setDailyGoalStamps();
-
+    print("Set user data " + this._dailyLearntWordsNumber.toString());
     notifyListeners();
   }
 
@@ -662,7 +694,6 @@ class UserModel extends Model {
 
     this._dailyGoal = 10;
     this._dailyGoalHistory = [];
-    this._dailyGoalAchieved = false;
     this._dailyGoalStamps = List.generate(7, (index) => false);
 
     this._challenge = {};
@@ -704,7 +735,6 @@ class UserModel extends Model {
     this._dailyGoal = 10;
     this._dailyGoalHistory = [];
     this._dailyGoalStamps = List.generate(7, (index) => false);
-    this._dailyGoalAchieved = false;
 
     this._challenge = {};
     this._userChallenges = {};

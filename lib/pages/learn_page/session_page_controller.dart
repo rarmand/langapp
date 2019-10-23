@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:langapp/components/appbar_upper/appbar_upper.dart';
 import 'package:langapp/components/learning_process/learning_label.dart';
@@ -30,13 +29,11 @@ class _SessionPageControllerState extends State<SessionPageController> {
   final int _numberOfTasks = 10;
   final int _pointsForTask = 15;
 
-  int _strike = 0;
-
   // list to collect initialized objects of pages
   Map<String, List<Widget>> _finalTasks = {};
 
   // list of pages
-  List _pages = [];
+  // List _pages = [];
 
   // page controller needed for BUILD function to create a VIEW
   PageController pageController = PageController();
@@ -51,7 +48,7 @@ class _SessionPageControllerState extends State<SessionPageController> {
     ScopedModel.of<UserModel>(context).iconProcessPath = "assets/course/add.svg";
     ScopedModel.of<UserModel>(context).processPoints = 0;
     ScopedModel.of<UserModel>(context).setWordsToLearn(amount: this._numberOfWords);
-    print(ScopedModel.of<UserModel>(context).dailyLearntWordsNumber);
+    print("Session init state " + ScopedModel.of<UserModel>(context).dailyLearntWordsNumber.toString());
 
     // wybrany kurs (usermodel - chosenCourse)
     // na start lista wszystkich słów dla danego kursu (typ Map w UserModel - chosenCourseWords)
@@ -63,7 +60,7 @@ class _SessionPageControllerState extends State<SessionPageController> {
 
     // generated list of tasks for one session
     this._generateTasks();
-    this._setPages();
+    // this._setPages();
   }
 
   Map _getSkillset() {
@@ -170,10 +167,10 @@ class _SessionPageControllerState extends State<SessionPageController> {
     //////////////////////////////////////////////////////////////////////////////
 
     Map skillset = this._getSkillset();
-    Map wordsToLearn = ScopedModel.of<UserModel>(context).wordsToLearn;
+    Map words = ScopedModel.of<UserModel>(context).wordsToLearn;
 
     // gdy nie ma już słów do nauki
-    if (wordsToLearn.length == 0) {
+    if (words.length == 0) {
       this._finalTasks['final'] = [LearningFinalPage(noWordsToLearn: true, type: "session")];
       return;
     }
@@ -182,7 +179,7 @@ class _SessionPageControllerState extends State<SessionPageController> {
     // pobieranie slow do nauki z modelu kursu
     // wstawianie do taskow wyswietlania nowych slowek
 
-    wordsToLearn.forEach((key, word) {
+    words.forEach((key, word) {
       this._finalTasks[key] = [
         NewWordPage(
           wordKey: key,
@@ -195,7 +192,7 @@ class _SessionPageControllerState extends State<SessionPageController> {
     //////////////////////////////////////////////////////////////////////////////
     // dobieranie ilości zadań zależnie od parametrów skilli
 
-    List keys = wordsToLearn.keys.toList();
+    List keys = words.keys.toList();
 
     skillset.forEach((skill, value) {
       int x = (value / this._numberOfTasks).round();
@@ -208,14 +205,14 @@ class _SessionPageControllerState extends State<SessionPageController> {
           this._finalTasks[key].add(this._getLearningTask(
                 skill,
                 key,
-                wordsToLearn[key],
+                words[key],
               ));
         } else {
           this._finalTasks[key] = [
             this._getLearningTask(
               skill,
               key,
-              wordsToLearn[key],
+              words[key],
             )
           ];
         }
@@ -248,15 +245,17 @@ class _SessionPageControllerState extends State<SessionPageController> {
     this._finalTasks['final'] = [LearningFinalPage(type: "session")];
   }
 
-  void _setPages() {
-    Map wordsToLearn = ScopedModel.of<UserModel>(context).wordsToLearn;
-
+  List _setPages() {
+    Map words = ScopedModel.of<UserModel>(context, rebuildOnChange: true).wordsToLearn;
+    final List pages = [];
     this._finalTasks.forEach((key, value) {
-      if (wordsToLearn.containsKey(key)) {
-        this._pages.addAll(value);
+      if (words.containsKey(key)) {
+        pages.addAll(value);
       }
     });
-    this._pages.add(this._finalTasks['final'][0]);
+    pages.add(this._finalTasks['final'][0]);
+
+    return pages;
   }
 
   // app bar actions
@@ -278,6 +277,8 @@ class _SessionPageControllerState extends State<SessionPageController> {
     String courseTitle = ScopedModel.of<UserModel>(context, rebuildOnChange: true).chosenCourse['title'];
     if (courseTitle == null) courseTitle = "Course Title";
 
+    final List pages = this._setPages();
+
     return Scaffold(
       appBar: AppBarUpper(
         title: courseTitle,
@@ -288,14 +289,14 @@ class _SessionPageControllerState extends State<SessionPageController> {
       body: Container(
         child: Column(
           children: <Widget>[
-            LearningLabel(point: this._selectedIndex, points: this._pages.length - 1),
+            LearningLabel(point: this._selectedIndex, points: pages.length - 1),
             Expanded(
               child: PageView.builder(
-                itemCount: this._pages.length,
+                itemCount: pages.length,
                 controller: pageController,
                 onPageChanged: (index) => setState(() => this._selectedIndex = index),
-                itemBuilder: (context, index) => this._pages[index],
-                // physics: const NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) => pages[index],
+                physics: const NeverScrollableScrollPhysics(),
               ),
             ),
           ],
