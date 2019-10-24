@@ -11,7 +11,7 @@ import 'package:scoped_model/scoped_model.dart';
 class TextTaskChooseSound extends StatefulWidget {
   final String wordKey;
   final Map word;
-  final Function(bool) onNext;
+  final Function(bool, String) onNext;
 
   TextTaskChooseSound({@required this.wordKey, @required this.word, @required this.onNext});
 
@@ -46,10 +46,9 @@ class _TextTaskChooseSoundState extends State<TextTaskChooseSound> {
 
   void _next() {
     if (this._chosenAudioUrlAnswer == this.widget.word['audio_url']) {
-      ScopedModel.of<UserModel>(context).addGoodAnswer(wordKey: this.widget.wordKey);
-      this.widget.onNext(true);
+      this.widget.onNext(true, this.widget.wordKey);
     } else {
-      this.widget.onNext(false);
+      this.widget.onNext(false, this.widget.wordKey);
     }
   }
 

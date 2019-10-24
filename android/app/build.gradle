@@ -61,6 +61,9 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     // add SDKs for desired Firebase products
     // https://firebase.google.com/docs/android/setup#available-libraries
+
+    // fix image_picker
+    // implementation 'com.android.support:multidex:1.0.3'
 }
 
 apply plugin: 'com.google.gms.google-services'  // Google Play services Gradle plugin

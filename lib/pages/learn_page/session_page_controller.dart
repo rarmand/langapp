@@ -153,8 +153,9 @@ class _SessionPageControllerState extends State<SessionPageController> {
     }
   }
 
-  void _nextPage(bool successed) async {
+  void _nextPage(bool successed, String wordKey) async {
     if (successed) {
+      ScopedModel.of<UserModel>(context).addGoodAnswerSessionProcess(wordKey: wordKey);
       ScopedModel.of<UserModel>(context).addToProcessPoints(this._pointsForTask);
     } else {
       // nie wiem co, nie daj punktu

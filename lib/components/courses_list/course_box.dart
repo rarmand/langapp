@@ -33,7 +33,7 @@ class _CourseBoxState extends State<CourseBox> {
     this._getData();
 
     if (!this.widget.isNewCourse) {
-      ScopedModel.of<UserModel>(context).setCourseWords(index: this.widget.index);
+      // ScopedModel.of<UserModel>(context).setCourseWords(index: this.widget.index);
     }
   }
 
@@ -74,7 +74,7 @@ class _CourseBoxState extends State<CourseBox> {
       ));
     } else {
       ScopedModel.of<UserModel>(context).setSkillset(index: this.widget.index);
-      // ScopedModel.of<UserModel>(context).setCourseWords(index: this.widget.index);
+      ScopedModel.of<UserModel>(context).setCourseWords(index: this.widget.index);
       Navigator.of(context).push(PageRouteBuilder(
         opaque: false,
         pageBuilder: (BuildContext context, _, __) => LearningChoiceModal(),

@@ -6,15 +6,13 @@ import 'package:langapp/components/button_outlined/button_letter.dart';
 import 'package:langapp/components/input_field/input_one_letter_field.dart';
 import 'package:langapp/components/learning_process/points_label.dart';
 import 'package:langapp/components/learning_process/translation_word.dart';
-import 'package:langapp/model/app_model.dart';
 import 'package:langapp/styles/colors.dart';
-import 'package:scoped_model/scoped_model.dart';
 
 class TextTaskAssembleWord extends StatefulWidget {
   // TODO: do naprawy ogólne działanie i sens zadania
   final String wordKey;
   final Map word;
-  final Function(bool) onNext;
+  final Function(bool, String) onNext;
 
   TextTaskAssembleWord({@required this.wordKey, @required this.word, @required this.onNext});
 
@@ -39,10 +37,6 @@ class _TextTaskAssembleWordState extends State<TextTaskAssembleWord> {
     this._clickedLetters = List.filled(text.length, " ");
 
     this._letters = this._getRandomLetters(number: _buttonsNumber);
-
-    // print(this._expectedLetters.length);
-    // print(this._clickedLetters.length);
-    // print(this._letters);
   }
 
   void _next() {
@@ -52,10 +46,9 @@ class _TextTaskAssembleWordState extends State<TextTaskAssembleWord> {
     }
 
     if (!goodAnswer) {
-      this.widget.onNext(false);
+      this.widget.onNext(false, this.widget.wordKey);
     } else {
-      ScopedModel.of<UserModel>(context).addGoodAnswer(wordKey: this.widget.wordKey);
-      this.widget.onNext(true);
+      this.widget.onNext(true, this.widget.wordKey);
     }
   }
 

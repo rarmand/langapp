@@ -3,14 +3,12 @@ import 'package:flutter_svg/svg.dart';
 import 'package:langapp/components/button_filled/button_filled_big.dart';
 import 'package:langapp/components/learning_process/learning_word.dart';
 import 'package:langapp/components/learning_process/points_label.dart';
-import 'package:langapp/model/app_model.dart';
 import 'package:langapp/styles/colors.dart';
-import 'package:scoped_model/scoped_model.dart';
 
 class TextTaskSpeakWord extends StatefulWidget {
   final String wordKey;
   final Map word;
-  final Function(bool) onNext;
+  final Function(bool, String) onNext;
 
   TextTaskSpeakWord({@required this.wordKey, @required this.word, @required this.onNext});
 
@@ -27,10 +25,9 @@ class _TextTaskSpeakWordState extends State<TextTaskSpeakWord> {
 
   void _next(bool goodAnswer) {
     if (!goodAnswer) {
-      this.widget.onNext(false);
+      this.widget.onNext(false, this.widget.wordKey);
     } else {
-      ScopedModel.of<UserModel>(context).addGoodAnswer(wordKey: this.widget.wordKey);
-      this.widget.onNext(true);
+      this.widget.onNext(true, this.widget.wordKey);
     }
   }
 

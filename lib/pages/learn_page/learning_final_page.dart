@@ -28,20 +28,18 @@ class _LearningFinalPageState extends State<LearningFinalPage> {
       return;
     }
 
-    if (this.widget.type == "test") {
-      bool isRecordAchieved = ScopedModel.of<UserModel>(context).checkSpeedTestStrike();
-      if (isRecordAchieved) {
-        // _showAlertRecordAchieved();
-      }
-    }
-
     this._points = ScopedModel.of<UserModel>(context).processPoints;
     ScopedModel.of<UserModel>(context).pushPointsToDb(this._points);
 
     if (this.widget.type == "session" || this.widget.type == "repetition") {
       print(this.widget.type);
 
-      ScopedModel.of<UserModel>(context).addPractisedWord(type: this.widget.type);
+      if (this.widget.type == "session") {
+        ScopedModel.of<UserModel>(context).addPractisedWords();
+      } else if (this.widget.type == "repetition") {
+        ScopedModel.of<UserModel>(context).addRepeatedWords();
+      }
+
       ScopedModel.of<UserModel>(context).checkLearningRecordAchieved();
 
       if (ScopedModel.of<UserModel>(context).checkDailyGoalAchieved()) {

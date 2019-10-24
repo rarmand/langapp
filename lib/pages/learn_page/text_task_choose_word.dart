@@ -11,7 +11,7 @@ import 'package:scoped_model/scoped_model.dart';
 class TextTaskChooseWord extends StatefulWidget {
   final String wordKey;
   final Map word;
-  final Function(bool) onNext;
+  final Function(bool, String) onNext;
 
   TextTaskChooseWord({@required this.wordKey, @required this.word, @required this.onNext});
 
@@ -46,10 +46,9 @@ class _TextTaskChooseWordState extends State<TextTaskChooseWord> {
 
   void _next(String chosenAnswer) {
     if (this.widget.word['translation'] == chosenAnswer) {
-      ScopedModel.of<UserModel>(context).addGoodAnswer(wordKey: this.widget.wordKey);
-      this.widget.onNext(true);
+      this.widget.onNext(true, this.widget.wordKey);
     } else {
-      this.widget.onNext(false);
+      this.widget.onNext(false, this.widget.wordKey);
     }
   }
 

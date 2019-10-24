@@ -48,6 +48,7 @@ class UserModel extends Model {
   List _wordsIgnored = [];
   Map _wordsLearnt = {};
   Map _wordsToRepeat = {};
+  Map _wordsToRepeatProcess = {};
 
   // learning process
   String _iconProcessPath = '';
@@ -114,6 +115,7 @@ class UserModel extends Model {
 
   Map get wordsLearnt => this._wordsLearnt;
   Map get wordsToRepeat => this._wordsToRepeat;
+  Map get wordsToRepeatProcess => this._wordsToRepeatProcess;
   List get wordsIgnored => this._wordsIgnored;
   Map get wordsToLearn => this._wordsToLearn;
 
@@ -338,6 +340,7 @@ class UserModel extends Model {
       this._wordsIgnored = [];
       this._wordsLearnt = {};
       this._wordsToRepeat = {};
+      this._wordsToRepeatProcess = {};
 
       this._skillsetUser = {'speaking': 0, 'listening': 0, 'writing': 0, 'reading': 0};
       this._skillsetDiagnosed = {'speaking': 25, 'listening': 25, 'writing': 25, 'reading': 25};
@@ -352,11 +355,42 @@ class UserModel extends Model {
 // set learning process
 ///////////////////////////
 
+// points and learning details
+
+  set iconProcessPath(String iconPath) {
+    this._iconProcessPath = iconPath;
+    notifyListeners();
+  }
+
+  set processPoints(int points) {
+    this._processPoints = points;
+    notifyListeners();
+  }
+
+  void addToProcessPoints(int points) {
+    this._processPoints += points;
+    notifyListeners();
+  }
+
+  void pushPointsToDb(int points) async {
+    if (points > 0) {
+      this._points += points;
+      await Firestore.instance.collection("users").document(userId).updateData({"points": this._points});
+      this._processPoints = 0;
+      this._counterSpeedTestStrike = 0;
+
+      notifyListeners();
+    }
+  }
+
+  // words to learn setup
+
   void setCourseWords({@required String index}) async {
     this._wordsToLearn = {};
     this._wordsIgnored = [];
     this._wordsLearnt = {};
     this._wordsToRepeat = {};
+    this._wordsToRepeatProcess = {};
 
     DocumentSnapshot ds = await Firestore.instance.collection("users").document(userId).get();
 
@@ -399,6 +433,28 @@ class UserModel extends Model {
     await Firestore.instance.collection("users").document(userId).updateData({"courses": this._courses});
   }
 
+////////////////////////////////////////////////////////////////////////////
+
+  void setWordsToRepeat({int amount = 4}) {
+    Map chosenWords = {};
+    int size = (this._wordsToRepeat.length >= amount ? amount : this._wordsToRepeat.length);
+    List keys = this._wordsToRepeat.keys.toList();
+    keys.shuffle();
+
+    for (int i = 0; i < size; i++) {
+      chosenWords[keys[i]] = this._chosenCourseWords[keys[i]];
+      chosenWords[keys[i]]['good_answers_number'] = 0;
+      chosenWords[keys[i]]['views'] = 0;
+
+      Map values = this._wordsToRepeat[keys[i]];
+      values.forEach((key, value) {
+        chosenWords[keys[i]][key] = value;
+      });
+    }
+
+    this._wordsToRepeatProcess = chosenWords;
+  }
+
   void setWordsToLearn({int amount = 4}) async {
     this._wordsToLearn = this._courses[this._courseIndex]['words_to_learn'];
     var wordsToAdd = amount - this._wordsToLearn.length;
@@ -439,7 +495,9 @@ class UserModel extends Model {
     await Firestore.instance.collection("users").document(userId).updateData({"courses": this._courses});
   }
 
-  void addGoodAnswer({@required String wordKey}) async {
+////////////////////////////////////////////////////////////////////////////
+
+  void addGoodAnswerSessionProcess({@required String wordKey}) async {
     this._wordsToLearn[wordKey]['good_answers_number'] += 1;
 
     print("Add good answers " + wordKey.toString());
@@ -459,75 +517,90 @@ class UserModel extends Model {
     await Firestore.instance.collection("users").document(userId).updateData({"courses": this._courses});
   }
 
-  set iconProcessPath(String iconPath) {
-    this._iconProcessPath = iconPath;
-    notifyListeners();
-  }
+  void addAnswerRepetitionProcess({@required bool successed, @required String wordKey}) {
+    // _wordsToRepeatProcess
+    this._wordsToRepeatProcess[wordKey]['views'] += 1;
 
-  set processPoints(int points) {
-    this._processPoints = points;
-    notifyListeners();
-  }
-
-  void addToProcessPoints(int points) {
-    this._processPoints += points;
-    notifyListeners();
-  }
-
-  void pushPointsToDb(int points) async {
-    if (points > 0) {
-      this._points += points;
-      await Firestore.instance.collection("users").document(userId).updateData({"points": this._points});
-      this._processPoints = 0;
-      this._counterSpeedTestStrike = 0;
-
-      notifyListeners();
+    if (successed) {
+      this._wordsToRepeatProcess[wordKey]['good_answers_number'] += 1;
+    } else {
+      this._wordsToRepeatProcess[wordKey]['good_answers_number'] -= 1;
     }
-  }
-
-  // speed test
-
-  void setSpeedTestRevives({int revives = 3}) {
-    this._revives = revives;
     notifyListeners();
   }
 
-  set counterSpeedTestStrike(int strike) {
-    this._counterSpeedTestStrike = strike;
-    notifyListeners();
-  }
-
-  bool checkSpeedTestStrike() {
-    if (this._counterSpeedTestStrike > this._speedTestStrike) {
-      this.setSpeedTestStrike(strike: this._counterSpeedTestStrike);
-      notifyListeners();
-      return true;
-    }
-    return false;
-  }
-
-  void setWordsForSpeedTest() {
-    if (this._wordsLearnt.length > 0) {
-      this.wordsLearnt.forEach((wordKey, date) {
-        this._wordsSpeedTest[wordKey] = this._chosenCourseWords[wordKey];
-      });
-    }
-    if (this._wordsToRepeat.length > 0) {
-      this._wordsToRepeat.forEach((wordKey, date) {
-        this._wordsSpeedTest[wordKey] = this._chosenCourseWords[wordKey];
-      });
-    }
-    if (this._wordsToLearn.length > 0) {
-      this._wordsToLearn.forEach((wordKey, word) {
-        this._wordsSpeedTest[wordKey] = this._chosenCourseWords[wordKey];
-      });
-    }
-
-    notifyListeners();
-  }
+  ////////////////////////////////////////////////////////////////////////////
 
   // daily goal and the longest strike
-  void addPractisedWord({@required String type}) {
+  void addRepeatedWords() async {
+    DateTime lastLearningDateTime = this._lastLearningTimestamp.toDate();
+    DateTime finishedRepetitionDateTime = DateTime.now();
+    Map practisedWords = {};
+    int level = 0;
+
+    if (lastLearningDateTime.day != finishedRepetitionDateTime.day) {
+      this._dailyLearntWordsNumber = 0;
+    }
+
+    print("Add repeated words to database");
+    print(this._wordsToRepeatProcess.keys);
+
+    this._wordsToRepeatProcess.forEach((key, data) {
+      // jesli wgl slowo bylo widziane w procesie powtorki
+      if (data['views'] >= 2) {
+        // jesli odp prawie bezbledne, to level+1
+        if (data['good_answers_number'] / data['views'] >= 0.75) {
+          //print("Very good " + key + " " + (data['good_answers_number'] / data['views']).toString());
+          level = data['level'] + 1;
+          practisedWords[key] = {
+            'timestamp': Timestamp.fromDate(finishedRepetitionDateTime.add(Duration(days: pow(2, level)))),
+            'level': level,
+          };
+        }
+        // jesli odp z wieksza iloscia bledow to level == level
+        else if (data['good_answers_number'] / data['views'] >= 0.5) {
+          //print("Only good " + key + " " + (data['good_answers_number'] / data['views']).toString());
+          level = data['level'];
+          practisedWords[key] = {
+            'timestamp': Timestamp.fromDate(finishedRepetitionDateTime.add(Duration(days: pow(2, level)))),
+            'level': level,
+          };
+        }
+        // else nauka od poczatku = level: 0
+        else {
+          //print("Weak " + key + " " + (data['good_answers_number'] / data['views']).toString());
+          level = 0;
+          practisedWords[key] = {
+            'timestamp': Timestamp.fromDate(finishedRepetitionDateTime.add(Duration(days: pow(2, level)))),
+            'level': level,
+          };
+        }
+      }
+    });
+
+    print(practisedWords);
+
+    // oczyscic this._wordsToRepeatProcess
+    this._wordsToRepeatProcess = {};
+
+    // usunac odpowiednie slowa z bazy this._wordsToRepeat
+    // i przeniesc do this._wordsLearnt
+    practisedWords.forEach((wordkey, value) {
+      this._wordsLearnt[wordkey] = value;
+      this._wordsToRepeat.remove(wordkey);
+    });
+
+    this._courses[this._courseIndex]['words_learnt'] = this._wordsLearnt;
+    this._courses[this._courseIndex]['words_to_repeat'] = this._wordsToRepeat;
+
+    setDailyLearntWordsNumber(number: this._dailyLearntWordsNumber + this._wordsToRepeatProcess.length);
+    setLastLearningTimestamp(timestamp: Timestamp.fromDate(finishedRepetitionDateTime));
+    notifyListeners();
+
+    await Firestore.instance.collection("users").document(userId).updateData({"courses": this._courses});
+  }
+
+  void addPractisedWords() {
     Timestamp learntWordsTimestamp = Timestamp.now();
 
     DateTime lastLearningDateTime = this._lastLearningTimestamp.toDate();
@@ -540,11 +613,7 @@ class UserModel extends Model {
       this._dailyLearntWordsNumber = 0;
     }
 
-    if (type == "repetition") {
-      setDailyLearntWordsNumber(number: this._dailyLearntWordsNumber + this._wordsToRepeat.length);
-    } else if (type == "session") {
-      setDailyLearntWordsNumber(number: this._dailyLearntWordsNumber + this._wordsToLearn.length);
-    }
+    setDailyLearntWordsNumber(number: this._dailyLearntWordsNumber + this._wordsToLearn.length);
 
     print("Add practised words " + this._dailyLearntWordsNumber.toString());
 
@@ -595,6 +664,47 @@ class UserModel extends Model {
       this.setDailyGoalStamps();
     }
     return achievedNow;
+  }
+
+// speed test
+
+  void setSpeedTestRevives({int revives = 3}) {
+    this._revives = revives;
+    notifyListeners();
+  }
+
+  set counterSpeedTestStrike(int strike) {
+    this._counterSpeedTestStrike = strike;
+    notifyListeners();
+  }
+
+  bool checkSpeedTestStrike() {
+    if (this._counterSpeedTestStrike > this._speedTestStrike) {
+      this.setSpeedTestStrike(strike: this._counterSpeedTestStrike);
+      notifyListeners();
+      return true;
+    }
+    return false;
+  }
+
+  void setWordsForSpeedTest() {
+    if (this._wordsLearnt.length > 0) {
+      this.wordsLearnt.forEach((wordKey, date) {
+        this._wordsSpeedTest[wordKey] = this._chosenCourseWords[wordKey];
+      });
+    }
+    if (this._wordsToRepeat.length > 0) {
+      this._wordsToRepeat.forEach((wordKey, date) {
+        this._wordsSpeedTest[wordKey] = this._chosenCourseWords[wordKey];
+      });
+    }
+    if (this._wordsToLearn.length > 0) {
+      this._wordsToLearn.forEach((wordKey, word) {
+        this._wordsSpeedTest[wordKey] = this._chosenCourseWords[wordKey];
+      });
+    }
+
+    notifyListeners();
   }
 
 ///////////////////////////
@@ -672,6 +782,7 @@ class UserModel extends Model {
     }
 
     this.setDailyGoalStamps();
+
     print("Set user data " + this._dailyLearntWordsNumber.toString());
     notifyListeners();
   }

@@ -3,13 +3,11 @@ import 'package:langapp/components/button_filled/button_filled_big.dart';
 import 'package:langapp/components/input_field/input_field.dart';
 import 'package:langapp/components/learning_process/points_label.dart';
 import 'package:langapp/components/learning_process/sound_button.dart';
-import 'package:langapp/model/app_model.dart';
-import 'package:scoped_model/scoped_model.dart';
 
 class SoundTaskWriteWord extends StatefulWidget {
   final String wordKey;
   final Map word;
-  final Function(bool) onNext;
+  final Function(bool, String) onNext;
 
   SoundTaskWriteWord({
     @required this.wordKey,
@@ -26,10 +24,9 @@ class _SoundTaskWriteWordState extends State<SoundTaskWriteWord> {
 
   void _next() {
     if (this._controller.text == this.widget.word['translation']) {
-      ScopedModel.of<UserModel>(context).addGoodAnswer(wordKey: this.widget.wordKey);
-      this.widget.onNext(true);
+      this.widget.onNext(true, this.widget.wordKey);
     } else {
-      this.widget.onNext(false);
+      this.widget.onNext(false, this.widget.wordKey);
     }
   }
 

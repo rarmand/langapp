@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:langapp/components/button_filled/button_square.dart';
-import 'package:langapp/components/learning_process/image_box.dart';
+import 'package:langapp/components/learning_process/learning_help_box.dart';
 import 'package:langapp/components/learning_process/learning_word.dart';
 import 'package:langapp/components/learning_process/phonetic_word.dart';
 import 'package:langapp/components/learning_process/translation_word.dart';
@@ -10,7 +10,7 @@ import 'package:scoped_model/scoped_model.dart';
 class NewWordPage extends StatelessWidget {
   final String wordKey;
   final Map<dynamic, dynamic> word; // {"text": '', "translation": '', ...}
-  final Function(bool) onNext;
+  final Function(bool, String) onNext;
 
   NewWordPage({@required this.wordKey, @required this.word, @required this.onNext});
 
@@ -21,7 +21,7 @@ class NewWordPage extends StatelessWidget {
     if (!isChosen) {
       ScopedModel.of<UserModel>(context).ignoreWordToLearn(this.wordKey);
     } else {
-      this.onNext(false);
+      this.onNext(false, this.wordKey);
     }
   }
 
@@ -47,7 +47,7 @@ class NewWordPage extends StatelessWidget {
               LearningWord(word: this.word['text'], audioUrl: this.word['audio_url']),
               PhoneticWord(word: this.word['phonetics']),
               TranslationWord(word: this.word['translation']),
-              ImageBox(),
+              LearningHelpBox(),
               // button
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
