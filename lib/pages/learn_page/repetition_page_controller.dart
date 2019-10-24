@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:langapp/components/appbar_upper/appbar_upper.dart';
 import 'package:langapp/components/learning_process/learning_label.dart';
 import 'package:langapp/components/modals/learning_choice_modal.dart';
+import 'package:langapp/components/modals/stop_session_modal.dart';
 import 'package:langapp/model/app_model.dart';
 import 'package:langapp/pages/learn_page/learning_final_page.dart';
 import 'package:langapp/pages/learn_page/sound_task_choose_word.dart';
@@ -13,6 +14,7 @@ import 'package:langapp/pages/learn_page/text_task_choose_sound.dart';
 import 'package:langapp/pages/learn_page/text_task_choose_word.dart';
 import 'package:langapp/pages/learn_page/text_task_speak_word.dart';
 import 'package:langapp/pages/learn_page/text_task_write_word.dart';
+import 'package:langapp/styles/colors.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class RepetitionPageController extends StatefulWidget {
@@ -226,15 +228,10 @@ class _RepetitionPageControllerState extends State<RepetitionPageController> {
 
   // app bar actions
   void _onClosePressed() {
-    Navigator.pushNamedAndRemoveUntil(context, "/", (Route<dynamic> route) => false);
-    Navigator.of(context).push(PageRouteBuilder(
-      opaque: false,
-      pageBuilder: (BuildContext context, _, __) => LearningChoiceModal(),
-    ));
-  }
-
-  void _onLogoTap() {
-    Navigator.pushNamedAndRemoveUntil(context, "/", (Route<dynamic> route) => false);
+    showDialog(
+      context: context,
+      builder: (context) => StopSessionModal(),
+    );
   }
 
   @override
@@ -248,7 +245,7 @@ class _RepetitionPageControllerState extends State<RepetitionPageController> {
       appBar: AppBarUpper(
         title: courseTitle,
         isCourseAppBar: true,
-        onLogoTap: this._onLogoTap,
+        onLogoTap: this._onClosePressed,
         onClosePressed: this._onClosePressed,
       ),
       body: Container(

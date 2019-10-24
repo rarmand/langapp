@@ -5,6 +5,11 @@ import 'package:langapp/styles/colors.dart';
 // TODO: dodać zmienny square, dodawanie tekstu lub obrazka,
 // wtedy animacja odjeżdżania ikonki w lewo, i edytowanie, bez żadnych modali
 class LearningHelpBox extends StatefulWidget {
+  String wordkey;
+  Map word;
+
+  LearningHelpBox({@required this.wordkey, @required this.word});
+
   @override
   _LearningHelpBoxState createState() => _LearningHelpBoxState();
 }

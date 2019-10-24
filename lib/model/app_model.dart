@@ -585,6 +585,7 @@ class UserModel extends Model {
 
     // usunac odpowiednie slowa z bazy this._wordsToRepeat
     // i przeniesc do this._wordsLearnt
+
     practisedWords.forEach((wordkey, value) {
       this._wordsLearnt[wordkey] = value;
       this._wordsToRepeat.remove(wordkey);

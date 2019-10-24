@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:langapp/components/appbar_upper/appbar_upper.dart';
 import 'package:langapp/components/learning_process/learning_label.dart';
+import 'package:langapp/components/modals/stop_session_modal.dart';
 import 'package:langapp/pages/learn_page/speed_test_task_page.dart';
 import 'package:langapp/components/modals/learning_choice_modal.dart';
 import 'package:langapp/pages/learn_page/learning_final_page.dart';
@@ -83,15 +84,10 @@ class _SpeedTestPageControllerState extends State<SpeedTestPageController> {
 
   // app bar actions
   void _onClosePressed() {
-    Navigator.pushNamedAndRemoveUntil(context, "/", (Route<dynamic> route) => false);
-    Navigator.of(context).push(PageRouteBuilder(
-      opaque: false,
-      pageBuilder: (BuildContext context, _, __) => LearningChoiceModal(),
-    ));
-  }
-
-  void _onLogoTap() {
-    Navigator.pushNamedAndRemoveUntil(context, "/", (Route<dynamic> route) => false);
+    showDialog(
+      context: context,
+      builder: (context) => StopSessionModal(),
+    );
   }
 
   // build
@@ -104,7 +100,7 @@ class _SpeedTestPageControllerState extends State<SpeedTestPageController> {
       appBar: AppBarUpper(
         title: courseTitle,
         isCourseAppBar: true,
-        onLogoTap: this._onLogoTap,
+        onLogoTap: this._onClosePressed,
         onClosePressed: this._onClosePressed,
       ),
       body: FutureBuilder(

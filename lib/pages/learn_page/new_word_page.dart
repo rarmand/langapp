@@ -47,7 +47,7 @@ class NewWordPage extends StatelessWidget {
               LearningWord(word: this.word['text'], audioUrl: this.word['audio_url']),
               PhoneticWord(word: this.word['phonetics']),
               TranslationWord(word: this.word['translation']),
-              LearningHelpBox(),
+              LearningHelpBox(wordkey: this.wordKey, word: word),
               // button
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
