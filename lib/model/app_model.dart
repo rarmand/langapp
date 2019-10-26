@@ -43,8 +43,8 @@ class UserModel extends Model {
   Map _courses = {};
   Map _chosenCourse = {};
   Map _chosenCourseWords = {};
-  Map _wordsToLearn = {}; // map of maps
 
+  Map _wordsToLearn = {}; // map of maps
   List _wordsIgnored = [];
   Map _wordsLearnt = {};
   Map _wordsToRepeat = {};
@@ -383,6 +383,38 @@ class UserModel extends Model {
     }
   }
 
+  // HELP TEXTS
+
+  String getHelpText({@required String wordkey}) {
+    return this._courses[this._courseIndex]['words_to_learn'][wordkey]['help_text'];
+  }
+
+  void setHelpText({@required String wordkey, @required String helpText}) async {
+    this._wordsToLearn[wordkey]["help_text"] = helpText;
+    this._courses[this._courseIndex]['words_to_learn'] = this._wordsToLearn;
+    await Firestore.instance.collection("users").document(userId).updateData({"courses": this._courses});
+
+    notifyListeners();
+  }
+
+  List getHelpTextList({@required String wordkey}) {
+    return this._chosenCourseWords[wordkey]['help_texts'];
+  }
+
+  void addHelpText({@required String wordkey, @required String text}) async {
+    this._chosenCourseWords[wordkey]['help_texts'] = [...this._chosenCourseWords[wordkey]['help_texts'], text];
+    this._courses[this._courseIndex]['words_to_learn'][wordkey]
+        ['help_texts'] = [...this._chosenCourseWords[wordkey]['help_texts']];
+
+    notifyListeners();
+
+    await Firestore.instance.collection("users").document(userId).updateData({"courses": this._courses});
+    await Firestore.instance
+        .collection("courses")
+        .document(this._courseIndex)
+        .updateData({"collection_of_words": this._chosenCourseWords});
+  }
+
   // words to learn setup
 
   void setCourseWords({@required String index}) async {
@@ -481,6 +513,7 @@ class UserModel extends Model {
         final key = remainingWordsToLearnKeys[i];
         this._wordsToLearn[key] = this._chosenCourseWords[key];
         this._wordsToLearn[key]['good_answers_number'] = 0;
+        this._wordsToLearn[key]['help_text'] = "";
 
         wordsToAdd--;
         if (wordsToAdd == 0) {
@@ -508,6 +541,7 @@ class UserModel extends Model {
       this._wordsLearnt[wordKey] = {};
       this._wordsLearnt[wordKey]['timestamp'] = Timestamp.fromDate(DateTime.now().add(Duration(days: pow(2, level))));
       this._wordsLearnt[wordKey]['level'] = level;
+      this._wordsLearnt[wordKey]['help_text'] = this.wordsToLearn[wordKey]['help_text'];
     }
 
     this._courses[this._courseIndex]['words_learnt'] = this._wordsLearnt;

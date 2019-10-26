@@ -5,6 +5,7 @@ import 'package:langapp/pages/learn_page/vocabulary_card.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class TheoryPage extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     String courseTitle = ScopedModel.of<UserModel>(context, rebuildOnChange: true).chosenCourse['title'];
@@ -20,13 +21,25 @@ class TheoryPage extends StatelessWidget {
 
     wordsMap.forEach((key, word) {
       bool isKnown = false;
-      if (wordsLearnt.containsKey(key) || wordsToLearn.containsKey(key)) {
+      if (wordsLearnt.containsKey(key)) {
         isKnown = true;
         wordsList.insert(
           0,
           VocabularyCard(
             vocabulary: word['text'],
             translation: word['translation'],
+            helpText: wordsLearnt[key]['help_text'],
+            isKnown: isKnown,
+          ),
+        );
+      } else if (wordsToLearn.containsKey(key)) {
+        isKnown = true;
+        wordsList.insert(
+          0,
+          VocabularyCard(
+            vocabulary: word['text'],
+            translation: word['translation'],
+            helpText: wordsToLearn[key]['help_text'],
             isKnown: isKnown,
           ),
         );
@@ -36,6 +49,7 @@ class TheoryPage extends StatelessWidget {
           VocabularyCard(
             vocabulary: word['text'],
             translation: word['translation'],
+            helpText: wordsToRepeat[key]['help_text'],
             isRepeated: true,
           ),
         );
