@@ -2,6 +2,8 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+AudioPlayer audioPlayer = AudioPlayer();
+
 class SoundButton extends StatelessWidget {
   // TODO: if clicked, it needs to change a color
   // and add some shadow behind, if its not clicked
@@ -17,7 +19,7 @@ class SoundButton extends StatelessWidget {
   }
 
   void _playSound() async {
-    AudioPlayer audioPlayer = AudioPlayer();
+    await audioPlayer.stop();
     int result = await audioPlayer.play(this.audioUrl);
     if (result == 1) {}
   }

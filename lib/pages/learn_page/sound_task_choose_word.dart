@@ -10,9 +10,10 @@ import 'package:scoped_model/scoped_model.dart';
 class SoundTaskChooseWord extends StatefulWidget {
   final String wordKey;
   final Map word;
-  final Function(bool, String) onNext;
+  final String skill;
+  final Function(bool, String, String) onNext;
 
-  SoundTaskChooseWord({@required this.wordKey, @required this.word, @required this.onNext});
+  SoundTaskChooseWord({@required this.wordKey, @required this.word, @required this.skill, @required this.onNext});
 
   @override
   _SoundTaskChooseWordState createState() => _SoundTaskChooseWordState();
@@ -45,9 +46,9 @@ class _SoundTaskChooseWordState extends State<SoundTaskChooseWord> {
 
   void _next(String chosenAnswer) {
     if (this.widget.word['translation'] == chosenAnswer) {
-      this.widget.onNext(true, this.widget.wordKey);
+      this.widget.onNext(true, this.widget.wordKey, this.widget.skill);
     } else {
-      this.widget.onNext(false, this.widget.wordKey);
+      this.widget.onNext(false, this.widget.wordKey, this.widget.skill);
     }
   }
 

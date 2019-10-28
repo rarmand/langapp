@@ -11,9 +11,10 @@ import 'package:scoped_model/scoped_model.dart';
 class TextTaskChooseSound extends StatefulWidget {
   final String wordKey;
   final Map word;
-  final Function(bool, String) onNext;
+  final String skill;
+  final Function(bool, String, String) onNext;
 
-  TextTaskChooseSound({@required this.wordKey, @required this.word, @required this.onNext});
+  TextTaskChooseSound({@required this.wordKey, @required this.word, @required this.skill, @required this.onNext});
 
   @override
   _TextTaskChooseSoundState createState() => _TextTaskChooseSoundState();
@@ -37,6 +38,7 @@ class _TextTaskChooseSoundState extends State<TextTaskChooseSound> {
     while (this._answersUrlList.length < this._answersNumber) {
       int rand = Random().nextInt(allCourseWords.length);
       if (!this._answersUrlList.contains(allCourseWords[rand]['audio_url'])) {
+        print(allCourseWords[rand]['audio_url']);
         this._answersUrlList.add(allCourseWords[rand]['audio_url']);
       }
     }
@@ -46,9 +48,9 @@ class _TextTaskChooseSoundState extends State<TextTaskChooseSound> {
 
   void _next() {
     if (this._chosenAudioUrlAnswer == this.widget.word['audio_url']) {
-      this.widget.onNext(true, this.widget.wordKey);
+      this.widget.onNext(true, this.widget.wordKey, this.widget.skill);
     } else {
-      this.widget.onNext(false, this.widget.wordKey);
+      this.widget.onNext(false, this.widget.wordKey, this.widget.skill);
     }
   }
 

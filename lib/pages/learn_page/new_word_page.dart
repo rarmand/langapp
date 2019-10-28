@@ -11,7 +11,7 @@ import 'package:scoped_model/scoped_model.dart';
 class NewWordPage extends StatelessWidget {
   final String wordKey;
   final Map<dynamic, dynamic> word; // {"text": '', "translation": '', ...}
-  final Function(bool, String) onNext;
+  final Function(bool, String, String) onNext;
   String _chosenHelpText = "";
 
   NewWordPage({@required this.wordKey, @required this.word, @required this.onNext});
@@ -29,7 +29,7 @@ class NewWordPage extends StatelessWidget {
         ScopedModel.of<UserModel>(context).setHelpText(wordkey: this.wordKey, helpText: this._chosenHelpText);
       }
 
-      this.onNext(false, this.wordKey);
+      this.onNext(false, this.wordKey, "");
     }
   }
 

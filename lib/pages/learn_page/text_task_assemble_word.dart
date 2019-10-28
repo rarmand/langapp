@@ -9,12 +9,12 @@ import 'package:langapp/components/learning_process/translation_word.dart';
 import 'package:langapp/styles/colors.dart';
 
 class TextTaskAssembleWord extends StatefulWidget {
-  // TODO: do naprawy ogólne działanie i sens zadania
   final String wordKey;
   final Map word;
-  final Function(bool, String) onNext;
+  final String skill;
+  final Function(bool, String, String) onNext;
 
-  TextTaskAssembleWord({@required this.wordKey, @required this.word, @required this.onNext});
+  TextTaskAssembleWord({@required this.wordKey, @required this.word, @required this.skill, @required this.onNext});
 
   @override
   _TextTaskAssembleWordState createState() => _TextTaskAssembleWordState();
@@ -46,9 +46,9 @@ class _TextTaskAssembleWordState extends State<TextTaskAssembleWord> {
     }
 
     if (!goodAnswer) {
-      this.widget.onNext(false, this.widget.wordKey);
+      this.widget.onNext(false, this.widget.wordKey, this.widget.skill);
     } else {
-      this.widget.onNext(true, this.widget.wordKey);
+      this.widget.onNext(true, this.widget.wordKey, this.widget.skill);
     }
   }
 
@@ -58,7 +58,6 @@ class _TextTaskAssembleWordState extends State<TextTaskAssembleWord> {
     letters.add(this._expectedLetters[this._index]);
     // print("Here $letters");
 
-    // wymyslec inny sposob - co jesli jezyk nie stosuje takiego alfabetu
     List<String> randomLetters = ['a', 'd', 'i', 'e', 'R'];
 
     while (letters.length < number) {

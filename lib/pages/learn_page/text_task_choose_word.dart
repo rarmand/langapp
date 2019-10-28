@@ -11,9 +11,10 @@ import 'package:scoped_model/scoped_model.dart';
 class TextTaskChooseWord extends StatefulWidget {
   final String wordKey;
   final Map word;
-  final Function(bool, String) onNext;
+  final String skill;
+  final Function(bool, String, String) onNext;
 
-  TextTaskChooseWord({@required this.wordKey, @required this.word, @required this.onNext});
+  TextTaskChooseWord({@required this.wordKey, @required this.word, @required this.skill, @required this.onNext});
 
   @override
   _TextTaskChooseWordState createState() => _TextTaskChooseWordState();
@@ -21,6 +22,7 @@ class TextTaskChooseWord extends StatefulWidget {
 
 class _TextTaskChooseWordState extends State<TextTaskChooseWord> {
   List<String> _answersList = [];
+  String _chosenAnswer;
   final int _answersNumber = 4;
 
   @override
@@ -35,7 +37,6 @@ class _TextTaskChooseWordState extends State<TextTaskChooseWord> {
     List allCourseWords = ScopedModel.of<UserModel>(context).chosenCourseWords.values.toList();
     while (this._answersList.length < this._answersNumber) {
       int rand = Random().nextInt(allCourseWords.length);
-
       if (!this._answersList.contains(allCourseWords[rand]['translation'])) {
         this._answersList.add(allCourseWords[rand]['translation']);
       }
@@ -44,12 +45,29 @@ class _TextTaskChooseWordState extends State<TextTaskChooseWord> {
     this._answersList.shuffle();
   }
 
-  void _next(String chosenAnswer) {
+  void _next(String chosenAnswer) async {
+    if (this._chosenAnswer != null) return;
+    setState(() {
+      this._chosenAnswer = chosenAnswer;
+    });
+
+    await Future.delayed(const Duration(seconds: 1));
+
     if (this.widget.word['translation'] == chosenAnswer) {
-      this.widget.onNext(true, this.widget.wordKey);
+      this.widget.onNext(true, this.widget.wordKey, this.widget.skill);
     } else {
-      this.widget.onNext(false, this.widget.wordKey);
+      this.widget.onNext(false, this.widget.wordKey, this.widget.skill);
     }
+  }
+
+  ButtonState getButtonState(String translation) {
+    if (translation == this._chosenAnswer) {
+      return translation == this.widget.word['translation'] ? ButtonState.CORRECT : ButtonState.INCORRECT;
+    }
+    if (this._chosenAnswer != null && translation == this.widget.word['translation']) {
+      return ButtonState.CORRECT;
+    }
+    return null;
   }
 
   @override
@@ -60,6 +78,7 @@ class _TextTaskChooseWordState extends State<TextTaskChooseWord> {
       answers.add(
         ButtonAnswerOutlined(
           btnText: translation,
+          btnState: getButtonState(translation),
           onPressed: () => this._next(translation),
         ),
       );

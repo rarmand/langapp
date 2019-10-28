@@ -93,6 +93,7 @@ class _SessionPageControllerState extends State<SessionPageController> {
         return TextTaskSpeakWord(
           wordKey: wordKey,
           word: word,
+          skill: 'speaking',
           onNext: this._nextPage,
         );
       case 'listening':
@@ -103,12 +104,14 @@ class _SessionPageControllerState extends State<SessionPageController> {
             result = TextTaskChooseSound(
               wordKey: wordKey,
               word: word,
+              skill: 'listening',
               onNext: this._nextPage,
             );
           else
             result = SoundTaskChooseWord(
               wordKey: wordKey,
               word: word,
+              skill: 'listening',
               onNext: this._nextPage,
             );
           return result;
@@ -121,12 +124,14 @@ class _SessionPageControllerState extends State<SessionPageController> {
             result = TextTaskAssembleWord(
               wordKey: wordKey,
               word: word,
+              skill: 'reading',
               onNext: this._nextPage,
             );
           else
             result = TextTaskChooseWord(
               wordKey: wordKey,
               word: word,
+              skill: 'reading',
               onNext: this._nextPage,
             );
           return result;
@@ -139,12 +144,14 @@ class _SessionPageControllerState extends State<SessionPageController> {
             result = SoundTaskWriteWord(
               wordKey: wordKey,
               word: word,
+              skill: 'writing',
               onNext: this._nextPage,
             );
           else
             result = TextTaskWriteWord(
               wordKey: wordKey,
               word: word,
+              skill: 'writing',
               onNext: this._nextPage,
             );
           return result;
@@ -154,7 +161,11 @@ class _SessionPageControllerState extends State<SessionPageController> {
     }
   }
 
-  void _nextPage(bool successed, String wordKey) async {
+  void _nextPage(bool successed, String wordKey, String skill) async {
+    // if (skill.isNotEmpty) {
+    //   ScopedModel.of<UserModel>(context).addToDiagnosingSkill(skillkey: skill, isCorrectAnswer: successed);
+    // }
+
     if (successed) {
       ScopedModel.of<UserModel>(context).addGoodAnswerSessionProcess(wordKey: wordKey);
       ScopedModel.of<UserModel>(context).addToProcessPoints(this._pointsForTask);
@@ -162,6 +173,7 @@ class _SessionPageControllerState extends State<SessionPageController> {
       // nie wiem co, nie daj punktu
       // wyswietlac strone NewWordPage
     }
+
     pageController.nextPage(duration: const Duration(milliseconds: 250), curve: Curves.easeIn);
   }
 
@@ -196,53 +208,53 @@ class _SessionPageControllerState extends State<SessionPageController> {
 
     List keys = words.keys.toList();
 
-    skillset.forEach((skill, value) {
-      int x = (value / this._numberOfTasks).round();
+    // skillset.forEach((skill, value) {
+    //   int x = (value / this._numberOfTasks).round();
 
-      for (int i = 0; i < x; i++) {
-        final int rand = Random().nextInt(keys.length);
-        final key = keys[rand];
+    //   for (int i = 0; i < x; i++) {
+    //     final int rand = Random().nextInt(keys.length);
+    //     final key = keys[rand];
 
-        if (this._finalTasks.containsKey(key)) {
-          this._finalTasks[key].add(this._getLearningTask(
-                skill,
-                key,
-                words[key],
-              ));
-        } else {
-          this._finalTasks[key] = [
-            this._getLearningTask(
-              skill,
-              key,
-              words[key],
-            )
-          ];
-        }
-      }
-    });
-
-    // for (int i = 0; i < 10; i++) {
-    //   final int rand = Random().nextInt(keys.length);
-    //   final key = keys[rand];
-
-    //   if (this._finalTasks.containsKey(key)) {
-    //     this._finalTasks[key].add(
-    //           TextTaskSpeakWord(
-    //             wordKey: key,
-    //             word: wordsToLearn[key],
-    //             onNext: this._nextPage,
-    //           ),
-    //         );
-    //   } else {
-    //     this._finalTasks[key] = [
-    //       TextTaskSpeakWord(
-    //         wordKey: key,
-    //         word: wordsToLearn[key],
-    //         onNext: this._nextPage,
-    //       )
-    //     ];
+    //     if (this._finalTasks.containsKey(key)) {
+    //       this._finalTasks[key].add(this._getLearningTask(
+    //             skill,
+    //             key,
+    //             words[key],
+    //           ));
+    //     } else {
+    //       this._finalTasks[key] = [
+    //         this._getLearningTask(
+    //           skill,
+    //           key,
+    //           words[key],
+    //         )
+    //       ];
+    //     }
     //   }
-    // }
+    // });
+
+    for (int i = 0; i < 10; i++) {
+      final int rand = Random().nextInt(keys.length);
+      final key = keys[rand];
+
+      if (this._finalTasks.containsKey(key)) {
+        this._finalTasks[key].add(TextTaskChooseWord(
+              wordKey: key,
+              word: words[key],
+              skill: 'reading',
+              onNext: this._nextPage,
+            ));
+      } else {
+        this._finalTasks[key] = [
+          TextTaskChooseWord(
+            wordKey: key,
+            word: words[key],
+            skill: 'reading',
+            onNext: this._nextPage,
+          )
+        ];
+      }
+    }
 
     this._finalTasks['final'] = [LearningFinalPage(type: "session")];
   }

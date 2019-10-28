@@ -34,6 +34,8 @@ class _LearningFinalPageState extends State<LearningFinalPage> {
     if (this.widget.type == "session" || this.widget.type == "repetition") {
       print(this.widget.type);
 
+      ScopedModel.of<UserModel>(context).diagnoseSkillset();
+
       if (this.widget.type == "session") {
         ScopedModel.of<UserModel>(context).addPractisedWords();
       } else if (this.widget.type == "repetition") {

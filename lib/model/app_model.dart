@@ -70,6 +70,14 @@ class UserModel extends Model {
   Map _skillsetDiagnosed = {'speaking': 25, 'listening': 25, 'writing': 25, 'reading': 25};
   String _editedCourseIndex = '';
 
+  // dane do diagnozowania automatycznego
+  Map _diagnosedData = {
+    "listening": {"counter": 0, "good_answers_counter": 0},
+    "speaking": {"counter": 0, "good_answers_counter": 0},
+    "reading": {"counter": 0, "good_answers_counter": 0},
+    "writing": {"counter": 0, "good_answers_counter": 0}
+  };
+
 //
 // getters
 //
@@ -186,10 +194,6 @@ class UserModel extends Model {
     notifyListeners();
   }
 
-  set dailyGoalAchieved(bool isAchieved) {
-    notifyListeners();
-  }
-
   void setDailyLearntWordsNumber({int number}) async {
     this._dailyLearntWordsNumber = number;
     await Firestore.instance
@@ -261,6 +265,7 @@ class UserModel extends Model {
   // the setter of courseIndex
   // you can use as a field of a class: courseIndex = ''
   // it can be set when user taps on a CourseBox and he can choose any learning proposition
+  // ustawiany gdy click na CourseBox
   set courseIndex(String index) {
     this._courseIndex = index;
     notifyListeners();
@@ -271,12 +276,6 @@ class UserModel extends Model {
   // sets two: Map and List of info about the course from CoursesDB and UserDB
   void setChosenCourse({String index = ''}) async {
     if (index.isEmpty) index = this._courseIndex;
-
-    // this._wordsToLearn = {};
-    // this._wordsIgnored = [];
-    // this._wordsLearnt = {};
-    // this._wordsToRepeat = {};
-
     DocumentSnapshot dsCourse = await Firestore.instance.collection('courses').document(index).get();
 
     if (dsCourse.exists) {
@@ -318,6 +317,12 @@ class UserModel extends Model {
         "reading": 25,
         "writing": 25,
       },
+      "diagnosed_data": {
+        "listening": {"counter": 0, "good_answers_counter": 0},
+        "speaking": {"counter": 0, "good_answers_counter": 0},
+        "reading": {"counter": 0, "good_answers_counter": 0},
+        "writing": {"counter": 0, "good_answers_counter": 0}
+      },
       'auto_on': true,
     };
 
@@ -344,6 +349,12 @@ class UserModel extends Model {
 
       this._skillsetUser = {'speaking': 0, 'listening': 0, 'writing': 0, 'reading': 0};
       this._skillsetDiagnosed = {'speaking': 25, 'listening': 25, 'writing': 25, 'reading': 25};
+      this._diagnosedData = {
+        "listening": {"counter": 0, "good_answers_counter": 0},
+        "speaking": {"counter": 0, "good_answers_counter": 0},
+        "reading": {"counter": 0, "good_answers_counter": 0},
+        "writing": {"counter": 0, "good_answers_counter": 0}
+      };
       this._editedCourseIndex = '';
       notifyListeners();
 
@@ -576,8 +587,8 @@ class UserModel extends Model {
       this._dailyLearntWordsNumber = 0;
     }
 
-    print("Add repeated words to database");
-    print(this._wordsToRepeatProcess.keys);
+    // print("Add repeated words to database");
+    // print(this._wordsToRepeatProcess.keys);
 
     this._wordsToRepeatProcess.forEach((key, data) {
       // jesli wgl slowo bylo widziane w procesie powtorki
@@ -649,9 +660,7 @@ class UserModel extends Model {
     }
 
     setDailyLearntWordsNumber(number: this._dailyLearntWordsNumber + this._wordsToLearn.length);
-
-    print("Add practised words " + this._dailyLearntWordsNumber.toString());
-
+    // print("Add practised words " + this._dailyLearntWordsNumber.toString());
     setLastLearningTimestamp(timestamp: learntWordsTimestamp);
     // print(this._dailyLearntWordsNumber);
     // print("-------");
@@ -786,6 +795,54 @@ class UserModel extends Model {
     notifyListeners();
   }
 
+  // mechanizm diagnozowania
+  Map get diagnosedData => this._diagnosedData;
+  Map getDiagnosedSkillData({@required String skill}) => this._diagnosedData[skill];
+
+/*  
+  Map _diagnosedData = {
+    "listening": {
+      "counter": 0,
+      "good_answers_counter": 0,
+    },
+    "speaking": {
+      "counter": 0,
+      "good_answers_counter": 0,
+    },
+    "reading": {
+      "counter": 0,
+      "good_answers_counter": 0,
+    },
+    "writing": {
+      "counter": 0,
+      "good_answers_counter": 0,
+    }
+  };
+  */
+  void setDiagnosedData({@required String courseIndex}) {
+    if (courseIndex.isEmpty) courseIndex = this._courseIndex;
+
+    this._diagnosedData = this._courses[courseIndex]['diagnosed_data'];
+    notifyListeners();
+  }
+
+  void addToDiagnosingSkill({@required String skillkey, @required bool isCorrectAnswer}) {
+    if (this._diagnosedData.containsKey(skillkey)) {
+      this._diagnosedData[skillkey]['counter'] += 1;
+      if (isCorrectAnswer) this._diagnosedData[skillkey]['good_answers_counter'] += 1;
+      notifyListeners();
+    }
+  }
+
+  void diagnoseSkillset() async {
+    print(this._diagnosedData);
+    this._courses[courseIndex]['diagnosed_data'] = this._diagnosedData;
+    await Firestore.instance.collection('users').document(this._userId).updateData({'courses': this._courses});
+
+    // update skillset diagnosed
+    notifyListeners();
+  }
+
 ///////////////////////////
 // setters of user data
 ///////////////////////////
@@ -818,7 +875,7 @@ class UserModel extends Model {
 
     this.setDailyGoalStamps();
 
-    print("Set user data " + this._dailyLearntWordsNumber.toString());
+    // print("Set user data " + this._dailyLearntWordsNumber.toString());
     notifyListeners();
   }
 
@@ -900,6 +957,13 @@ class UserModel extends Model {
     this._autoSkillset = false;
     this._skillsetUser = {'speaking': 0, 'listening': 0, 'writing': 0, 'reading': 0};
     this._skillsetDiagnosed = {'speaking': 25, 'listening': 25, 'writing': 25, 'reading': 25};
+    this._diagnosedData = {
+      "listening": {"counter": 0, "good_answers_counter": 0},
+      "speaking": {"counter": 0, "good_answers_counter": 0},
+      "reading": {"counter": 0, "good_answers_counter": 0},
+      "writing": {"counter": 0, "good_answers_counter": 0}
+    };
+
     this._editedCourseIndex = '';
 
     notifyListeners();

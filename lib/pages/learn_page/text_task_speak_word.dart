@@ -8,9 +8,10 @@ import 'package:langapp/styles/colors.dart';
 class TextTaskSpeakWord extends StatefulWidget {
   final String wordKey;
   final Map word;
-  final Function(bool, String) onNext;
+  final String skill;
+  final Function(bool, String, String) onNext;
 
-  TextTaskSpeakWord({@required this.wordKey, @required this.word, @required this.onNext});
+  TextTaskSpeakWord({@required this.wordKey, @required this.word, @required this.skill, @required this.onNext});
 
   @override
   _TextTaskSpeakWordState createState() => _TextTaskSpeakWordState();
@@ -25,9 +26,9 @@ class _TextTaskSpeakWordState extends State<TextTaskSpeakWord> {
 
   void _next(bool goodAnswer) {
     if (!goodAnswer) {
-      this.widget.onNext(false, this.widget.wordKey);
+      this.widget.onNext(false, this.widget.wordKey, this.widget.skill);
     } else {
-      this.widget.onNext(true, this.widget.wordKey);
+      this.widget.onNext(true, this.widget.wordKey, this.widget.skill);
     }
   }
 

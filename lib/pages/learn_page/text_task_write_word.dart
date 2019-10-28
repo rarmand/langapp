@@ -7,9 +7,16 @@ import 'package:langapp/components/learning_process/points_label.dart';
 class TextTaskWriteWord extends StatefulWidget {
   final String wordKey;
   final Map word;
-  final Function(bool, String) onNext;
+  final String skill;
+  final Function(bool, String, String) onNext;
 
-  TextTaskWriteWord({Key key, @required this.wordKey, @required this.word, @required this.onNext}) : super(key: key);
+  TextTaskWriteWord({
+    Key key,
+    @required this.wordKey,
+    @required this.word,
+    @required this.skill,
+    @required this.onNext,
+  }) : super(key: key);
 
   @override
   _TextTaskWriteWordState createState() => _TextTaskWriteWordState();
@@ -20,9 +27,9 @@ class _TextTaskWriteWordState extends State<TextTaskWriteWord> {
 
   void _next() {
     if (this._controller.text == this.widget.word['text']) {
-      this.widget.onNext(true, this.widget.wordKey);
+      this.widget.onNext(true, this.widget.wordKey, this.widget.skill);
     } else {
-      this.widget.onNext(false, this.widget.wordKey);
+      this.widget.onNext(false, this.widget.wordKey, this.widget.skill);
     }
   }
 

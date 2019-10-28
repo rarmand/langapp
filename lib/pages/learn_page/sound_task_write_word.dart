@@ -7,11 +7,13 @@ import 'package:langapp/components/learning_process/sound_button.dart';
 class SoundTaskWriteWord extends StatefulWidget {
   final String wordKey;
   final Map word;
-  final Function(bool, String) onNext;
+  final String skill;
+  final Function(bool, String, String) onNext;
 
   SoundTaskWriteWord({
     @required this.wordKey,
     @required this.word,
+    @required this.skill,
     @required this.onNext,
   });
 
@@ -24,9 +26,9 @@ class _SoundTaskWriteWordState extends State<SoundTaskWriteWord> {
 
   void _next() {
     if (this._controller.text == this.widget.word['translation']) {
-      this.widget.onNext(true, this.widget.wordKey);
+      this.widget.onNext(true, this.widget.wordKey, this.widget.skill);
     } else {
-      this.widget.onNext(false, this.widget.wordKey);
+      this.widget.onNext(false, this.widget.wordKey, this.widget.skill);
     }
   }
 

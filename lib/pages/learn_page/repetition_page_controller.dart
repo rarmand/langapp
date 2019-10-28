@@ -73,6 +73,7 @@ class _RepetitionPageControllerState extends State<RepetitionPageController> {
         return TextTaskSpeakWord(
           wordKey: wordKey,
           word: word,
+          skill: 'speaking',
           onNext: this._nextPage,
         );
       case 'listening':
@@ -83,12 +84,14 @@ class _RepetitionPageControllerState extends State<RepetitionPageController> {
             result = TextTaskChooseSound(
               wordKey: wordKey,
               word: word,
+              skill: 'listening',
               onNext: this._nextPage,
             );
           else
             result = SoundTaskChooseWord(
               wordKey: wordKey,
               word: word,
+              skill: 'listening',
               onNext: this._nextPage,
             );
           return result;
@@ -101,12 +104,14 @@ class _RepetitionPageControllerState extends State<RepetitionPageController> {
             result = TextTaskAssembleWord(
               wordKey: wordKey,
               word: word,
+              skill: 'reading',
               onNext: this._nextPage,
             );
           else
             result = TextTaskChooseWord(
               wordKey: wordKey,
               word: word,
+              skill: 'reading',
               onNext: this._nextPage,
             );
           return result;
@@ -119,12 +124,14 @@ class _RepetitionPageControllerState extends State<RepetitionPageController> {
             result = SoundTaskWriteWord(
               wordKey: wordKey,
               word: word,
+              skill: 'writing',
               onNext: this._nextPage,
             );
           else
             result = TextTaskWriteWord(
               wordKey: wordKey,
               word: word,
+              skill: 'writing',
               onNext: this._nextPage,
             );
           return result;
@@ -134,12 +141,15 @@ class _RepetitionPageControllerState extends State<RepetitionPageController> {
     }
   }
 
-  void _nextPage(bool successed, String wordkey) async {
+  void _nextPage(bool successed, String wordkey, String skill) async {
     ScopedModel.of<UserModel>(context).addAnswerRepetitionProcess(successed: successed, wordKey: wordkey);
+    if (skill.isNotEmpty) {
+      ScopedModel.of<UserModel>(context).addToDiagnosingSkill(skillkey: skill, isCorrectAnswer: successed);
+    }
 
     if (successed) {
       ScopedModel.of<UserModel>(context).addToProcessPoints(this._pointsForTask);
-    } else {}
+    }
 
     pageController.nextPage(duration: const Duration(milliseconds: 250), curve: Curves.easeIn);
   }

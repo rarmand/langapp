@@ -22,6 +22,7 @@ class SpeedTestTask extends StatefulWidget {
 
 class _SpeedTestTaskState extends State<SpeedTestTask> with SingleTickerProviderStateMixin {
   List<String> _answersList = [];
+  String _chosenAnswer;
   final int _answersNumber = 4;
 
   AnimationController controller;
@@ -54,7 +55,6 @@ class _SpeedTestTaskState extends State<SpeedTestTask> with SingleTickerProvider
     List allCourseWords = ScopedModel.of<UserModel>(context).chosenCourseWords.values.toList();
     while (this._answersList.length < this._answersNumber) {
       int rand = Random().nextInt(allCourseWords.length);
-
       if (!this._answersList.contains(allCourseWords[rand]['translation'])) {
         this._answersList.add(allCourseWords[rand]['translation']);
       }
@@ -63,12 +63,29 @@ class _SpeedTestTaskState extends State<SpeedTestTask> with SingleTickerProvider
     this._answersList.shuffle();
   }
 
-  void _next(String chosenAnswer) {
+  void _next(String chosenAnswer) async {
+    if (this._chosenAnswer != null) return;
+    setState(() {
+      this._chosenAnswer = chosenAnswer;
+    });
+
+    await Future.delayed(const Duration(seconds: 1));
+
     if (this.widget.word['translation'] == chosenAnswer) {
       this.widget.onNext(true);
     } else {
       this.widget.onNext(false);
     }
+  }
+
+  ButtonState getButtonState(String translation) {
+    if (translation == this._chosenAnswer) {
+      return translation == this.widget.word['translation'] ? ButtonState.CORRECT : ButtonState.INCORRECT;
+    }
+    if (this._chosenAnswer != null && translation == this.widget.word['translation']) {
+      return ButtonState.CORRECT;
+    }
+    return null;
   }
 
   @override
@@ -79,6 +96,7 @@ class _SpeedTestTaskState extends State<SpeedTestTask> with SingleTickerProvider
       answers.add(
         ButtonAnswerOutlined(
           btnText: translation,
+          btnState: getButtonState(translation),
           onPressed: () => this._next(translation),
         ),
       );
