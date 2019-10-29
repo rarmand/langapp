@@ -238,20 +238,22 @@ class _SessionPageControllerState extends State<SessionPageController> {
       final key = keys[rand];
 
       if (this._finalTasks.containsKey(key)) {
-        this._finalTasks[key].add(TextTaskChooseWord(
-              wordKey: key,
-              word: words[key],
-              skill: 'reading',
-              onNext: this._nextPage,
-            ));
+        this._finalTasks[key].add(
+              SoundTaskWriteWord(
+                wordKey: key,
+                word: words[key],
+                skill: 'listening',
+                onNext: this._nextPage,
+              ),
+            );
       } else {
         this._finalTasks[key] = [
-          TextTaskChooseWord(
+          SoundTaskWriteWord(
             wordKey: key,
             word: words[key],
-            skill: 'reading',
+            skill: 'listening',
             onNext: this._nextPage,
-          )
+          ),
         ];
       }
     }

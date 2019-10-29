@@ -26,6 +26,7 @@ class _TextTaskAssembleWordState extends State<TextTaskAssembleWord> {
   List<String> _clickedLetters = [];
   final int _buttonsNumber = 5;
   List<String> _letters = [];
+  bool _isCorrectAnswer = null;
 
   @override
   void initState() {
@@ -39,11 +40,17 @@ class _TextTaskAssembleWordState extends State<TextTaskAssembleWord> {
     this._letters = this._getRandomLetters(number: _buttonsNumber);
   }
 
-  void _next() {
+  void _next() async {
     bool goodAnswer = true;
     for (int i = 0; i < this._expectedLetters.length; i++) {
       if (this._expectedLetters[i] != this._clickedLetters[i]) goodAnswer = false;
     }
+
+    setState(() {
+      this._isCorrectAnswer = goodAnswer;
+    });
+
+    await Future.delayed(const Duration(seconds: 1));
 
     if (!goodAnswer) {
       this.widget.onNext(false, this.widget.wordKey, this.widget.skill);
@@ -54,9 +61,7 @@ class _TextTaskAssembleWordState extends State<TextTaskAssembleWord> {
 
   List<String> _getRandomLetters({@required int number}) {
     List<String> letters = [];
-    // print(this._index);
     letters.add(this._expectedLetters[this._index]);
-    // print("Here $letters");
 
     List<String> randomLetters = ['a', 'd', 'i', 'e', 'R'];
 
@@ -73,7 +78,6 @@ class _TextTaskAssembleWordState extends State<TextTaskAssembleWord> {
 
     letters.shuffle();
 
-    // print(letters);
     return letters;
   }
 
@@ -97,6 +101,16 @@ class _TextTaskAssembleWordState extends State<TextTaskAssembleWord> {
     }
   }
 
+  InputLetterState _getBtnState() {
+    if (this._isCorrectAnswer != null) {
+      if (this._isCorrectAnswer) {
+        return InputLetterState.CORRECT;
+      }
+      return InputLetterState.INCORRECT;
+    }
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     // creating list of fields to fill by buttons
@@ -104,7 +118,10 @@ class _TextTaskAssembleWordState extends State<TextTaskAssembleWord> {
 
     this._clickedLetters.forEach((letter) {
       listOfFields.add(
-        InputOneLetterField(chosenLetter: letter),
+        InputOneLetterField(
+          chosenLetter: letter,
+          btnState: this._getBtnState(),
+        ),
       );
     });
 
@@ -126,6 +143,8 @@ class _TextTaskAssembleWordState extends State<TextTaskAssembleWord> {
       );
     });
 
+    bool isIncorrect = this._getBtnState() == InputLetterState.INCORRECT;
+
     // returned build of view
     return Scaffold(
       body: Container(
@@ -142,7 +161,14 @@ class _TextTaskAssembleWordState extends State<TextTaskAssembleWord> {
                 spacing: 4.0,
                 children: listOfFields,
               ),
-              const SizedBox(height: 64.0),
+              (isIncorrect ? SizedBox(height: 16.0) : SizedBox(height: 0.0)),
+              if (isIncorrect)
+                Text(
+                  this.widget.word['text'],
+                  textAlign: TextAlign.left,
+                  style: TextStyle(color: GREEN_DARK),
+                ),
+              SizedBox(height: isIncorrect ? 32.0 : 64.0),
               Wrap(
                 alignment: WrapAlignment.center,
                 spacing: 12.0,

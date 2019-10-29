@@ -23,6 +23,7 @@ class TextTaskChooseSound extends StatefulWidget {
 class _TextTaskChooseSoundState extends State<TextTaskChooseSound> {
   List<String> _answersUrlList = [];
   String _chosenAudioUrlAnswer = "";
+  bool _acceptedChosenAnswer = false;
   final int _answersNumber = 3;
 
   @override
@@ -46,7 +47,14 @@ class _TextTaskChooseSoundState extends State<TextTaskChooseSound> {
     this._answersUrlList.shuffle();
   }
 
-  void _next() {
+  void _next() async {
+    if (this._chosenAudioUrlAnswer.isEmpty) return;
+    setState(() {
+      _acceptedChosenAnswer = true;
+    });
+
+    await Future.delayed(const Duration(seconds: 1));
+
     if (this._chosenAudioUrlAnswer == this.widget.word['audio_url']) {
       this.widget.onNext(true, this.widget.wordKey, this.widget.skill);
     } else {
@@ -58,14 +66,32 @@ class _TextTaskChooseSoundState extends State<TextTaskChooseSound> {
     setState(() => this._chosenAudioUrlAnswer = audioUrl);
   }
 
+  SoundButtonState getButtonState(String audioUrl) {
+    if (audioUrl == this._chosenAudioUrlAnswer) {
+      if (this._acceptedChosenAnswer) {
+        return audioUrl == this.widget.word['audio_url'] ? SoundButtonState.CORRECT : SoundButtonState.INCORRECT;
+      } else {
+        return SoundButtonState.CHOSEN;
+      }
+    }
+    if (this._acceptedChosenAnswer && audioUrl == this.widget.word['audio_url']) {
+      return SoundButtonState.CORRECT;
+    }
+
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
+    print("anything");
+
     List<SoundButton> soundAnswersList = [];
     this._answersUrlList.forEach((audioUrl) {
       soundAnswersList.add(
         SoundButton(
           height: 56,
           audioUrl: audioUrl,
+          btnState: getButtonState(audioUrl),
           onChooseSoundTap: this._onChooseSoundTap,
         ),
       );
@@ -85,14 +111,13 @@ class _TextTaskChooseSoundState extends State<TextTaskChooseSound> {
                 audioUrl: '',
               ),
               const SizedBox(height: 48.0),
-              Text("Choose a right sound answer."),
+              Text("Choose a correct sound answer."),
               const SizedBox(height: 80.0),
               Wrap(
                 spacing: 32.0,
                 children: soundAnswersList,
               ),
-              const SizedBox(height: 72.0),
-              // TODO: naprawić wygląd strony
+              const SizedBox(height: 64.0),
               ButtonFilledBig(onPressed: this._next),
               const SizedBox(height: 24.0),
             ],

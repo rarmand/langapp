@@ -21,6 +21,7 @@ class SoundTaskChooseWord extends StatefulWidget {
 
 class _SoundTaskChooseWordState extends State<SoundTaskChooseWord> {
   List<String> _answersList = [];
+  String _chosenAnswer;
   final int _answersNumber = 4;
 
   @override
@@ -44,12 +45,31 @@ class _SoundTaskChooseWordState extends State<SoundTaskChooseWord> {
     this._answersList.shuffle();
   }
 
-  void _next(String chosenAnswer) {
+  void _next(String chosenAnswer) async {
+    if (this._chosenAnswer != null) return;
+    setState(() {
+      this._chosenAnswer = chosenAnswer;
+    });
+
+    await Future.delayed(const Duration(seconds: 1));
+
     if (this.widget.word['translation'] == chosenAnswer) {
       this.widget.onNext(true, this.widget.wordKey, this.widget.skill);
     } else {
       this.widget.onNext(false, this.widget.wordKey, this.widget.skill);
     }
+  }
+
+  ButtonOutlinedState getButtonState(String translation) {
+    if (translation == this._chosenAnswer) {
+      return translation == this.widget.word['translation']
+          ? ButtonOutlinedState.CORRECT
+          : ButtonOutlinedState.INCORRECT;
+    }
+    if (this._chosenAnswer != null && translation == this.widget.word['translation']) {
+      return ButtonOutlinedState.CORRECT;
+    }
+    return null;
   }
 
   @override
@@ -60,6 +80,7 @@ class _SoundTaskChooseWordState extends State<SoundTaskChooseWord> {
       answers.add(
         ButtonAnswerOutlined(
           btnText: translation,
+          btnState: getButtonState(translation),
           onPressed: () => this._next(translation),
         ),
       );

@@ -4,6 +4,7 @@ import 'package:langapp/styles/colors.dart';
 class ButtonLetter extends StatelessWidget {
   final String character;
   final Function onTap;
+
   ButtonLetter({@required this.character, @required this.onTap});
 
   @override

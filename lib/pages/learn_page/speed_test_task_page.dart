@@ -78,12 +78,14 @@ class _SpeedTestTaskState extends State<SpeedTestTask> with SingleTickerProvider
     }
   }
 
-  ButtonState getButtonState(String translation) {
+  ButtonOutlinedState getButtonState(String translation) {
     if (translation == this._chosenAnswer) {
-      return translation == this.widget.word['translation'] ? ButtonState.CORRECT : ButtonState.INCORRECT;
+      return translation == this.widget.word['translation']
+          ? ButtonOutlinedState.CORRECT
+          : ButtonOutlinedState.INCORRECT;
     }
     if (this._chosenAnswer != null && translation == this.widget.word['translation']) {
-      return ButtonState.CORRECT;
+      return ButtonOutlinedState.CORRECT;
     }
     return null;
   }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:langapp/styles/colors.dart';
 
-enum ButtonState {
+enum ButtonOutlinedState {
   CORRECT,
   INCORRECT,
 }
@@ -10,14 +10,14 @@ enum ButtonState {
 class ButtonAnswerOutlined extends StatelessWidget {
   final String btnText;
   Function onPressed;
-  final ButtonState btnState;
+  final ButtonOutlinedState btnState;
 
   ButtonAnswerOutlined({@required this.btnText, this.btnState, this.onPressed});
 
   @override
   Widget build(BuildContext context) {
-    Color color = (btnState == ButtonState.CORRECT ? GREEN_LIGHT : BROWN_DARK);
-    color = (btnState == ButtonState.INCORRECT ? Colors.red : color);
+    Color color = (btnState == ButtonOutlinedState.CORRECT ? GREEN_DARK : BROWN_DARK);
+    color = (btnState == ButtonOutlinedState.INCORRECT ? Colors.red : color);
 
     return Container(
       margin: EdgeInsets.all(4.0),

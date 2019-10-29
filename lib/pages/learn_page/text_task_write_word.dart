@@ -3,6 +3,7 @@ import 'package:langapp/components/button_filled/button_filled_big.dart';
 import 'package:langapp/components/input_field/input_field.dart';
 import 'package:langapp/components/learning_process/learning_word.dart';
 import 'package:langapp/components/learning_process/points_label.dart';
+import 'package:langapp/styles/colors.dart';
 
 class TextTaskWriteWord extends StatefulWidget {
   final String wordKey;
@@ -24,9 +25,17 @@ class TextTaskWriteWord extends StatefulWidget {
 
 class _TextTaskWriteWordState extends State<TextTaskWriteWord> {
   final TextEditingController _controller = TextEditingController();
+  InputState inputState;
 
-  void _next() {
-    if (this._controller.text == this.widget.word['text']) {
+  void _next() async {
+    final isCorrect = this._controller.text == this.widget.word['text'];
+    setState(() {
+      this.inputState = isCorrect ? InputState.CORRECT : InputState.INCORRECT;
+    });
+
+    await Future.delayed(const Duration(milliseconds: 1500));
+
+    if (isCorrect) {
       this.widget.onNext(true, this.widget.wordKey, this.widget.skill);
     } else {
       this.widget.onNext(false, this.widget.wordKey, this.widget.skill);
@@ -35,13 +44,14 @@ class _TextTaskWriteWordState extends State<TextTaskWriteWord> {
 
   @override
   void dispose() {
-    // Clean up the controller when the widget is disposed.
     this._controller.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    final isIncorrect = this.inputState == InputState.INCORRECT;
+
     return Scaffold(
       body: Container(
         padding: EdgeInsets.fromLTRB(24, 0, 24, 0),
@@ -59,8 +69,15 @@ class _TextTaskWriteWordState extends State<TextTaskWriteWord> {
               InputField(
                 label: "Write the word",
                 controller: this._controller,
+                inputState: this.inputState,
               ),
-              const SizedBox(height: 80.0),
+              if (isIncorrect)
+                Text(
+                  this.widget.word['text'],
+                  textAlign: TextAlign.left,
+                  style: TextStyle(color: GREEN_DARK),
+                ),
+              SizedBox(height: isIncorrect ? 88.0 : 120.0),
               ButtonFilledBig(onPressed: this._next),
               const SizedBox(height: 24.0),
             ],
