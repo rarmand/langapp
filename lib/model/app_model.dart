@@ -837,7 +837,62 @@ class UserModel extends Model {
   void diagnoseSkillset() async {
     print(this._diagnosedData);
     this._courses[courseIndex]['diagnosed_data'] = this._diagnosedData;
-    await Firestore.instance.collection('users').document(this._userId).updateData({'courses': this._courses});
+
+    Map newDiagnosedSkills = {};
+    double sumWages = 0;
+    Map minKey = {'key': "", "value": 100};
+    Map maxKey = {'key': "", "value": 0};
+
+    this._skillsetDiagnosed.forEach((skill, wage) {
+      newDiagnosedSkills[skill] = 0;
+
+      double errorsScore =
+          1.0 - this._diagnosedData[skill]["good_answers_counter"] / this._diagnosedData[skill]["counter"];
+
+      double newWage = errorsScore * wage;
+      newWage.round();
+
+      if (newWage > 70) {
+        newWage = 70;
+      } else if (newWage < 10) {
+        newWage = 10;
+      }
+
+      if (minKey["value"] > newWage) {
+        minKey["value"] = newWage;
+        minKey["key"] = skill;
+      } else if (maxKey["value"] < newWage) {
+        maxKey["value"] = newWage;
+        maxKey["key"] = skill;
+      }
+
+      newDiagnosedSkills[skill] = newWage;
+      sumWages += newWage;
+    });
+
+    if (sumWages != 100) {
+      double difference = (100.0 - sumWages).abs();
+      int diff = (difference / newDiagnosedSkills.length).floor();
+
+      newDiagnosedSkills.forEach((skill, newWage) {
+        if (sumWages < 100) {
+          newDiagnosedSkills[skill] = newWage + diff;
+          sumWages += diff;
+        } else if (sumWages > 100) {
+          newDiagnosedSkills[skill] = newWage - diff;
+          sumWages -= diff;
+        }
+      });
+
+      if (sumWages < 100) {
+        newDiagnosedSkills[minKey["key"]] += 100 - sumWages;
+      } else if (sumWages > 100) {
+        newDiagnosedSkills[maxKey["key"]] -= sumWages - 100;
+      }
+    }
+
+    print(newDiagnosedSkills);
+//    await Firestore.instance.collection('users').document(this._userId).updateData({'courses': this._courses});
 
     // update skillset diagnosed
     notifyListeners();

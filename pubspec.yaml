@@ -22,7 +22,11 @@ dependencies:
   firebase_auth: ^0.14.0+5
   firebase_storage: ^3.0.6
 
+  carousel_slider: ^1.3.0
   audioplayers: ^0.13.2
+  speech_recognition: ^0.3.0+1
+  audio_recorder: ^1.0.1
+  flutter_sound: ^1.5.1
 
   flutter:
     sdk: flutter
@@ -33,7 +37,6 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
-  carousel_slider: ^1.3.0
 
 dev_dependencies:
   flutter_test:

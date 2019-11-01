@@ -18,7 +18,8 @@ class ProfilePage extends StatelessWidget {
     int speedTestStrike = ScopedModel.of<UserModel>(context, rebuildOnChange: true).speedTestStrike;
     int challengesCount = ScopedModel.of<UserModel>(context, rebuildOnChange: true).userChallenges.length;
     int points = ScopedModel.of<UserModel>(context, rebuildOnChange: true).points;
-
+    int dailyGoal = ScopedModel.of<UserModel>(context, rebuildOnChange: true).dailyGoal;
+    
     return MenuFrame(
       title: "Profile",
       child: Container(
@@ -27,6 +28,7 @@ class ProfilePage extends StatelessWidget {
           children: <Widget>[
             BlockPoints(points: points),
             ProfileInfoLine(text: "Username", value: username),
+            ProfileInfoLine(text: "Daily goal", value: dailyGoal.toString()),
             ProfileInfoLine(text: "Longest strike", value: longestStrike.toString()),
             ProfileInfoLine(text: "Speed tests strike", value: speedTestStrike.toString()),
             ProfileInfoLine(text: "Challenges", value: challengesCount.toString()),

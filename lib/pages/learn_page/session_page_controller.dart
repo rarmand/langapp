@@ -208,55 +208,55 @@ class _SessionPageControllerState extends State<SessionPageController> {
 
     List keys = words.keys.toList();
 
-    // skillset.forEach((skill, value) {
-    //   int x = (value / this._numberOfTasks).round();
+    skillset.forEach((skill, value) {
+      int x = (value / this._numberOfTasks).round();
 
-    //   for (int i = 0; i < x; i++) {
-    //     final int rand = Random().nextInt(keys.length);
-    //     final key = keys[rand];
+      for (int i = 0; i < x; i++) {
+        final int rand = Random().nextInt(keys.length);
+        final key = keys[rand];
 
-    //     if (this._finalTasks.containsKey(key)) {
-    //       this._finalTasks[key].add(this._getLearningTask(
-    //             skill,
-    //             key,
-    //             words[key],
-    //           ));
-    //     } else {
-    //       this._finalTasks[key] = [
-    //         this._getLearningTask(
-    //           skill,
-    //           key,
-    //           words[key],
-    //         )
-    //       ];
-    //     }
-    //   }
-    // });
-
-    for (int i = 0; i < 10; i++) {
-      final int rand = Random().nextInt(keys.length);
-      final key = keys[rand];
-
-      if (this._finalTasks.containsKey(key)) {
-        this._finalTasks[key].add(
-              SoundTaskWriteWord(
-                wordKey: key,
-                word: words[key],
-                skill: 'listening',
-                onNext: this._nextPage,
-              ),
-            );
-      } else {
-        this._finalTasks[key] = [
-          SoundTaskWriteWord(
-            wordKey: key,
-            word: words[key],
-            skill: 'listening',
-            onNext: this._nextPage,
-          ),
-        ];
+        if (this._finalTasks.containsKey(key)) {
+          this._finalTasks[key].add(this._getLearningTask(
+                skill,
+                key,
+                words[key],
+              ));
+        } else {
+          this._finalTasks[key] = [
+            this._getLearningTask(
+              skill,
+              key,
+              words[key],
+            )
+          ];
+        }
       }
-    }
+    });
+
+    // for (int i = 0; i < 10; i++) {
+    //   final int rand = Random().nextInt(keys.length);
+    //   final key = keys[rand];
+
+    //   if (this._finalTasks.containsKey(key)) {
+    //     this._finalTasks[key].add(
+    //           TextTaskSpeakWord(
+    //             wordKey: key,
+    //             word: words[key],
+    //             skill: 'listening',
+    //             onNext: this._nextPage,
+    //           ),
+    //         );
+    //   } else {
+    //     this._finalTasks[key] = [
+    //       TextTaskSpeakWord(
+    //         wordKey: key,
+    //         word: words[key],
+    //         skill: 'listening',
+    //         onNext: this._nextPage,
+    //       ),
+    //     ];
+    //   }
+    // }
 
     this._finalTasks['final'] = [LearningFinalPage(type: "session")];
   }
