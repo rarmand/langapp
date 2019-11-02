@@ -59,9 +59,39 @@ class _LearningSettingsEditionModalState extends State<LearningSettingsEditionMo
   void _validateAndSaveEdition() {
     final form = this._formKey.currentState;
     if (form.validate()) {
-      form.save();
+      Map skillset = ScopedModel.of<UserModel>(context).newSkillsetUser;
+      int sum = 0;
+      skillset.forEach((key, value) {
+        sum += value;
+      });
 
-      Navigator.pop(context);
+      print("Skill init state $sum");
+
+      if (sum == 100) {
+        form.save();
+        Navigator.pop(context);
+      }
+      //////////////////////////////////////////
+      else {
+        showDialog(
+          context: context,
+          builder: (context) => SimpleDialog(
+            title: Text(
+              "Error for proper diagnose",
+              style: TextStyle(
+                fontSize: 22.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            contentPadding: EdgeInsets.all(24.0),
+            children: <Widget>[
+              Text(
+                "The skills have to give in sum 100%!",
+              )
+            ],
+          ),
+        );
+      }
     }
   }
 }

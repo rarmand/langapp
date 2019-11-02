@@ -68,6 +68,7 @@ class UserModel extends Model {
   bool _autoSkillset;
   Map _skillsetUser = {'speaking': 0, 'listening': 0, 'writing': 0, 'reading': 0};
   Map _skillsetDiagnosed = {'speaking': 25, 'listening': 25, 'writing': 25, 'reading': 25};
+  Map _newSkillsetUser = {};
   String _editedCourseIndex = '';
 
   // dane do diagnozowania automatycznego
@@ -145,6 +146,7 @@ class UserModel extends Model {
   bool get autoSkillset => _autoSkillset;
   Map get skillsetUser => _skillsetUser;
   Map get skillsetDiagnosed => _skillsetDiagnosed;
+  Map get newSkillsetUser => this._newSkillsetUser;
 
   int skillUser({String skill}) => _skillsetUser[skill];
   int skillDiagnosed({String skill}) => _skillsetDiagnosed[skill];
@@ -779,6 +781,12 @@ class UserModel extends Model {
     notifyListeners();
   }
 
+  // to set proper user skillset
+  void setNewSkillsetUser({String key, int value}) {
+    this._newSkillsetUser[key] = value;
+    notifyListeners();
+  }
+
   void setSkillsetUser({Map skillset}) {
     this._skillsetUser = skillset;
     notifyListeners();
@@ -793,6 +801,9 @@ class UserModel extends Model {
     this._autoSkillset = this._courses[index]['auto_on'];
     this._skillsetDiagnosed = this._courses[index]['skills_auto'];
     this._skillsetUser = this._courses[index]['skills_user'];
+    this._skillsetUser.forEach((key, value) {
+      this._newSkillsetUser[key] = value;
+    });
 
     notifyListeners();
   }
@@ -801,26 +812,6 @@ class UserModel extends Model {
   Map get diagnosedData => this._diagnosedData;
   Map getDiagnosedSkillData({@required String skill}) => this._diagnosedData[skill];
 
-/*  
-  Map _diagnosedData = {
-    "listening": {
-      "counter": 0,
-      "good_answers_counter": 0,
-    },
-    "speaking": {
-      "counter": 0,
-      "good_answers_counter": 0,
-    },
-    "reading": {
-      "counter": 0,
-      "good_answers_counter": 0,
-    },
-    "writing": {
-      "counter": 0,
-      "good_answers_counter": 0,
-    }
-  };
-  */
   void setDiagnosedData({@required String courseIndex}) {
     if (courseIndex.isEmpty) courseIndex = this._courseIndex;
 
