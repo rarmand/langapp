@@ -479,6 +479,7 @@ class UserModel extends Model {
 ////////////////////////////////////////////////////////////////////////////
 
   void setWordsToRepeat({int amount = 4}) {
+    this._wordsToRepeatProcess = {};
     Map chosenWords = {};
     int size = (this._wordsToRepeat.length >= amount ? amount : this._wordsToRepeat.length);
     List keys = this._wordsToRepeat.keys.toList();
@@ -496,6 +497,7 @@ class UserModel extends Model {
     }
 
     this._wordsToRepeatProcess = chosenWords;
+    notifyListeners();
   }
 
   void setWordsToLearn({int amount = 4}) async {
@@ -626,7 +628,7 @@ class UserModel extends Model {
     print(practisedWords);
 
     // oczyscic this._wordsToRepeatProcess
-    this._wordsToRepeatProcess = {};
+    // this._wordsToRepeatProcess = {};
 
     // usunac odpowiednie slowa z bazy this._wordsToRepeat
     // i przeniesc do this._wordsLearnt
@@ -834,9 +836,19 @@ class UserModel extends Model {
     }
   }
 
+  // TODO: do spr przetestowania czy to działa
   void diagnoseSkillset() async {
-    print(this._diagnosedData);
     this._courses[courseIndex]['diagnosed_data'] = this._diagnosedData;
+    print(this._diagnosedData);
+
+    // diagnoza po 3 próbach session lub repetition
+    if (this._diagnosedData['reading']['counter'] <= 12) {
+      notifyListeners();
+      await Firestore.instance.collection('users').document(this._userId).updateData({'courses': this._courses});
+      return;
+    }
+
+    print("diagnosing started here");
 
     Map newDiagnosedSkills = {};
     double sumWages = 0;
@@ -891,11 +903,21 @@ class UserModel extends Model {
       }
     }
 
-    print(newDiagnosedSkills);
-//    await Firestore.instance.collection('users').document(this._userId).updateData({'courses': this._courses});
+    this._diagnosedData.forEach((skill, data) {
+      this._diagnosedData[skill]["good_answers_counter"] = 0;
+      this._diagnosedData[skill]["counter"] = 0;
+    });
 
-    // update skillset diagnosed
+    newDiagnosedSkills.forEach((skill, value) {
+      newDiagnosedSkills[skill] = int.parse(value);
+    });
+
+    this._skillsetDiagnosed = newDiagnosedSkills;
+    this._courses[this._courseIndex]['skills_auto'] = newDiagnosedSkills;
+    this._courses[this._courseIndex]['diagnosed_data'] = this._diagnosedData;
+
     notifyListeners();
+    await Firestore.instance.collection('users').document(this._userId).updateData({'courses': this._courses});
   }
 
 ///////////////////////////

@@ -1,14 +1,13 @@
-import 'dart:async';
-
-import 'package:audio_recorder/audio_recorder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:langapp/components/button_filled/button_filled_big.dart';
 import 'package:langapp/components/learning_process/learning_word.dart';
 import 'package:langapp/components/learning_process/points_label.dart';
 import 'package:langapp/styles/colors.dart';
-import 'package:speech_recognition/speech_recognition.dart';
-import 'package:flutter_sound/flutter_sound.dart';
+// import 'package:speech_recognition/speech_recognition.dart';
+// import 'package:flutter_sound/flutter_sound.dart';
+// import 'dart:async';
+// import 'package:audio_recorder/audio_recorder.dart';
 
 // const languages = const [
 //   const Language('Francais', 'fr_FR'),
@@ -48,7 +47,7 @@ class _TextTaskSpeakWordState extends State<TextTaskSpeakWord> {
 
   // Language selectedLang = languages[1];
 
-  FlutterSound flutterSound = new FlutterSound();
+  // FlutterSound flutterSound = new FlutterSound();
   bool _isRecording = false;
 
   @override
@@ -96,51 +95,45 @@ class _TextTaskSpeakWordState extends State<TextTaskSpeakWord> {
   // }
 
   void _onMicTap() async {
-    var _recorderSubscription;
+    // var _recorderSubscription;
 
-    // wlacz nagrywanie
-    if (!this._isRecording) {
-      Future<String> result = flutterSound.startRecorder(null);
+    // // wlacz nagrywanie
+    // if (!this._isRecording) {
+    //   Future<String> result = flutterSound.startRecorder(null);
 
-      result.then((path) {
-        print('startRecorder: $path');
+    //   result.then((path) {
+    //     print('startRecorder: $path');
 
-        _recorderSubscription = flutterSound.onRecorderStateChanged.listen((e) {
-          print(_recorderSubscription);
+    //     _recorderSubscription = flutterSound.onRecorderStateChanged.listen((e) {
+    //       print(_recorderSubscription);
 
-          String txt = "xxx";
-        });
-      });
+    //       String txt = "xxx";
+    //     });
+    //   });
 
-      setState(() {
-        this._isRecording = true;
-      });
-    }
-    // wylacz nagrywanie
-    else {
-      Future<String> result = flutterSound.stopRecorder();
+    //   setState(() {
+    //     this._isRecording = true;
+    //   });
+    // }
+    // // wylacz nagrywanie
+    // else {
+    //   Future<String> result = flutterSound.stopRecorder();
 
-      result.then((value) {
-        print('stopRecorder: $value');
+    //   result.then((value) {
+    //     print('stopRecorder: $value');
 
-        if (_recorderSubscription != null) {
-          print(_recorderSubscription);
+    //     if (_recorderSubscription != null) {
+    //       print(_recorderSubscription);
 
-          _recorderSubscription.cancel();
-          _recorderSubscription = null;
-        }
-      });
+    //       _recorderSubscription.cancel();
+    //       _recorderSubscription = null;
+    //     }
+    //   });
 
-      setState(() {
-        this._isRecording = false;
-      });
-    }
-  }
-
-  @override
-  void dispose() {
-    flutterSound.stopRecorder();
-    super.dispose();
+    //   setState(() {
+    //     this._isRecording = false;
+    //   });
+    // }
   }
 
   @override

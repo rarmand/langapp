@@ -42,7 +42,6 @@ class _RepetitionPageControllerState extends State<RepetitionPageController> {
     ScopedModel.of<UserModel>(context).iconProcessPath = "assets/course/review_vocab.svg";
     ScopedModel.of<UserModel>(context).processPoints = 0;
     ScopedModel.of<UserModel>(context).setWordsToRepeat(amount: this._numberOfWords);
-    print("Repetition init state " + ScopedModel.of<UserModel>(context).dailyLearntWordsNumber.toString());
 
     this._generateTasks();
   }
@@ -224,7 +223,7 @@ class _RepetitionPageControllerState extends State<RepetitionPageController> {
   }
 
   List _setPages() {
-    Map words = ScopedModel.of<UserModel>(context).wordsToRepeat;
+    Map words = ScopedModel.of<UserModel>(context).wordsToRepeatProcess;
     final List pages = [];
     this._finalTasks.forEach((key, value) {
       if (words.containsKey(key)) {
@@ -237,11 +236,19 @@ class _RepetitionPageControllerState extends State<RepetitionPageController> {
   }
 
   // app bar actions
-  void _onClosePressed() {
-    showDialog(
-      context: context,
-      builder: (context) => StopSessionModal(),
-    );
+  void _onClosePressed(int pagesLength) {
+    if (this._selectedIndex == pagesLength - 1) {
+      Navigator.pushNamedAndRemoveUntil(context, "/", (Route<dynamic> route) => false);
+      Navigator.of(context).push(PageRouteBuilder(
+        opaque: false,
+        pageBuilder: (BuildContext context, _, __) => LearningChoiceModal(),
+      ));
+    } else {
+      showDialog(
+        context: context,
+        builder: (context) => StopSessionModal(),
+      );
+    }
   }
 
   @override
@@ -255,8 +262,8 @@ class _RepetitionPageControllerState extends State<RepetitionPageController> {
       appBar: AppBarUpper(
         title: courseTitle,
         isCourseAppBar: true,
-        onLogoTap: this._onClosePressed,
-        onClosePressed: this._onClosePressed,
+        onLogoTap: () => this._onClosePressed(pages.length),
+        onClosePressed: () => this._onClosePressed(pages.length),
       ),
       body: Container(
         child: Column(

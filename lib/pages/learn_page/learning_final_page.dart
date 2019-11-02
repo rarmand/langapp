@@ -20,6 +20,7 @@ class LearningFinalPage extends StatefulWidget {
 
 class _LearningFinalPageState extends State<LearningFinalPage> {
   int _points = 0;
+  Map _words = {};
 
   @override
   void initState() {
@@ -37,8 +38,10 @@ class _LearningFinalPageState extends State<LearningFinalPage> {
       ScopedModel.of<UserModel>(context).diagnoseSkillset();
 
       if (this.widget.type == "session") {
+        this._words = ScopedModel.of<UserModel>(context).wordsToLearn;
         ScopedModel.of<UserModel>(context).addPractisedWords();
       } else if (this.widget.type == "repetition") {
+        this._words = ScopedModel.of<UserModel>(context).wordsToRepeatProcess;
         ScopedModel.of<UserModel>(context).addRepeatedWords();
       }
 
@@ -63,9 +66,8 @@ class _LearningFinalPageState extends State<LearningFinalPage> {
       height: 104.0,
     );
 
-    Map words = ScopedModel.of<UserModel>(context, rebuildOnChange: true).wordsToLearn;
     List<VocabularyCard> vocabList = [];
-    words.forEach((key, value) {
+    this._words.forEach((key, value) {
       vocabList.add(
         VocabularyCard(
           vocabulary: value['text'],

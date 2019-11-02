@@ -83,11 +83,19 @@ class _SpeedTestPageControllerState extends State<SpeedTestPageController> {
   }
 
   // app bar actions
-  void _onClosePressed() {
-    showDialog(
-      context: context,
-      builder: (context) => StopSessionModal(),
-    );
+  void _onClosePressed(int pagesLength) {
+    if (this._selectedIndex == pagesLength - 1) {
+      Navigator.pushNamedAndRemoveUntil(context, "/", (Route<dynamic> route) => false);
+      Navigator.of(context).push(PageRouteBuilder(
+        opaque: false,
+        pageBuilder: (BuildContext context, _, __) => LearningChoiceModal(),
+      ));
+    } else {
+      showDialog(
+        context: context,
+        builder: (context) => StopSessionModal(),
+      );
+    }
   }
 
   // build
@@ -100,8 +108,8 @@ class _SpeedTestPageControllerState extends State<SpeedTestPageController> {
       appBar: AppBarUpper(
         title: courseTitle,
         isCourseAppBar: true,
-        onLogoTap: this._onClosePressed,
-        onClosePressed: this._onClosePressed,
+        onLogoTap: () => this._onClosePressed(this._pages.length),
+        onClosePressed: () => this._onClosePressed(this._pages.length),
       ),
       body: FutureBuilder(
         future: this._loadWidget(context),

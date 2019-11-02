@@ -49,8 +49,9 @@ class _SessionPageControllerState extends State<SessionPageController> {
     ScopedModel.of<UserModel>(context).iconProcessPath = "assets/course/add.svg";
     ScopedModel.of<UserModel>(context).processPoints = 0;
     ScopedModel.of<UserModel>(context).setWordsToLearn(amount: this._numberOfWords);
-    print("Session init state " + ScopedModel.of<UserModel>(context).dailyLearntWordsNumber.toString());
 
+    // print("Session init state " + ScopedModel.of<UserModel>(context).dailyLearntWordsNumber.toString());
+    // print("Session init state " + ScopedModel.of<UserModel>(context).diagnosedData.toString());
     // wybrany kurs (usermodel - chosenCourse)
     // na start lista wszystkich słów dla danego kursu (typ Map w UserModel - chosenCourseWords)
     // lista słow już widzianych (learntWords - typ Map)
@@ -162,15 +163,15 @@ class _SessionPageControllerState extends State<SessionPageController> {
   }
 
   void _nextPage(bool successed, String wordKey, String skill) async {
-    // if (skill.isNotEmpty) {
-    //   ScopedModel.of<UserModel>(context).addToDiagnosingSkill(skillkey: skill, isCorrectAnswer: successed);
-    // }
+    if (skill.isNotEmpty) {
+      ScopedModel.of<UserModel>(context).addToDiagnosingSkill(skillkey: skill, isCorrectAnswer: successed);
+    }
 
     if (successed) {
       ScopedModel.of<UserModel>(context).addGoodAnswerSessionProcess(wordKey: wordKey);
       ScopedModel.of<UserModel>(context).addToProcessPoints(this._pointsForTask);
     } else {
-      // nie wiem co, nie daj punktu
+      // nie wiem co, nie dac punktu
       // wyswietlac strone NewWordPage
     }
 
@@ -275,11 +276,19 @@ class _SessionPageControllerState extends State<SessionPageController> {
   }
 
   // app bar actions
-  void _onClosePressed() {
-    showDialog(
-      context: context,
-      builder: (context) => StopSessionModal(),
-    );
+  void _onClosePressed(int pagesLength) {
+    if (this._selectedIndex == pagesLength - 1) {
+      Navigator.pushNamedAndRemoveUntil(context, "/", (Route<dynamic> route) => false);
+      Navigator.of(context).push(PageRouteBuilder(
+        opaque: false,
+        pageBuilder: (BuildContext context, _, __) => LearningChoiceModal(),
+      ));
+    } else {
+      showDialog(
+        context: context,
+        builder: (context) => StopSessionModal(),
+      );
+    }
   }
 
   // build
@@ -294,8 +303,8 @@ class _SessionPageControllerState extends State<SessionPageController> {
       appBar: AppBarUpper(
         title: courseTitle,
         isCourseAppBar: true,
-        onLogoTap: this._onClosePressed,
-        onClosePressed: this._onClosePressed,
+        onLogoTap: () => this._onClosePressed(pages.length),
+        onClosePressed: () => this._onClosePressed(pages.length),
       ),
       body: Container(
         child: Column(

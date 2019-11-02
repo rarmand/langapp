@@ -33,17 +33,6 @@ class NewWordPage extends StatelessWidget {
     }
   }
 
-  // tutaj określić obrazek lub tekst wspomagający
-  //
-  // strona ma się pojawiać jeśli user popełni błąd
-  // ma być wyświetlony tekst , fonetyka, tłumaczenie i element wspomagający
-  // trzeba nadać możliwość zmiany obrazka, gdzieś z boku
-  //
-  // strona ma się pojawiać po kliku na słówko w TheoryPage
-  // bez appbaru
-
-  // czy dodać tu mic z wymową usera w kolejnym procesie uczenia?
-
   @override
   Widget build(BuildContext context) {
     String helpText = ScopedModel.of<UserModel>(context, rebuildOnChange: true).getHelpText(wordkey: this.wordKey);
