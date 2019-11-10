@@ -138,6 +138,23 @@ class _RegisterPageState extends State<RegisterPage> {
         // TODO: wyrzucić komunikat że konto na dany adres email już istnieje
       } catch (e) {
         print(e.message);
+        if (e.message.toString().contains("The email address is already in use by another account")) {
+          showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return SimpleDialog(
+                  title: Text(
+                    "Error",
+                    style: TextStyle(
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  contentPadding: EdgeInsets.all(24),
+                  children: <Widget>[Text(e.message.toString())],
+                );
+              });
+        }
       }
     }
   }

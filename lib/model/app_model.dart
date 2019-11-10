@@ -13,10 +13,10 @@ class UserModel extends Model {
 // main data about user
 ///////////////////////////
 
-  String _userId = 't0aEzrSxuZcxMtp5GMX2hhzM7ed2';
+  String _userId = ''; // t0aEzrSxuZcxMtp5GMX2hhzM7ed2
   String _username = '';
   String _email = '';
-  String _language = 'french';
+  String _language = ''; // french
 
   int _points = 0;
   Timestamp _lastLearningTimestamp = Timestamp(0, 0);

@@ -27,8 +27,6 @@ dependencies:
   speech_recognition:
     git:
       url: git://github.com/UnRyongPark/speech_recognition.git
-  audio_recorder: ^1.0.1
-  flutter_sound: ^1.5.1
 
   flutter:
     sdk: flutter
