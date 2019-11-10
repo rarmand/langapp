@@ -13,7 +13,7 @@ class UserModel extends Model {
 // main data about user
 ///////////////////////////
 
-  String _userId = ''; // t0aEzrSxuZcxMtp5GMX2hhzM7ed2
+  String _userId = 't0aEzrSxuZcxMtp5GMX2hhzM7ed2'; // t0aEzrSxuZcxMtp5GMX2hhzM7ed2
   String _username = '';
   String _email = '';
   String _language = ''; // french
@@ -32,6 +32,7 @@ class UserModel extends Model {
 // challenges data - needs some changes in DB and here
 ///////////////////////////
 
+  String _challengeId = "";
   Map _challenge = {'challenge_id': '', 'title': '', 'description': ''};
   Map _userChallenges = {};
 
@@ -105,6 +106,7 @@ class UserModel extends Model {
 // challenges data
 ///////////////////////////
 
+  String get challengeId => _challengeId;
   Map get challenge => _challenge;
   Map get userChallenges => _userChallenges;
 
@@ -246,15 +248,19 @@ class UserModel extends Model {
 
   void setChallenge({Map challenge, bool isFinished = false}) async {
     if (isFinished) {
+      this._challengeId = "0";
       this._challenge = {
-        "challenge_id": "0",
+        "challengeId": "0",
         "title": "",
         "description": "",
       };
 
       await Firestore.instance.collection("users").document(this._userId).updateData({"challenge_id": "0"});
+      await Firestore.instance.collection("users").document(this._userId).updateData({"challenge": {}});
     } else {
       this._challenge = challenge;
+      this._challengeId = challenge["challengeId"];
+      await Firestore.instance.collection("users").document(this._userId).updateData({"challenge": challenge});
     }
 
     notifyListeners();
@@ -938,7 +944,8 @@ class UserModel extends Model {
 
       this._userChallenges = data['challenges'];
       this._courses = data['courses'];
-      this._challenge = {'challenge_id': data["challenge_id"]};
+      this._challenge = data["challenge"];
+      this._challengeId = data['challenge_id'];
     }
 
     this.setDailyGoalStamps();
@@ -967,6 +974,7 @@ class UserModel extends Model {
     this._dailyGoalHistory = [];
     this._dailyGoalStamps = List.generate(7, (index) => false);
 
+    this._challengeId = "0";
     this._challenge = {};
     this._courses = {};
 
@@ -983,6 +991,7 @@ class UserModel extends Model {
       'daily_goal': this._dailyGoal,
       'daily_goal_history': this._dailyGoalHistory,
       'challenges': {},
+      'challenge': {},
       'challenge_id': 0,
     });
 
@@ -1007,6 +1016,7 @@ class UserModel extends Model {
     this._dailyGoalHistory = [];
     this._dailyGoalStamps = List.generate(7, (index) => false);
 
+    this._challengeId = "";
     this._challenge = {};
     this._userChallenges = {};
 

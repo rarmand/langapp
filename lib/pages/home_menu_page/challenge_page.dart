@@ -17,7 +17,7 @@ class ChallengePage extends StatefulWidget {
 
 class _ChallengePageState extends State<ChallengePage> {
   bool _isChallenged = false;
-  String _challengeId = "0";
+  String _challengeId = "";
 
   @override
   void initState() {
@@ -26,11 +26,14 @@ class _ChallengePageState extends State<ChallengePage> {
   }
 
   void _getData() {
-    String challengeId = ScopedModel.of<UserModel>(context).challenge['challenge_id'];
-
     setState(() {
-      this._challengeId = challengeId;
-      this._isChallenged = this._challengeId != challengeId;
+      this._challengeId = ScopedModel.of<UserModel>(context).challengeId;
+
+      if (this._challengeId == "0") {
+        this._isChallenged = false;
+      } else {
+        this._isChallenged = true;
+      }
     });
   }
 
@@ -45,51 +48,63 @@ class _ChallengePageState extends State<ChallengePage> {
 
     // pobranie danych usera
     String uid = ScopedModel.of<UserModel>(context).userId;
-    DocumentSnapshot ds = await Firestore.instance.collection("users").document(uid).get();
+    Map usedChallenges = ScopedModel.of<UserModel>(context).userChallenges;
 
-    if (ds.exists) {
-      Map usedChallenges = ds['challenges'];
+    QuerySnapshot qs = await Firestore.instance.collection("challenges").getDocuments();
 
-      QuerySnapshot qs = await Firestore.instance.collection("challenges").getDocuments();
+    if (qs.documents.toList().length > 0) {
+      List<DocumentSnapshot> challengesList = qs.documents.toList();
+      List challengesChoice = [];
 
-      if (qs.documents.toList().length > 0) {
-        List<DocumentSnapshot> challengesList = qs.documents.toList();
-        List challengesChoice = [];
-
-        // sprawdz ktore challenge juz byly
-        challengesList.forEach((challengeDs) {
-          if (!usedChallenges.containsKey(challengeDs.documentID.toString())) {
-            challengesChoice.add(challengeDs);
-          }
-        });
-
-        // jeśli sa wolne opcje, korzystaj
-        if (challengesChoice.length > 0) {
-          // losowanie challenge'u
-          Random rnd = new Random.secure();
-          DocumentSnapshot choiceDs = challengesChoice[rnd.nextInt(challengesList.length)];
-
-          // wstawianie do bazy i do modelu
-          await Firestore.instance
-              .collection('users')
-              .document(uid)
-              .updateData({'challenge_id': choiceDs.documentID.toString()});
-
-          Map newChallenge = {
-            'challengeId': choiceDs.documentID.toString(),
-            'title': choiceDs.data['title'],
-            'description': choiceDs.data['description'],
-          };
-          ScopedModel.of<UserModel>(context).setChallenge(challenge: newChallenge);
-
-          setState(() {
-            this._isChallenged = true;
-            this._challengeId = choiceDs.documentID.toString();
-          });
-        } else {
-          // alert że wszystkie na ten moment wykorzystane
-
+      // sprawdz ktore challenge juz byly
+      challengesList.forEach((challengeDs) {
+        if (!usedChallenges.containsKey(challengeDs.documentID.toString())) {
+          challengesChoice.add(challengeDs);
         }
+      });
+
+      // jeśli sa wolne opcje, korzystaj
+      if (challengesChoice.length > 0) {
+        // losowanie challenge'u
+        Random rnd = new Random.secure();
+        DocumentSnapshot choiceDs = challengesChoice[rnd.nextInt(challengesList.length)];
+
+        // wstawianie do bazy i do modelu
+        await Firestore.instance
+            .collection('users')
+            .document(uid)
+            .updateData({'challenge_id': choiceDs.documentID.toString()});
+
+        Map newChallenge = {
+          'challengeId': choiceDs.documentID.toString(),
+          'title': choiceDs.data['title'],
+          'description': choiceDs.data['description'],
+        };
+        ScopedModel.of<UserModel>(context).setChallenge(challenge: newChallenge);
+
+        setState(() {
+          this._isChallenged = true;
+          this._challengeId = choiceDs.documentID.toString();
+        });
+      } else {
+        // alert że wszystkie na ten moment wykorzystane
+        showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return SimpleDialog(
+                title: Text(
+                  "All challenges used",
+                  style: TextStyle(
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                children: <Widget>[
+                  Text("You used all challenges! Wait until new challenges appear"),
+                ],
+                contentPadding: EdgeInsets.all(24.0),
+              );
+            });
       }
     }
   }
@@ -110,7 +125,6 @@ class _ChallengePageState extends State<ChallengePage> {
       disabled: false,
     );
     Widget afterChallengeWidget = ChallengeIsChallenged(
-      challengeId: 0,
       onFinishPressed: this._onFinishChallenge,
     );
 
