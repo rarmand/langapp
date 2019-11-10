@@ -65,8 +65,6 @@ class _LearningSettingsEditionModalState extends State<LearningSettingsEditionMo
         sum += value;
       });
 
-      print("Skill init state $sum");
-
       if (sum == 100) {
         form.save();
         Navigator.pop(context);

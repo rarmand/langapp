@@ -3,26 +3,15 @@ import 'package:flutter_svg/svg.dart';
 import 'package:langapp/components/button_filled/button_filled_big.dart';
 import 'package:langapp/components/learning_process/learning_word.dart';
 import 'package:langapp/components/learning_process/points_label.dart';
+import 'package:langapp/model/app_model.dart';
 import 'package:langapp/styles/colors.dart';
-// import 'package:speech_recognition/speech_recognition.dart';
-// import 'package:flutter_sound/flutter_sound.dart';
-// import 'dart:async';
-// import 'package:audio_recorder/audio_recorder.dart';
+import 'package:scoped_model/scoped_model.dart';
+import 'package:speech_recognition/speech_recognition.dart';
 
-// const languages = const [
-//   const Language('Francais', 'fr_FR'),
-//   const Language('English', 'en_US'),
-//   const Language('Pусский', 'ru_RU'),
-//   const Language('Italiano', 'it_IT'),
-//   const Language('Español', 'es_ES'),
-// ];
-
-// class Language {
-//   final String name;
-//   final String code;
-
-//   const Language(this.name, this.code);
-// }
+const Map languages = const {
+  'german': 'de_DE',
+  'french': 'fr_FR',
+};
 
 class TextTaskSpeakWord extends StatefulWidget {
   final String wordKey;
@@ -37,27 +26,31 @@ class TextTaskSpeakWord extends StatefulWidget {
 }
 
 class _TextTaskSpeakWordState extends State<TextTaskSpeakWord> {
-  // SpeechRecognition _speech;
-  // // if platform lets us interact with it
-  // bool _speechRecognitionAvailable = false;
+  SpeechRecognition _speech;
   // // if mic listens to us
-  // bool _isListening = false;
+  bool _isListening = false;
   // // result text
-  // String transcription = '';
+  String transcription = '';
+  // // if platform lets us interact with it
+  bool _speechRecognitionAvailable = false;
 
-  // Language selectedLang = languages[1];
-
-  // FlutterSound flutterSound = new FlutterSound();
-  bool _isRecording = false;
+  String _locale = "";
 
   @override
   void initState() {
     super.initState();
+    final lang = ScopedModel.of<UserModel>(context).chosenCourse['language'];
+    // debugPrint(lang + ' jenzyk kursy kturego sie uczysz');
 
-    // this.activateSpeechRecognizer();
+    this._locale = languages[lang];
+    print(this._locale);
+
+    this.activateSpeechRecognizer();
   }
 
-  void _next(bool goodAnswer) {
+  void _next(bool goodAnswer) async {
+    if (this.transcription.isEmpty) return;
+
     if (!goodAnswer) {
       this.widget.onNext(false, this.widget.wordKey, this.widget.skill);
     } else {
@@ -66,74 +59,51 @@ class _TextTaskSpeakWordState extends State<TextTaskSpeakWord> {
   }
 
   // Platform messages are asynchronous, so we initialize in an async method.
-  // void activateSpeechRecognizer() {
-  //   print('_MyAppState.activateSpeechRecognizer... ');
-  //   this._speech = SpeechRecognition();
+  void activateSpeechRecognizer() {
+    print('_MyAppState.activateSpeechRecognizer... ');
+    this._speech = SpeechRecognition();
 
-  //   // setup of all handlers
-  //   this._speech.setAvailabilityHandler(onSpeechAvailability);
-  //   this._speech.setCurrentLocaleHandler(onCurrentLocale);
-  //   this._speech.setRecognitionStartedHandler(onRecognitionStarted);
-  //   this._speech.setRecognitionResultHandler(onRecognitionResult);
-  //   this._speech.setRecognitionCompleteHandler(onRecognitionComplete);
+    // setup of all handlers
+    this._speech.setAvailabilityHandler(onSpeechAvailability);
+    this._speech.setRecognitionStartedHandler(onRecognitionStarted);
+    this._speech.setRecognitionResultHandler(onRecognitionResult);
+    this._speech.setRecognitionCompleteHandler(onRecognitionComplete);
+    this._speech.setErrorHandler(() {
+      // debugPrint('cos nie tak');
+      setState(() {
+        _isListening = false;
+      });
+    });
 
-  //   // activate
-  //   this._speech.activate().then((res) {
-  //     setState(() => _speechRecognitionAvailable = res);
-  //   });
-  // }
+    // activate
+    this._speech.activate();
+  }
 
-  // void _onMicTap() {
-  //   print("_onMicTap");
-  //   if (_speechRecognitionAvailable && !_isListening) start();
-  // }
+  void _onMicTap() {
+    // print("_onMicTap");
+    
+    _speech.listen(locale: this._locale).then((value) {
+      // debugPrint('result: ' + value.toString());
+      setState(() {
+        _isListening = value;
+      });
+    }).catchError((e) {
+      debugPrint('error ' + e);
+    });
+  }
 
-  // void _onMicDoubleTap() {
-  //   print("_onMicDoubleTap");
-  //   print(_isListening);
-  //   if (_isListening) stop();
-  // }
+  @override
+  void dispose() {
+    this._speech.cancel();
+    super.dispose();
+  }
 
-  void _onMicTap() async {
-    // var _recorderSubscription;
-
-    // // wlacz nagrywanie
-    // if (!this._isRecording) {
-    //   Future<String> result = flutterSound.startRecorder(null);
-
-    //   result.then((path) {
-    //     print('startRecorder: $path');
-
-    //     _recorderSubscription = flutterSound.onRecorderStateChanged.listen((e) {
-    //       print(_recorderSubscription);
-
-    //       String txt = "xxx";
-    //     });
-    //   });
-
-    //   setState(() {
-    //     this._isRecording = true;
-    //   });
-    // }
-    // // wylacz nagrywanie
-    // else {
-    //   Future<String> result = flutterSound.stopRecorder();
-
-    //   result.then((value) {
-    //     print('stopRecorder: $value');
-
-    //     if (_recorderSubscription != null) {
-    //       print(_recorderSubscription);
-
-    //       _recorderSubscription.cancel();
-    //       _recorderSubscription = null;
-    //     }
-    //   });
-
-    //   setState(() {
-    //     this._isRecording = false;
-    //   });
-    // }
+  void _onButtonPressed() {
+    if (this.widget.word['text'].toString().toLowerCase() == this.transcription) {
+      this._next(true);
+    } else {
+      this._next(false);
+    }
   }
 
   @override
@@ -148,11 +118,18 @@ class _TextTaskSpeakWordState extends State<TextTaskSpeakWord> {
               const SizedBox(height: 24.0),
               LearningWord(word: this.widget.word['text'], isSoundIcon: false, audioUrl: ''),
               const SizedBox(height: 24.0),
-              // Text(
-              //   transcription,
-              //   style: TextStyle(fontSize: 22.0),
-              //   textAlign: TextAlign.center,
-              // ),
+              (this.transcription.isEmpty
+                  ? SizedBox(height: 24.0)
+                  : Text(
+                      transcription,
+                      style: TextStyle(
+                        fontSize: 18.0,
+                        color: (this.widget.word['text'].toString().toLowerCase() == this.transcription
+                            ? GREEN_LIGHT
+                            : Colors.red),
+                      ),
+                      textAlign: TextAlign.center,
+                    )),
               const SizedBox(height: 24.0),
               Text(
                 "Tap on the microphone and test your pronounciation of the word.",
@@ -162,17 +139,14 @@ class _TextTaskSpeakWordState extends State<TextTaskSpeakWord> {
               InkWell(
                 child: SvgPicture.asset(
                   "assets/learning/microphone.svg",
-                  // color: (_isListening ? YELLOW : BROWN_DARK),
-                  color: BROWN_DARK,
+                  color: (_isListening ? YELLOW : BROWN_DARK),
                   height: 100.0,
                 ),
-                // onTap: this._onMicTap,
-                // onDoubleTap: this._onMicDoubleTap,
                 onTap: this._onMicTap,
               ),
               const SizedBox(height: 40.0),
               // to raczej do stacka
-              ButtonFilledBig(onPressed: () => this._next(false)),
+              ButtonFilledBig(onPressed: this._onButtonPressed),
               const SizedBox(height: 24.0),
             ],
           ),
@@ -181,35 +155,24 @@ class _TextTaskSpeakWordState extends State<TextTaskSpeakWord> {
     );
   }
 
-  // void start() {
-  //   print("start ");
-  //   print(selectedLang.code);
-  //   _speech.listen(locale: selectedLang.code).then((result) => print('_MyAppState.start => result $result'));
-  // }
-
-  // void cancel() {
-  //   print("cancel");
-  //   _speech.cancel().then((result) => setState(() {
-  //         _isListening = result;
-  //         transcription = "";
-  //       }));
-  // }
-
-  // void stop() {
-  //   print("stop");
-
-  //   _speech.stop().then((result) {
-  //     setState(() => _isListening = result);
-  //   });
-  // }
-
-  // void onSpeechAvailability(bool result) => setState(() => _speechRecognitionAvailable = result);
+  void onSpeechAvailability(bool result) => setState(() => _speechRecognitionAvailable = result);
   // void onCurrentLocale(String locale) {
   //   print('_MyAppState.onCurrentLocale... $locale');
   //   setState(() => selectedLang = languages.firstWhere((l) => l.code == locale));
   // }
 
-  // void onRecognitionStarted() => setState(() => _isListening = true);
-  // void onRecognitionResult(String text) => setState(() => transcription = text);
-  // void onRecognitionComplete() => setState(() => _isListening = false);
+  void onRecognitionStarted() {
+    debugPrint('reconginition started');
+    setState(() => _isListening = true);
+  }
+
+  void onRecognitionResult(String text) {
+    debugPrint(text + ' lalalalalalal');
+    setState(() => transcription = text);
+  }
+
+  void onRecognitionComplete(String text) {
+    debugPrint('recognition complete - ' + text);
+    setState(() => _isListening = false);
+  }
 }
