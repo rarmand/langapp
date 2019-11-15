@@ -66,6 +66,11 @@ class _SettingsPageState extends State<SettingsPage> {
               buttonIcon: Icons.exit_to_app,
               onPressed: this._logOut,
             ),
+            ElementButton(
+              name: "Delete an account",
+              buttonIcon: Icons.delete_outline,
+              onPressed: this._deleteAccount,
+            ),
           ],
         ),
       ),
@@ -76,5 +81,15 @@ class _SettingsPageState extends State<SettingsPage> {
     await FirebaseAuth.instance.signOut();
     ScopedModel.of<UserModel>(context).deleteUserData();
     Navigator.pushNamedAndRemoveUntil(context, '/login', (Route<dynamic> route) => false);
+  }
+
+  void _deleteAccount() async {
+    FirebaseUser user = await FirebaseAuth.instance.currentUser();
+    user.delete().then((onValue) {
+      ScopedModel.of<UserModel>(context).deleteUserAccount();
+      Navigator.pushNamedAndRemoveUntil(context, '/register', (Route<dynamic> route) => false);
+    }).catchError((onError) {
+      print(onError);
+    });
   }
 }

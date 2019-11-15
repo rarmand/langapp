@@ -116,27 +116,25 @@ class _LoginPageState extends State<LoginPage> {
         ScopedModel.of<UserModel>(context).setUserId(uid: result.user.uid);
         ScopedModel.of<UserModel>(context).setUserData(uid: result.user.uid);
 
-        // TODO: pewnie wyświetlić błąd jak nie da się zalogować
         Navigator.pushNamed(context, '/');
       } catch (e) {
-        print(e.message);
-        if (e.message.toString().contains("password is invalid")) {
-          showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return SimpleDialog(
-                  title: Text(
-                    "Error",
-                    style: TextStyle(
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.bold,
-                    ),
+        debugPrint(e.message);
+
+        showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return SimpleDialog(
+                title: Text(
+                  "Error",
+                  style: TextStyle(
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.bold,
                   ),
-                  contentPadding: EdgeInsets.all(24),
-                  children: <Widget>[Text(e.message.toString())],
-                );
-              });
-        }
+                ),
+                contentPadding: EdgeInsets.all(24),
+                children: <Widget>[Text(e.message.toString())],
+              );
+            });
       }
     }
   }

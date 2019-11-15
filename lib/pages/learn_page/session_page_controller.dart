@@ -33,9 +33,6 @@ class _SessionPageControllerState extends State<SessionPageController> {
   // list to collect initialized objects of pages
   Map<String, List<Widget>> _finalTasks = {};
 
-  // list of pages
-  // List _pages = [];
-
   // page controller needed for BUILD function to create a VIEW
   PageController pageController = PageController();
 
@@ -149,12 +146,7 @@ class _SessionPageControllerState extends State<SessionPageController> {
               onNext: this._nextPage,
             );
           else
-            result = TextTaskWriteWord(
-              wordKey: wordKey,
-              word: word,
-              skill: 'writing',
-              onNext: this._nextPage,
-            );
+            result = TextTaskWriteWord(wordKey: wordKey, word: word, skill: 'writing', onNext: this._nextPage);
           return result;
         }
       default:
@@ -210,7 +202,7 @@ class _SessionPageControllerState extends State<SessionPageController> {
     List keys = words.keys.toList();
 
     skillset.forEach((skill, value) {
-      int x = (value / this._numberOfTasks).round();
+      int x = (value / 100 * this._numberOfTasks).round();
 
       for (int i = 0; i < x; i++) {
         final int rand = Random().nextInt(keys.length);
@@ -233,31 +225,6 @@ class _SessionPageControllerState extends State<SessionPageController> {
         }
       }
     });
-
-    // for (int i = 0; i < 10; i++) {
-    //   final int rand = Random().nextInt(keys.length);
-    //   final key = keys[rand];
-
-    //   if (this._finalTasks.containsKey(key)) {
-    //     this._finalTasks[key].add(
-    //           TextTaskSpeakWord(
-    //             wordKey: key,
-    //             word: words[key],
-    //             skill: 'listening',
-    //             onNext: this._nextPage,
-    //           ),
-    //         );
-    //   } else {
-    //     this._finalTasks[key] = [
-    //       TextTaskSpeakWord(
-    //         wordKey: key,
-    //         word: words[key],
-    //         skill: 'listening',
-    //         onNext: this._nextPage,
-    //       ),
-    //     ];
-    //   }
-    // }
 
     this._finalTasks['final'] = [LearningFinalPage(type: "session")];
   }

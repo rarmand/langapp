@@ -708,7 +708,7 @@ class UserModel extends Model {
   }
 
   bool checkDailyGoalAchieved() {
-    bool dailyGoalAchieved =
+    bool dailyGoalAchieved = this._dailyGoalHistory.length > 0 &&
         DateTime.now().difference(this._dailyGoalHistory[this._dailyGoalHistory.length - 1].toDate()).inDays == 0;
 
     final bool achievedNow = this._dailyLearntWordsNumber >= this._dailyGoal && !dailyGoalAchieved;
@@ -859,12 +859,13 @@ class UserModel extends Model {
           1.0 - this._diagnosedData[skill]["good_answers_counter"] / this._diagnosedData[skill]["counter"];
 
       double newWage = errorsScore * wage;
-      newWage.round();
 
       if (newWage > 70) {
         newWage = 70;
       } else if (newWage < 10) {
         newWage = 10;
+      } else {
+        newWage = newWage.floorToDouble();
       }
 
       if (minKey["value"] > newWage) {
@@ -906,7 +907,7 @@ class UserModel extends Model {
     });
 
     newDiagnosedSkills.forEach((skill, value) {
-      newDiagnosedSkills[skill] = int.parse(value);
+      newDiagnosedSkills[skill] = value.toInt();
     });
 
     this._skillsetDiagnosed = newDiagnosedSkills;
@@ -976,23 +977,24 @@ class UserModel extends Model {
 
     this._challengeId = "0";
     this._challenge = {};
+    this._userChallenges = {};
+
     this._courses = {};
 
     await Firestore.instance.collection("users").document(uid).setData({
       'username': username,
       'email': email,
-      'longest_strike': 0,
-      'speed_test_strike': 0,
-      // TODO: im not sure
+      'longest_strike': this._longestStrike,
+      'speed_test_strike': this._speedTestStrike,
       'last_learning_timestamp': this._lastLearningTimestamp,
       'daily_learnt_words_number': this._dailyLearntWordsNumber,
-      'points': 0,
-      'courses': {},
+      'points': this._points,
+      'courses': this._courses,
       'daily_goal': this._dailyGoal,
       'daily_goal_history': this._dailyGoalHistory,
-      'challenges': {},
-      'challenge': {},
-      'challenge_id': 0,
+      'challenges': this._userChallenges,
+      'challenge': this._challenge,
+      'challenge_id': this._challengeId,
     });
 
     notifyListeners();
@@ -1044,6 +1046,14 @@ class UserModel extends Model {
 
     this._editedCourseIndex = '';
 
+    notifyListeners();
+  }
+
+  void deleteUserAccount() async {
+    // usunąc userId z bazy danych
+    await Firestore.instance.collection("users").document(this._userId).delete();
+
+    this.deleteUserData();
     notifyListeners();
   }
 

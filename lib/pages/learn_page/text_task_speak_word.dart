@@ -81,7 +81,7 @@ class _TextTaskSpeakWordState extends State<TextTaskSpeakWord> {
 
   void _onMicTap() {
     // print("_onMicTap");
-    
+
     _speech.listen(locale: this._locale).then((value) {
       // debugPrint('result: ' + value.toString());
       setState(() {
@@ -99,7 +99,10 @@ class _TextTaskSpeakWordState extends State<TextTaskSpeakWord> {
   }
 
   void _onButtonPressed() {
-    if (this.widget.word['text'].toString().toLowerCase() == this.transcription) {
+    if (this.widget.word['text'].toString() == this.transcription) {
+      // print(this.transcription.length);
+      // print(this.widget.word['text'].toString().length);
+
       this._next(true);
     } else {
       this._next(false);
@@ -124,9 +127,7 @@ class _TextTaskSpeakWordState extends State<TextTaskSpeakWord> {
                       transcription,
                       style: TextStyle(
                         fontSize: 18.0,
-                        color: (this.widget.word['text'].toString().toLowerCase() == this.transcription
-                            ? GREEN_LIGHT
-                            : Colors.red),
+                        color: (this.widget.word['text'].toString() == this.transcription ? GREEN_LIGHT : Colors.red),
                       ),
                       textAlign: TextAlign.center,
                     )),
@@ -167,7 +168,7 @@ class _TextTaskSpeakWordState extends State<TextTaskSpeakWord> {
   }
 
   void onRecognitionResult(String text) {
-    debugPrint(text + ' lalalalalalal');
+    debugPrint(text + ' recognized');
     setState(() => transcription = text);
   }
 
