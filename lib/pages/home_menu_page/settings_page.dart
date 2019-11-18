@@ -69,7 +69,7 @@ class _SettingsPageState extends State<SettingsPage> {
             ElementButton(
               name: "Delete an account",
               buttonIcon: Icons.delete_outline,
-              onPressed: this._deleteAccount,
+              onPressed: this._onDeletePressed,
             ),
           ],
         ),
@@ -91,5 +91,39 @@ class _SettingsPageState extends State<SettingsPage> {
     }).catchError((onError) {
       print(onError);
     });
+  }
+
+  void _onDeletePressed() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) => SimpleDialog(
+              title: Text(
+                "Do you want to delete your account?",
+                style: TextStyle(
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              contentPadding: EdgeInsets.symmetric(vertical: 24.0, horizontal: 24.0).copyWith(top: 8),
+              children: <Widget>[
+                const SizedBox(height: 12.0),
+                Text("All your data will be lost forever!"),
+                const SizedBox(height: 20.0),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    IconButton(
+                      icon: Icon(Icons.clear),
+                      onPressed: () => Navigator.of(context).pop(),
+                    ),
+                    const SizedBox(width: 32.0),
+                    IconButton(
+                      icon: Icon(Icons.check),
+                      onPressed: this._deleteAccount,
+                    )
+                  ],
+                )
+              ],
+            ));
   }
 }
