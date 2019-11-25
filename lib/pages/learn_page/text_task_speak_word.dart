@@ -49,13 +49,7 @@ class _TextTaskSpeakWordState extends State<TextTaskSpeakWord> {
   }
 
   void _next(bool goodAnswer) async {
-    if (this.transcription.isEmpty) return;
-
-    if (!goodAnswer) {
-      this.widget.onNext(false, this.widget.wordKey, this.widget.skill);
-    } else {
-      this.widget.onNext(true, this.widget.wordKey, this.widget.skill);
-    }
+    this.widget.onNext(goodAnswer, this.widget.wordKey, this.widget.skill);
   }
 
   // Platform messages are asynchronous, so we initialize in an async method.
@@ -81,15 +75,16 @@ class _TextTaskSpeakWordState extends State<TextTaskSpeakWord> {
 
   void _onMicTap() {
     // print("_onMicTap");
-
-    _speech.listen(locale: this._locale).then((value) {
-      // debugPrint('result: ' + value.toString());
-      setState(() {
-        _isListening = value;
+    if (this.transcription.isEmpty) {
+      _speech.listen(locale: this._locale).then((value) {
+        // debugPrint('result: ' + value.toString());
+        setState(() {
+          _isListening = value;
+        });
+      }).catchError((e) {
+        debugPrint('error ' + e);
       });
-    }).catchError((e) {
-      debugPrint('error ' + e);
-    });
+    }
   }
 
   @override
@@ -99,14 +94,7 @@ class _TextTaskSpeakWordState extends State<TextTaskSpeakWord> {
   }
 
   void _onButtonPressed() {
-    if (this.widget.word['text'].toString() == this.transcription) {
-      // print(this.transcription.length);
-      // print(this.widget.word['text'].toString().length);
-
-      this._next(true);
-    } else {
-      this._next(false);
-    }
+    this._next(this.widget.word['text'].toString() == this.transcription);
   }
 
   @override
@@ -147,7 +135,10 @@ class _TextTaskSpeakWordState extends State<TextTaskSpeakWord> {
               ),
               const SizedBox(height: 40.0),
               // to raczej do stacka
-              ButtonFilledBig(onPressed: this._onButtonPressed),
+              ButtonFilledBig(
+                btnText: (this.transcription.isEmpty ? "Skip" : "Next"),
+                onPressed: this._onButtonPressed,
+              ),
               const SizedBox(height: 24.0),
             ],
           ),
@@ -172,7 +163,7 @@ class _TextTaskSpeakWordState extends State<TextTaskSpeakWord> {
     setState(() => transcription = text);
   }
 
-  void onRecognitionComplete(String text) {
+  void onRecognitionComplete(String text) async {
     debugPrint('recognition complete - ' + text);
     setState(() => _isListening = false);
   }

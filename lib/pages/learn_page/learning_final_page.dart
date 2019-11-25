@@ -32,7 +32,9 @@ class _LearningFinalPageState extends State<LearningFinalPage> {
     this._points = ScopedModel.of<UserModel>(context).processPoints;
     ScopedModel.of<UserModel>(context).pushPointsToDb(this._points);
 
-    if (this.widget.type == "session" || this.widget.type == "repetition") {
+    if (this.widget.type == "test") {
+      this._words = ScopedModel.of<UserModel>(context).wordsSpeedTest;
+    } else if (this.widget.type == "session" || this.widget.type == "repetition") {
       print(this.widget.type);
 
       ScopedModel.of<UserModel>(context).diagnoseSkillset();
@@ -70,8 +72,7 @@ class _LearningFinalPageState extends State<LearningFinalPage> {
     this._words.forEach((key, value) {
       vocabList.add(
         VocabularyCard(
-          vocabulary: value['text'],
-          translation: value['translation'],
+          word: value,
           isKnown: (this.widget.type == "test" ? false : true),
         ),
       );
@@ -80,7 +81,7 @@ class _LearningFinalPageState extends State<LearningFinalPage> {
     if (this.widget.noWordsToLearn) {
       return Scaffold(
         body: Container(
-          padding: EdgeInsets.fromLTRB(24, 0, 24, 0),
+          margin: EdgeInsets.fromLTRB(24, 0, 24, 0),
           child: SingleChildScrollView(
             child: Column(
               children: <Widget>[
@@ -118,7 +119,7 @@ class _LearningFinalPageState extends State<LearningFinalPage> {
 
     return Scaffold(
       body: Container(
-        padding: EdgeInsets.fromLTRB(24, 0, 24, 0),
+        margin: EdgeInsets.fromLTRB(24, 0, 24, 0),
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[

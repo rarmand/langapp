@@ -5,7 +5,6 @@ import 'package:langapp/pages/learn_page/vocabulary_card.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class TheoryPage extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     String courseTitle = ScopedModel.of<UserModel>(context, rebuildOnChange: true).chosenCourse['title'];
@@ -26,8 +25,8 @@ class TheoryPage extends StatelessWidget {
         wordsList.insert(
           0,
           VocabularyCard(
-            vocabulary: word['text'],
-            translation: word['translation'],
+            wordkey: key,
+            word: word,
             helpText: wordsLearnt[key]['help_text'],
             isKnown: isKnown,
           ),
@@ -37,8 +36,8 @@ class TheoryPage extends StatelessWidget {
         wordsList.insert(
           0,
           VocabularyCard(
-            vocabulary: word['text'],
-            translation: word['translation'],
+            wordkey: key,
+            word: word,
             helpText: wordsToLearn[key]['help_text'],
             isKnown: isKnown,
           ),
@@ -47,8 +46,8 @@ class TheoryPage extends StatelessWidget {
         wordsList.insert(
           0,
           VocabularyCard(
-            vocabulary: word['text'],
-            translation: word['translation'],
+            wordkey: key,
+            word: word,
             helpText: wordsToRepeat[key]['help_text'],
             isRepeated: true,
           ),
@@ -56,16 +55,16 @@ class TheoryPage extends StatelessWidget {
       } else if (wordsIgnored.contains(key)) {
         wordsList.add(
           VocabularyCard(
-            vocabulary: word['text'],
-            translation: word['translation'],
+            wordkey: key,
+            word: word,
             isIgnored: true,
           ),
         );
       } else {
         wordsList.add(
           VocabularyCard(
-            vocabulary: word['text'],
-            translation: word['translation'],
+            wordkey: key,
+            word: word,
             isKnown: isKnown,
           ),
         );

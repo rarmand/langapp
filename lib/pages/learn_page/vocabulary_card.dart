@@ -1,22 +1,42 @@
 import 'package:flutter/material.dart';
+import 'package:langapp/pages/learn_page/new_word_page.dart';
 import 'package:langapp/styles/colors.dart';
 
 class VocabularyCard extends StatelessWidget {
-  final String vocabulary;
-  final String translation;
-  final String helpText;
+  String vocabulary;
+  String translation;
+  String helpText;
+  final String wordkey;
+  final Map word;
+
   final bool isKnown;
   final bool isRepeated;
   final bool isIgnored;
 
   VocabularyCard({
-    @required this.vocabulary,
-    @required this.translation,
+    @required this.wordkey,
+    @required this.word,
     this.helpText = "",
     this.isKnown = false,
     this.isRepeated = false,
     this.isIgnored = false,
-  });
+  }) {
+    this.vocabulary = this.word['text'];
+    this.translation = this.word['translation'];
+  }
+
+  void _openWordView(BuildContext context) {
+    // Navigator.push(
+    //   context,
+    //   MaterialPageRoute(
+    //     builder: (BuildContext context) => NewWordPage(
+    //       onNext: null,
+    //       word: this.word,
+    //       wordKey: this.wordkey,
+    //     ),
+    //   ),
+    // );
+  }
 
   @override
   Widget build(BuildContext context) {

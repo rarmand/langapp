@@ -96,7 +96,22 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
           ),
         );
       } catch (e) {
-        print(e.message);
+        debugPrint(e.message);
+        showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return SimpleDialog(
+                title: Text(
+                  "Error",
+                  style: TextStyle(
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                contentPadding: EdgeInsets.all(24),
+                children: <Widget>[Text(e.message.toString())],
+              );
+            });
       }
     }
   }

@@ -33,7 +33,7 @@ class _SpeedTestTaskState extends State<SpeedTestTask> with SingleTickerProvider
     this._setAnswers();
     controller = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 5),
+      duration: Duration(seconds: 3),
     );
     controller.forward();
     controller.addStatusListener((status) {
@@ -64,6 +64,7 @@ class _SpeedTestTaskState extends State<SpeedTestTask> with SingleTickerProvider
   }
 
   void _next(String chosenAnswer) async {
+    this.controller.stop();
     if (this._chosenAnswer != null) return;
     setState(() {
       this._chosenAnswer = chosenAnswer;

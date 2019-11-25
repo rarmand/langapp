@@ -116,7 +116,7 @@ class _LoginPageState extends State<LoginPage> {
         ScopedModel.of<UserModel>(context).setUserId(uid: result.user.uid);
         ScopedModel.of<UserModel>(context).setUserData(uid: result.user.uid);
 
-        Navigator.pushNamed(context, '/');
+        Navigator.pushNamedAndRemoveUntil(context, "/", (Route<dynamic> route) => false);
       } catch (e) {
         debugPrint(e.message);
 

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:langapp/model/app_model.dart';
 import 'package:langapp/pages/daily_goal_page/daily_goal_page.dart';
@@ -15,22 +16,45 @@ import 'package:langapp/pages/reset_password_page/reset_password_page.dart';
 import 'package:langapp/pages/welcome_page/welcome_page.dart';
 import 'package:langapp/styles/colors.dart';
 import 'package:scoped_model/scoped_model.dart';
-// import 'package:flutter/rendering.dart';
+
+final FirebaseAuth _auth = FirebaseAuth.instance;
 
 void main() {
-  // debugPaintSizeEnabled = true;
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   // This widget is the root of your application.
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  bool _isLoggedIn = false;
+
+  @override
+  void initState() {
+    super.initState();
+    getUser().then((user) {
+      if (user != null) {
+        setState(() {
+          this._isLoggedIn = true;
+        });
+      }
+    });
+  }
+
+  Future<FirebaseUser> getUser() async {
+    return await _auth.currentUser();
+  }
+
   @override
   Widget build(BuildContext context) {
     return ScopedModel<UserModel>(
       model: UserModel(),
       child: MaterialApp(
         title: 'Langgarden',
-        initialRoute: (true ? "/" : "/intro"),
+        initialRoute: (this._isLoggedIn ? "/" : "/intro"),
         routes: {
           '/': (context) => HomeController(),
           '/intro': (context) => IntroController(),

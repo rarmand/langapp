@@ -133,7 +133,7 @@ class _RegisterPageState extends State<RegisterPage> {
         ScopedModel.of<UserModel>(context)
             .setNewUserData(uid: result.user.uid, username: this._username, email: this._email);
 
-        Navigator.pushNamed(context, '/welcome');
+        Navigator.pushNamedAndRemoveUntil(context, '/welcome', (Route<dynamic> route) => false);
 
         // TODO: wyrzucić komunikat że konto na dany adres email już istnieje
       } catch (e) {
